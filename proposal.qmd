@@ -18,7 +18,7 @@ This project aims to analyze the strongest predictors of happiness using data fr
 
 # 2. Problem Statement
 
-Happiness is a key indicator of societal well-being, yet its determinants remain complex and multidimensional. While many studies emphasize GDP per capita as a primary driver of national happiness, emerging evidence suggests that non-economic factors—such as social support, freedom, generosity, and perceptions of corruption—may play an equally or even more significant role. However, the absence of an intuitive and interactive way to explore these relationships makes it challenging for researchers, policymakers, and the public to derive meaningful insights from global happiness data.
+Happiness is a key indicator of societal well-being, yet its determinants remain complex and multidimensional. While many studies emphasize GDP per capita as a primary driver of national happiness, emerging evidence suggests that non-economic factors---such as social support, freedom, generosity, and perceptions of corruption---may play an equally or even more significant role. However, the absence of an intuitive and interactive way to explore these relationships makes it challenging for researchers, policymakers, and the public to derive meaningful insights from global happiness data.
 
 Existing studies often focus on individual factors in isolation, making it difficult to understand how multiple dimensions interact to shape happiness levels across countries. A key challenge is identifying which factors contribute the most to national happiness and whether high-income nations consistently report greater life satisfaction than lower-income ones. Additionally, disparities between high-happiness and low-happiness countries remain poorly understood, particularly in terms of the role of governance, freedom of choice, and social support.
 
@@ -35,44 +35,92 @@ This study employs a data-driven approach to analyze the key determinants of hap
 
 # 4. The data
 
-This study utilizes data from the [World Happiness Report 2024] (https://worldhappiness.report/ed/2024/), specifically the **Chapter 2 Appendix**, which provides country-level happiness indicators over multiple years. The dataset includes economic, social, and governance-related factors that influence national well-being. The focus of this research is to analyze what constitutes a higher level of happiness across countries by identifying key contributing factors and their relationships.
+This study utilizes data from the \[World Happiness Report 2024\] (https://worldhappiness.report/ed/2024/), specifically the **Chapter 2 Appendix**, which provides country-level happiness indicators over multiple years. The dataset includes economic, social, and governance-related factors that influence national well-being. The focus of this research is to analyze what constitutes a higher level of happiness across countries by identifying key contributing factors and their relationships.
 
 The dataset contains 11 variables, each representing a different aspect of well-being:
 
-1.	Country Name – The country or territory for which happiness data is reported.
-2.	Year – The year in which the happiness and related indicators were measured.
-3.	Life Ladder – A measure of subjective well-being, where individuals rate their life satisfaction on a scale from 0 (worst possible life) to 10 (best possible life).
-4.	Log GDP per Capita – The logarithm of GDP per capita, adjusted for purchasing power parity (PPP), indicating the economic status of a country.
-5.	Social Support – The national average response to whether individuals have friends or relatives they can count on in times of trouble.
-6.	Healthy Life Expectancy at Birth – The expected number of years a newborn is likely to live in good health, based on WHO estimates.
-7.	Freedom to Make Life Choices – The national average response to the question: “Are you satisfied with your freedom to choose what to do with your life?”
-8.	Generosity – The residual of regressing national responses to the question “Have you donated to charity in the past month?” on GDP per capita.
-9.	Perceptions of Corruption – The national average response to whether corruption is widespread in government and businesses.
-10.	Positive Affect – The average of three measures of positive emotions: laughter, enjoyment, and interest in daily activities.
-11.	Negative Affect – The average of three measures of negative emotions: worry, sadness, and anger.
+1.  Country Name -- The country or territory for which happiness data is reported.
+2.  Year -- The year in which the happiness and related indicators were measured.
+3.  Life Ladder -- A measure of subjective well-being, where individuals rate their life satisfaction on a scale from 0 (worst possible life) to 10 (best possible life).
+4.  Log GDP per Capita -- The logarithm of GDP per capita, adjusted for purchasing power parity (PPP), indicating the economic status of a country.
+5.  Social Support -- The national average response to whether individuals have friends or relatives they can count on in times of trouble.
+6.  Healthy Life Expectancy at Birth -- The expected number of years a newborn is likely to live in good health, based on WHO estimates.
+7.  Freedom to Make Life Choices -- The national average response to the question: "Are you satisfied with your freedom to choose what to do with your life?"
+8.  Generosity -- The residual of regressing national responses to the question "Have you donated to charity in the past month?" on GDP per capita.
+9.  Perceptions of Corruption -- The national average response to whether corruption is widespread in government and businesses.
+10. Positive Affect -- The average of three measures of positive emotions: laughter, enjoyment, and interest in daily activities.
+11. Negative Affect -- The average of three measures of negative emotions: worry, sadness, and anger.
 
-By analyzing these variables, this research aims to uncover the strongest predictors of happiness and highlight the differences between high-happiness and low-happiness nations. 
-
+By analyzing these variables, this research aims to uncover the strongest predictors of happiness and highlight the differences between high-happiness and low-happiness nations.
 
 ## Data Collection & Processing
 
-This study utilizes data from the [**World Happiness Report 2024](https://worldhappiness.report/ed/2024/)** (), specifically the **Chapter 2 Appendix**, which provides country-level happiness indicators over multiple years. The dataset includes economic, social, and governance-related factors that influence national well-being. The focus of this research is to analyze what constitutes a higher level of happiness across countries by identifying key contributing factors and their relationships.
+This study utilizes data from the [\*\*World Happiness Report 2024](https://worldhappiness.report/ed/2024/)\*\* (), specifically the **Chapter 2 Appendix**, which provides country-level happiness indicators over multiple years. The dataset includes economic, social, and governance-related factors that influence national well-being. The focus of this research is to analyze what constitutes a higher level of happiness across countries by identifying key contributing factors and their relationships.
 
 # 4. Methodology
 
-## Exploratory Data Analysis (EDA)
+## ![]()Exploratory Data Analysis (EDA)
 
--   **Descriptive Statistics**: Summary statistics of key variables.
+-   **Descriptive Statistics**:
+
+    -   **Missing Values**
+
+        -   3 missing values in **GDP per capita, Social Support, Healthy Life Expectancy, Freedom to Make Life Choices, Generosity, Perceptions of Corruption, and Dystopia + Residual**.
+
+        -   No missing values in **Country Name and Ladder Score**
+
+    -   **Summary Statistics**
+
+        -   **Ladder Score (Happiness Index)** ranges from **1.72** (least happy) to **7.74** (most happy), with an average of **5.53**.
+
+        -   **Log GDP per capita** varies from **0.00** to **2.14**, implying diverse economies.
+
+        -   **Social Support** has a strong influence, ranging from **0.00** to **1.61**.
+
+        -   **Freedom to Make Life Choices** ranges from **0.00** to **0.86**, showing variation in personal freedoms.
+
+        -   **Generosity & Perceptions of Corruption** have small values, indicating low levels of trust in many countries.
+
 -   **Univariate & Bivariate Visualizations**:
-    -   Histograms & Density Plots – Distribution of Happiness Scores\
-    -   Boxplots – Comparison of happiness scores across regions\
-    -   Scatter Plots – Relationships between key indicators and happiness\
--   **Correlation Analysis**: Identifying the strongest relationships among factors.
--   **Geospatial Analysis**: Mapping happiness scores across countries.
+
+    -   Histograms & Density Plots -- Distribution of Happiness Scores
 
 ```{r}
-# Placeholder for EDA visualizations
+knitr::include_graphics('plots/density-plots1.png')
 ```
+
+```{r}
+knitr::include_graphics('plots/density-plots2.png')
+```
+
+**Key Insights from Distributions: Ladder Score (Happiness Index):**
+
+-   Peaks around 5-6, meaning most countries fall within this range. Left-skewed, indicating some countries have very low happiness scores. GDP per Capita & Social Support:
+
+-   Follows a normal distribution, with most values around 1.0 - 1.5 for GDP. Social support has a strong right tail, meaning some countries have very high support. Freedom to Make Life Choices & Generosity:
+
+-   Freedom has a broad distribution but peaks around 0.6 - 0.7. Generosity is skewed left, meaning most values are quite low. Perceptions of Corruption:
+
+-   Highly skewed left, showing many countries perceive corruption as a major issue.
+
+```         
+-   Boxplots -- Comparison of happiness scores across regions\
+-   Scatter Plots -- Relationships between key indicators and happiness\
+```
+
+-   **Correlation Analysis**: Identifying the strongest relationships among factors.
+
+```{r}
+knitr::include_graphics('plots/correlation-heatmap.png')
+```
+
+**Correlation Insights: Happiness (Ladder Score) has the strongest correlations with:**
+
+-   Social Support (0.81) → Countries with stronger support systems are generally happier. GDP per Capita (0.77) → Wealthier countries tend to be happier. Healthy Life Expectancy (0.76) → Better health leads to higher happiness. Weak or Negative Correlations:
+
+-   Generosity (0.13) and Perceptions of Corruption (0.45) have low influence on happiness. Dystopia + Residual (0.53) captures unexplained variance, slightly correlated.
+
+-   **Geospatial Analysis**: Mapping happiness scores across countries.
 
 ## Confirmatory Data Analysis (CDA)
 
