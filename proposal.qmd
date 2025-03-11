@@ -1,5 +1,5 @@
 ---
-title: "World Happiness Report Analysis"
+title: "World Happiness Report (WHR) Analysis"
 author: "Your Name"
 date: "`r Sys.Date()`"
 output:
@@ -10,13 +10,13 @@ output:
     theme: readable
 ---
 
-# Overview and Motivation
+# 1. Overview and motivation of project
 
 Happiness is a key measure of societal well-being, influenced by both economic (e.g., GDP per capita) and non-economic factors (e.g., social support, freedom, and governance). However, understanding how these factors interact remains a challenge.
 
 This project aims to analyze the strongest predictors of happiness using data from the World Happiness Report and develop an interactive visualization tool to explore these relationships. By making happiness data more accessible and insightful, this study supports evidence-based decision-making for policymakers and researchers seeking to enhance well-being worldwide.
 
-# Problem Statement
+# 2. Problem Statement
 
 Happiness is a key indicator of societal well-being, yet its determinants remain complex and multidimensional. While many studies emphasize GDP per capita as a primary driver of national happiness, emerging evidence suggests that non-economic factors—such as social support, freedom, generosity, and perceptions of corruption—may play an equally or even more significant role. However, the absence of an intuitive and interactive way to explore these relationships makes it challenging for researchers, policymakers, and the public to derive meaningful insights from global happiness data.
 
@@ -24,17 +24,41 @@ Existing studies often focus on individual factors in isolation, making it diffi
 
 To bridge this gap, a structured and interactive analysis is needed to uncover the strongest predictors of happiness and allow for a comparative assessment of high- and low-happiness nations. By leveraging data on economic, social, and governance indicators, this research aims to provide a clearer, data-driven understanding of global happiness trends and facilitate more effective decision-making for improving well-being worldwide.
 
-# Methodology
-test
+# 3. Methodology
+
+This study employs a data-driven approach to analyze the key determinants of happiness across countries. The process includes:
+
+1.  **Data Collection & Processing:** Gathering and cleaning data on happiness scores and factors such as GDP, social support, life expectancy, freedom, generosity, and corruption perceptions.
+2.  **Exploratory Analysis & Visualization:** Identifying trends and correlations using descriptive statistics and visual analytics.
+3.  **Regression & Comparative Analysis:** Examining the strongest predictors of happiness and comparing high- and low-ranking countries.
+4.  **Interactive Dashboard Development**: Creating a user-friendly visualization tool using Shiny application to explore happiness trends dynamically.
+
+# 4. The data
+
+This study utilizes data from the [World Happiness Report 2024] (https://worldhappiness.report/ed/2024/), specifically the **Chapter 2 Appendix**, which provides country-level happiness indicators over multiple years. The dataset includes economic, social, and governance-related factors that influence national well-being. The focus of this research is to analyze what constitutes a higher level of happiness across countries by identifying key contributing factors and their relationships.
+
+The dataset contains 11 variables, each representing a different aspect of well-being:
+
+1.	Country Name – The country or territory for which happiness data is reported.
+2.	Year – The year in which the happiness and related indicators were measured.
+3.	Life Ladder – A measure of subjective well-being, where individuals rate their life satisfaction on a scale from 0 (worst possible life) to 10 (best possible life).
+4.	Log GDP per Capita – The logarithm of GDP per capita, adjusted for purchasing power parity (PPP), indicating the economic status of a country.
+5.	Social Support – The national average response to whether individuals have friends or relatives they can count on in times of trouble.
+6.	Healthy Life Expectancy at Birth – The expected number of years a newborn is likely to live in good health, based on WHO estimates.
+7.	Freedom to Make Life Choices – The national average response to the question: “Are you satisfied with your freedom to choose what to do with your life?”
+8.	Generosity – The residual of regressing national responses to the question “Have you donated to charity in the past month?” on GDP per capita.
+9.	Perceptions of Corruption – The national average response to whether corruption is widespread in government and businesses.
+10.	Positive Affect – The average of three measures of positive emotions: laughter, enjoyment, and interest in daily activities.
+11.	Negative Affect – The average of three measures of negative emotions: worry, sadness, and anger.
+
+By analyzing these variables, this research aims to uncover the strongest predictors of happiness and highlight the differences between high-happiness and low-happiness nations. 
+
 
 ## Data Collection & Processing
 
--   Source: [World Happiness Report 2024](https://worldhappiness.report/ed/2024/) (Chapter 2 Appendix)
--   Key variables:
-    -   **Economic Indicators**: GDP per capita, Life Expectancy
-    -   **Social Indicators**: Social Support, Freedom, Generosity
-    -   **Governance Indicators**: Perceptions of Corruption
-    -   **Well-being Measures**: Happiness Score, Positive/Negative Affect
+This study utilizes data from the [**World Happiness Report 2024](https://worldhappiness.report/ed/2024/)** (), specifically the **Chapter 2 Appendix**, which provides country-level happiness indicators over multiple years. The dataset includes economic, social, and governance-related factors that influence national well-being. The focus of this research is to analyze what constitutes a higher level of happiness across countries by identifying key contributing factors and their relationships.
+
+# 4. Methodology
 
 ## Exploratory Data Analysis (EDA)
 
