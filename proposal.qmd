@@ -61,7 +61,10 @@ This study utilizes data from the [\*\*World Happiness Report 2024](https://worl
 
 ## ![]()Exploratory Data Analysis (EDA)
 
--   **Descriptive Statistics**:
+EDA is the first step in understanding the structure and patterns within the *World Happiness Report dataset*. The primary objectives of EDA in this project include:
+
+ *Descriptive Statistics*: Summarizing key variables such as Happiness Score, GDP per Capita, Social Support, and Life Expectancy to understand their distribution and central tendencies
+
 
     -   **Missing Values**
 
@@ -108,7 +111,11 @@ knitr::include_graphics('plots/density-plots2.png')
 -   Scatter Plots -- Relationships between key indicators and happiness\
 ```
 
--   **Correlation Analysis**: Identifying the strongest relationships among factors.
+  *Correlation Analysis* to identify which factors have the strongest relationship with happiness.
+
+    o   *Measure the Strength of Relationships* – Identify which factors (GDP per capita, social support, freedom, generosity, corruption perception, etc.) have the strongest positive or negative correlation with happiness.
+
+    o   *Detect Key Influencers* – Determine whether economic factors (e.g., GDP per capita) or social indicators (e.g., social support, freedom) have a greater impact on happiness.
 
 ```{r}
 knitr::include_graphics('plots/correlation-heatmap.png')
@@ -120,7 +127,13 @@ knitr::include_graphics('plots/correlation-heatmap.png')
 
 -   Generosity (0.13) and Perceptions of Corruption (0.45) have low influence on happiness. Dystopia + Residual (0.53) captures unexplained variance, slightly correlated.
 
--   **Geospatial Analysis**: Mapping happiness scores across countries.
+-   *Geospatial Analysis*: Mapping happiness scores across countries to highlight global patterns
+
+    o   *Identify Global Happiness Trends* – Highlight regions with consistently high or low happiness levels, revealing geographical clusters of well-being.
+
+    o   *Compare Regional Differences* – Examine how happiness varies across continents and correlate findings with economic, social, and governance factors.
+
+    o   *Track Changes Over Time* – Observe how happiness scores have evolved before and after significant events (e.g., economic crises, policy changes, or the COVID-19 pandemic).
 
 ## Confirmatory Data Analysis (CDA)
 
