@@ -9,7 +9,7 @@
 <meta name="author" content="Your Name">
 <meta name="dcterms.date" content="2025-03-11">
 
-<title>Final_Project_VAA - World Happiness Report Analysis</title>
+<title>Final_Project_VAA - World Happiness Report (WHR) Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -151,12 +151,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview-and-motivation" id="toc-overview-and-motivation" class="nav-link active" data-scroll-target="#overview-and-motivation">Overview and Motivation</a></li>
-  <li><a href="#problem-statement" id="toc-problem-statement" class="nav-link" data-scroll-target="#problem-statement">Problem Statement</a></li>
-  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
+  <li><a href="#overview-and-motivation-of-project" id="toc-overview-and-motivation-of-project" class="nav-link active" data-scroll-target="#overview-and-motivation-of-project">1. Overview and motivation of project</a></li>
+  <li><a href="#problem-statement" id="toc-problem-statement" class="nav-link" data-scroll-target="#problem-statement">2. Problem Statement</a></li>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">3. Methodology</a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">4. The data</a>
   <ul class="collapse">
   <li><a href="#data-collection-processing" id="toc-data-collection-processing" class="nav-link" data-scroll-target="#data-collection-processing">Data Collection &amp; Processing</a></li>
-  <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda">Exploratory Data Analysis (EDA)</a></li>
+  </ul></li>
+  <li><a href="#methodology-1" id="toc-methodology-1" class="nav-link" data-scroll-target="#methodology-1">4. Methodology</a>
+  <ul class="collapse">
+  <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda"><img src=".png" class="img-fluid">Exploratory Data Analysis (EDA)</a></li>
   <li><a href="#confirmatory-data-analysis-cda" id="toc-confirmatory-data-analysis-cda" class="nav-link" data-scroll-target="#confirmatory-data-analysis-cda">Confirmatory Data Analysis (CDA)</a></li>
   <li><a href="#time-series-forecasting" id="toc-time-series-forecasting" class="nav-link" data-scroll-target="#time-series-forecasting">Time Series &amp; Forecasting</a></li>
   </ul></li>
@@ -170,7 +174,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">World Happiness Report Analysis</h1>
+<h1 class="title">World Happiness Report (WHR) Analysis</h1>
 </div>
 
 
@@ -197,52 +201,112 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="overview-and-motivation" class="level1">
-<h1>Overview and Motivation</h1>
+<section id="overview-and-motivation-of-project" class="level1">
+<h1>1. Overview and motivation of project</h1>
 <p>Happiness is a key measure of societal well-being, influenced by both economic (e.g., GDP per capita) and non-economic factors (e.g., social support, freedom, and governance). However, understanding how these factors interact remains a challenge.</p>
 <p>This project aims to analyze the strongest predictors of happiness using data from the World Happiness Report and develop an interactive visualization tool to explore these relationships. By making happiness data more accessible and insightful, this study supports evidence-based decision-making for policymakers and researchers seeking to enhance well-being worldwide.</p>
 </section>
 <section id="problem-statement" class="level1">
-<h1>Problem Statement</h1>
+<h1>2. Problem Statement</h1>
 <p>Happiness is a key indicator of societal well-being, yet its determinants remain complex and multidimensional. While many studies emphasize GDP per capita as a primary driver of national happiness, emerging evidence suggests that non-economic factors—such as social support, freedom, generosity, and perceptions of corruption—may play an equally or even more significant role. However, the absence of an intuitive and interactive way to explore these relationships makes it challenging for researchers, policymakers, and the public to derive meaningful insights from global happiness data.</p>
 <p>Existing studies often focus on individual factors in isolation, making it difficult to understand how multiple dimensions interact to shape happiness levels across countries. A key challenge is identifying which factors contribute the most to national happiness and whether high-income nations consistently report greater life satisfaction than lower-income ones. Additionally, disparities between high-happiness and low-happiness countries remain poorly understood, particularly in terms of the role of governance, freedom of choice, and social support.</p>
 <p>To bridge this gap, a structured and interactive analysis is needed to uncover the strongest predictors of happiness and allow for a comparative assessment of high- and low-happiness nations. By leveraging data on economic, social, and governance indicators, this research aims to provide a clearer, data-driven understanding of global happiness trends and facilitate more effective decision-making for improving well-being worldwide.</p>
 </section>
 <section id="methodology" class="level1">
-<h1>Methodology</h1>
-<p>test</p>
+<h1>3. Methodology</h1>
+<p>This study employs a data-driven approach to analyze the key determinants of happiness across countries. The process includes:</p>
+<ol type="1">
+<li><strong>Data Collection &amp; Processing:</strong> Gathering and cleaning data on happiness scores and factors such as GDP, social support, life expectancy, freedom, generosity, and corruption perceptions.</li>
+<li><strong>Exploratory Analysis &amp; Visualization:</strong> Identifying trends and correlations using descriptive statistics and visual analytics.</li>
+<li><strong>Regression &amp; Comparative Analysis:</strong> Examining the strongest predictors of happiness and comparing high- and low-ranking countries.</li>
+<li><strong>Interactive Dashboard Development</strong>: Creating a user-friendly visualization tool using Shiny application to explore happiness trends dynamically.</li>
+</ol>
+</section>
+<section id="the-data" class="level1">
+<h1>4. The data</h1>
+<p>This study utilizes data from the [World Happiness Report 2024] (https://worldhappiness.report/ed/2024/), specifically the <strong>Chapter 2 Appendix</strong>, which provides country-level happiness indicators over multiple years. The dataset includes economic, social, and governance-related factors that influence national well-being. The focus of this research is to analyze what constitutes a higher level of happiness across countries by identifying key contributing factors and their relationships.</p>
+<p>The dataset contains 11 variables, each representing a different aspect of well-being:</p>
+<ol type="1">
+<li>Country Name – The country or territory for which happiness data is reported.</li>
+<li>Year – The year in which the happiness and related indicators were measured.</li>
+<li>Life Ladder – A measure of subjective well-being, where individuals rate their life satisfaction on a scale from 0 (worst possible life) to 10 (best possible life).</li>
+<li>Log GDP per Capita – The logarithm of GDP per capita, adjusted for purchasing power parity (PPP), indicating the economic status of a country.</li>
+<li>Social Support – The national average response to whether individuals have friends or relatives they can count on in times of trouble.</li>
+<li>Healthy Life Expectancy at Birth – The expected number of years a newborn is likely to live in good health, based on WHO estimates.</li>
+<li>Freedom to Make Life Choices – The national average response to the question: “Are you satisfied with your freedom to choose what to do with your life?”</li>
+<li>Generosity – The residual of regressing national responses to the question “Have you donated to charity in the past month?” on GDP per capita.</li>
+<li>Perceptions of Corruption – The national average response to whether corruption is widespread in government and businesses.</li>
+<li>Positive Affect – The average of three measures of positive emotions: laughter, enjoyment, and interest in daily activities.</li>
+<li>Negative Affect – The average of three measures of negative emotions: worry, sadness, and anger.</li>
+</ol>
+<p>By analyzing these variables, this research aims to uncover the strongest predictors of happiness and highlight the differences between high-happiness and low-happiness nations.</p>
 <section id="data-collection-processing" class="level2">
 <h2 class="anchored" data-anchor-id="data-collection-processing">Data Collection &amp; Processing</h2>
-<ul>
-<li>Source: <a href="https://worldhappiness.report/ed/2024/">World Happiness Report 2024</a> (Chapter 2 Appendix)</li>
-<li>Key variables:
-<ul>
-<li><strong>Economic Indicators</strong>: GDP per capita, Life Expectancy</li>
-<li><strong>Social Indicators</strong>: Social Support, Freedom, Generosity</li>
-<li><strong>Governance Indicators</strong>: Perceptions of Corruption</li>
-<li><strong>Well-being Measures</strong>: Happiness Score, Positive/Negative Affect</li>
-</ul></li>
-</ul>
+<p>This study utilizes data from the <a href="https://worldhappiness.report/ed/2024/">**World Happiness Report 2024</a>** (), specifically the <strong>Chapter 2 Appendix</strong>, which provides country-level happiness indicators over multiple years. The dataset includes economic, social, and governance-related factors that influence national well-being. The focus of this research is to analyze what constitutes a higher level of happiness across countries by identifying key contributing factors and their relationships.</p>
 </section>
+</section>
+<section id="methodology-1" class="level1">
+<h1>4. Methodology</h1>
 <section id="exploratory-data-analysis-eda" class="level2">
-<h2 class="anchored" data-anchor-id="exploratory-data-analysis-eda">Exploratory Data Analysis (EDA)</h2>
+<h2 class="anchored" data-anchor-id="exploratory-data-analysis-eda"><img src=".png" class="img-fluid">Exploratory Data Analysis (EDA)</h2>
 <ul>
-<li><strong>Descriptive Statistics</strong>: Summary statistics of key variables.</li>
-<li><strong>Univariate &amp; Bivariate Visualizations</strong>:
+<li><p><strong>Descriptive Statistics</strong>:</p>
 <ul>
-<li>Histograms &amp; Density Plots – Distribution of Happiness Scores<br>
-</li>
-<li>Boxplots – Comparison of happiness scores across regions<br>
-</li>
-<li>Scatter Plots – Relationships between key indicators and happiness<br>
-</li>
+<li><p><strong>Missing Values</strong></p>
+<ul>
+<li><p>3 missing values in <strong>GDP per capita, Social Support, Healthy Life Expectancy, Freedom to Make Life Choices, Generosity, Perceptions of Corruption, and Dystopia + Residual</strong>.</p></li>
+<li><p>No missing values in <strong>Country Name and Ladder Score</strong></p></li>
 </ul></li>
-<li><strong>Correlation Analysis</strong>: Identifying the strongest relationships among factors.</li>
-<li><strong>Geospatial Analysis</strong>: Mapping happiness scores across countries.</li>
+<li><p><strong>Summary Statistics</strong></p>
+<ul>
+<li><p><strong>Ladder Score (Happiness Index)</strong> ranges from <strong>1.72</strong> (least happy) to <strong>7.74</strong> (most happy), with an average of <strong>5.53</strong>.</p></li>
+<li><p><strong>Log GDP per capita</strong> varies from <strong>0.00</strong> to <strong>2.14</strong>, implying diverse economies.</p></li>
+<li><p><strong>Social Support</strong> has a strong influence, ranging from <strong>0.00</strong> to <strong>1.61</strong>.</p></li>
+<li><p><strong>Freedom to Make Life Choices</strong> ranges from <strong>0.00</strong> to <strong>0.86</strong>, showing variation in personal freedoms.</p></li>
+<li><p><strong>Generosity &amp; Perceptions of Corruption</strong> have small values, indicating low levels of trust in many countries.</p></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Univariate &amp; Bivariate Visualizations</strong>:</p>
+<ul>
+<li>Histograms &amp; Density Plots – Distribution of Happiness Scores</li>
+</ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Placeholder for EDA visualizations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">'plots/density-plots1.png'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots/density-plots1.png" class="img-fluid" width="750"></p>
 </div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">'plots/density-plots2.png'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots/density-plots2.png" class="img-fluid" width="640"></p>
+</div>
+</div>
+<p><strong>Key Insights from Distributions: Ladder Score (Happiness Index):</strong></p>
+<ul>
+<li><p>Peaks around 5-6, meaning most countries fall within this range. Left-skewed, indicating some countries have very low happiness scores. GDP per Capita &amp; Social Support:</p></li>
+<li><p>Follows a normal distribution, with most values around 1.0 - 1.5 for GDP. Social support has a strong right tail, meaning some countries have very high support. Freedom to Make Life Choices &amp; Generosity:</p></li>
+<li><p>Freedom has a broad distribution but peaks around 0.6 - 0.7. Generosity is skewed left, meaning most values are quite low. Perceptions of Corruption:</p></li>
+<li><p>Highly skewed left, showing many countries perceive corruption as a major issue.</p></li>
+</ul>
+<pre><code>-   Boxplots -- Comparison of happiness scores across regions\
+-   Scatter Plots -- Relationships between key indicators and happiness\</code></pre>
+<ul>
+<li><strong>Correlation Analysis</strong>: Identifying the strongest relationships among factors.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">'plots/correlation-heatmap.png'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="plots/correlation-heatmap.png" class="img-fluid" width="512"></p>
+</div>
+</div>
+<p><strong>Correlation Insights: Happiness (Ladder Score) has the strongest correlations with:</strong></p>
+<ul>
+<li><p>Social Support (0.81) → Countries with stronger support systems are generally happier. GDP per Capita (0.77) → Wealthier countries tend to be happier. Healthy Life Expectancy (0.76) → Better health leads to higher happiness. Weak or Negative Correlations:</p></li>
+<li><p>Generosity (0.13) and Perceptions of Corruption (0.45) have low influence on happiness. Dystopia + Residual (0.53) captures unexplained variance, slightly correlated.</p></li>
+<li><p><strong>Geospatial Analysis</strong>: Mapping happiness scores across countries.</p></li>
+</ul>
 </section>
 <section id="confirmatory-data-analysis-cda" class="level2">
 <h2 class="anchored" data-anchor-id="confirmatory-data-analysis-cda">Confirmatory Data Analysis (CDA)</h2>
@@ -253,7 +317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Longitudinal Analysis</strong>: Tracking changes in happiness over time.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Placeholder for statistical modeling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Placeholder for statistical modeling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="time-series-forecasting" class="level2">
@@ -264,7 +328,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Predictive Modeling</strong>: Forecasting future happiness scores using ARIMA or Exponential Smoothing.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Placeholder for time series analysis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Placeholder for time series analysis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>

@@ -16,35 +16,35 @@
   {
     "objectID": "proposal.html",
     "href": "proposal.html",
-    "title": "World Happiness Report Analysis",
+    "title": "World Happiness Report (WHR) Analysis",
     "section": "",
     "text": "Happiness is a key measure of societal well-being, influenced by both economic (e.g., GDP per capita) and non-economic factors (e.g., social support, freedom, and governance). However, understanding how these factors interact remains a challenge.\nThis project aims to analyze the strongest predictors of happiness using data from the World Happiness Report and develop an interactive visualization tool to explore these relationships. By making happiness data more accessible and insightful, this study supports evidence-based decision-making for policymakers and researchers seeking to enhance well-being worldwide."
   },
   {
     "objectID": "proposal.html#data-collection-processing",
     "href": "proposal.html#data-collection-processing",
-    "title": "World Happiness Report Analysis",
+    "title": "World Happiness Report (WHR) Analysis",
     "section": "Data Collection & Processing",
-    "text": "Data Collection & Processing\n\nSource: World Happiness Report 2024 (Chapter 2 Appendix)\nKey variables:\n\nEconomic Indicators: GDP per capita, Life Expectancy\nSocial Indicators: Social Support, Freedom, Generosity\nGovernance Indicators: Perceptions of Corruption\nWell-being Measures: Happiness Score, Positive/Negative Affect"
+    "text": "Data Collection & Processing\nThis study utilizes data from the **World Happiness Report 2024** (), specifically the Chapter 2 Appendix, which provides country-level happiness indicators over multiple years. The dataset includes economic, social, and governance-related factors that influence national well-being. The focus of this research is to analyze what constitutes a higher level of happiness across countries by identifying key contributing factors and their relationships."
   },
   {
     "objectID": "proposal.html#exploratory-data-analysis-eda",
     "href": "proposal.html#exploratory-data-analysis-eda",
-    "title": "World Happiness Report Analysis",
+    "title": "World Happiness Report (WHR) Analysis",
     "section": "Exploratory Data Analysis (EDA)",
-    "text": "Exploratory Data Analysis (EDA)\n\nDescriptive Statistics: Summary statistics of key variables.\nUnivariate & Bivariate Visualizations:\n\nHistograms & Density Plots – Distribution of Happiness Scores\n\nBoxplots – Comparison of happiness scores across regions\n\nScatter Plots – Relationships between key indicators and happiness\n\n\nCorrelation Analysis: Identifying the strongest relationships among factors.\nGeospatial Analysis: Mapping happiness scores across countries.\n\n\n# Placeholder for EDA visualizations"
+    "text": "Exploratory Data Analysis (EDA)\n\nDescriptive Statistics:\n\nMissing Values\n\n3 missing values in GDP per capita, Social Support, Healthy Life Expectancy, Freedom to Make Life Choices, Generosity, Perceptions of Corruption, and Dystopia + Residual.\nNo missing values in Country Name and Ladder Score\n\nSummary Statistics\n\nLadder Score (Happiness Index) ranges from 1.72 (least happy) to 7.74 (most happy), with an average of 5.53.\nLog GDP per capita varies from 0.00 to 2.14, implying diverse economies.\nSocial Support has a strong influence, ranging from 0.00 to 1.61.\nFreedom to Make Life Choices ranges from 0.00 to 0.86, showing variation in personal freedoms.\nGenerosity & Perceptions of Corruption have small values, indicating low levels of trust in many countries.\n\n\nUnivariate & Bivariate Visualizations:\n\nHistograms & Density Plots – Distribution of Happiness Scores\n\n\n\nknitr::include_graphics('plots/density-plots1.png')\n\n\n\n\n\nknitr::include_graphics('plots/density-plots2.png')\n\n\n\n\nKey Insights from Distributions: Ladder Score (Happiness Index):\n\nPeaks around 5-6, meaning most countries fall within this range. Left-skewed, indicating some countries have very low happiness scores. GDP per Capita & Social Support:\nFollows a normal distribution, with most values around 1.0 - 1.5 for GDP. Social support has a strong right tail, meaning some countries have very high support. Freedom to Make Life Choices & Generosity:\nFreedom has a broad distribution but peaks around 0.6 - 0.7. Generosity is skewed left, meaning most values are quite low. Perceptions of Corruption:\nHighly skewed left, showing many countries perceive corruption as a major issue.\n\n-   Boxplots -- Comparison of happiness scores across regions\\\n-   Scatter Plots -- Relationships between key indicators and happiness\\\n\nCorrelation Analysis: Identifying the strongest relationships among factors.\n\n\nknitr::include_graphics('plots/correlation-heatmap.png')\n\n\n\n\nCorrelation Insights: Happiness (Ladder Score) has the strongest correlations with:\n\nSocial Support (0.81) → Countries with stronger support systems are generally happier. GDP per Capita (0.77) → Wealthier countries tend to be happier. Healthy Life Expectancy (0.76) → Better health leads to higher happiness. Weak or Negative Correlations:\nGenerosity (0.13) and Perceptions of Corruption (0.45) have low influence on happiness. Dystopia + Residual (0.53) captures unexplained variance, slightly correlated.\nGeospatial Analysis: Mapping happiness scores across countries."
   },
   {
     "objectID": "proposal.html#confirmatory-data-analysis-cda",
     "href": "proposal.html#confirmatory-data-analysis-cda",
-    "title": "World Happiness Report Analysis",
+    "title": "World Happiness Report (WHR) Analysis",
     "section": "Confirmatory Data Analysis (CDA)",
     "text": "Confirmatory Data Analysis (CDA)\n\nRegression Analysis: Identifying the strongest predictors of happiness.\nFeature Importance Analysis: Using machine learning techniques.\nClustering Analysis: Grouping similar countries based on happiness determinants.\nLongitudinal Analysis: Tracking changes in happiness over time.\n\n\n# Placeholder for statistical modeling"
   },
   {
     "objectID": "proposal.html#time-series-forecasting",
     "href": "proposal.html#time-series-forecasting",
-    "title": "World Happiness Report Analysis",
+    "title": "World Happiness Report (WHR) Analysis",
     "section": "Time Series & Forecasting",
     "text": "Time Series & Forecasting\n\nTrend Analysis: Examining how happiness has evolved over time.\nTime Series Decomposition: Identifying trend and seasonal effects.\nPredictive Modeling: Forecasting future happiness scores using ARIMA or Exponential Smoothing.\n\n\n# Placeholder for time series analysis"
   }
