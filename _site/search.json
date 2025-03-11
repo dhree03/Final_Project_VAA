@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Final_Project_VAA",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2"
+    "text": "Hello, Welcome to our Final Project for Visual Analytics\nHere you will find our proposal, our shiny dashboard and other important things."
   },
   {
     "objectID": "about.html",
@@ -12,5 +12,40 @@
     "title": "About",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "proposal.html",
+    "href": "proposal.html",
+    "title": "World Happiness Report Analysis",
+    "section": "",
+    "text": "Happiness is a key measure of societal well-being, influenced by both economic (e.g., GDP per capita) and non-economic factors (e.g., social support, freedom, and governance). However, understanding how these factors interact remains a challenge.\nThis project aims to analyze the strongest predictors of happiness using data from the World Happiness Report and develop an interactive visualization tool to explore these relationships. By making happiness data more accessible and insightful, this study supports evidence-based decision-making for policymakers and researchers seeking to enhance well-being worldwide."
+  },
+  {
+    "objectID": "proposal.html#data-collection-processing",
+    "href": "proposal.html#data-collection-processing",
+    "title": "World Happiness Report Analysis",
+    "section": "Data Collection & Processing",
+    "text": "Data Collection & Processing\n\nSource: World Happiness Report 2024 (Chapter 2 Appendix)\nKey variables:\n\nEconomic Indicators: GDP per capita, Life Expectancy\nSocial Indicators: Social Support, Freedom, Generosity\nGovernance Indicators: Perceptions of Corruption\nWell-being Measures: Happiness Score, Positive/Negative Affect"
+  },
+  {
+    "objectID": "proposal.html#exploratory-data-analysis-eda",
+    "href": "proposal.html#exploratory-data-analysis-eda",
+    "title": "World Happiness Report Analysis",
+    "section": "Exploratory Data Analysis (EDA)",
+    "text": "Exploratory Data Analysis (EDA)\n\nDescriptive Statistics: Summary statistics of key variables.\nUnivariate & Bivariate Visualizations:\n\nHistograms & Density Plots – Distribution of Happiness Scores\n\nBoxplots – Comparison of happiness scores across regions\n\nScatter Plots – Relationships between key indicators and happiness\n\n\nCorrelation Analysis: Identifying the strongest relationships among factors.\nGeospatial Analysis: Mapping happiness scores across countries.\n\n\n# Placeholder for EDA visualizations"
+  },
+  {
+    "objectID": "proposal.html#confirmatory-data-analysis-cda",
+    "href": "proposal.html#confirmatory-data-analysis-cda",
+    "title": "World Happiness Report Analysis",
+    "section": "Confirmatory Data Analysis (CDA)",
+    "text": "Confirmatory Data Analysis (CDA)\n\nRegression Analysis: Identifying the strongest predictors of happiness.\nFeature Importance Analysis: Using machine learning techniques.\nClustering Analysis: Grouping similar countries based on happiness determinants.\nLongitudinal Analysis: Tracking changes in happiness over time.\n\n\n# Placeholder for statistical modeling"
+  },
+  {
+    "objectID": "proposal.html#time-series-forecasting",
+    "href": "proposal.html#time-series-forecasting",
+    "title": "World Happiness Report Analysis",
+    "section": "Time Series & Forecasting",
+    "text": "Time Series & Forecasting\n\nTrend Analysis: Examining how happiness has evolved over time.\nTime Series Decomposition: Identifying trend and seasonal effects.\nPredictive Modeling: Forecasting future happiness scores using ARIMA or Exponential Smoothing.\n\n\n# Placeholder for time series analysis"
   }
 ]

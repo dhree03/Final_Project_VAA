@@ -1,0 +1,86 @@
+---
+title: "World Happiness Report Analysis"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    theme: readable
+---
+
+# Overview and Motivation
+
+Happiness is a key measure of societal well-being, influenced by both economic (e.g., GDP per capita) and non-economic factors (e.g., social support, freedom, and governance). However, understanding how these factors interact remains a challenge.  
+
+This project aims to analyze the strongest predictors of happiness using data from the World Happiness Report and develop an interactive visualization tool to explore these relationships. By making happiness data more accessible and insightful, this study supports evidence-based decision-making for policymakers and researchers seeking to enhance well-being worldwide.
+
+# Problem Statement
+
+Happiness is a key indicator of societal well-being, yet its determinants remain complex and multidimensional. While many studies emphasize GDP per capita as a primary driver of national happiness, emerging evidence suggests that non-economic factors—such as social support, freedom, generosity, and perceptions of corruption—may play an equally or even more significant role.
+
+Existing studies often focus on individual factors in isolation, making it difficult to understand how multiple dimensions interact to shape happiness levels across countries. To bridge this gap, a structured and interactive analysis is needed to uncover the strongest predictors of happiness and allow for a comparative assessment of high- and low-happiness nations.
+
+# Methodology
+
+## Data Collection & Processing
+
+- Source: [World Happiness Report 2024](https://worldhappiness.report/ed/2024/) (Chapter 2 Appendix)
+- Key variables:
+  - **Economic Indicators**: GDP per capita, Life Expectancy
+  - **Social Indicators**: Social Support, Freedom, Generosity
+  - **Governance Indicators**: Perceptions of Corruption
+  - **Well-being Measures**: Happiness Score, Positive/Negative Affect
+
+## Exploratory Data Analysis (EDA)
+
+- **Descriptive Statistics**: Summary statistics of key variables.
+- **Univariate & Bivariate Visualizations**:  
+  - Histograms & Density Plots – Distribution of Happiness Scores  
+  - Boxplots – Comparison of happiness scores across regions  
+  - Scatter Plots – Relationships between key indicators and happiness  
+- **Correlation Analysis**: Identifying the strongest relationships among factors.
+- **Geospatial Analysis**: Mapping happiness scores across countries.
+
+```{r}
+# Placeholder for EDA visualizations
+```
+
+## Confirmatory Data Analysis (CDA)
+
+- **Regression Analysis**: Identifying the strongest predictors of happiness.
+- **Feature Importance Analysis**: Using machine learning techniques.
+- **Clustering Analysis**: Grouping similar countries based on happiness determinants.
+- **Longitudinal Analysis**: Tracking changes in happiness over time.
+
+```{r}
+# Placeholder for statistical modeling
+```
+
+## Time Series & Forecasting
+
+- **Trend Analysis**: Examining how happiness has evolved over time.
+- **Time Series Decomposition**: Identifying trend and seasonal effects.
+- **Predictive Modeling**: Forecasting future happiness scores using ARIMA or Exponential Smoothing.
+
+```{r}
+# Placeholder for time series analysis
+```
+
+# Dashboard Implementation
+
+An interactive **Shiny Dashboard** will be developed with the following components:
+
+1. **Comparison Dashboard**: Compare happiness metrics between countries.
+2. **Factor Analysis Dashboard**: Explore relationships between different factors.
+3. **Prediction Dashboard**: Provide happiness forecasts based on user inputs.
+4. **Storytelling Dashboard**: Present an interactive narrative of global happiness trends.
+
+# Conclusion
+
+By analyzing the World Happiness Report data through interactive visualizations, this project aims to provide deeper insights into the factors influencing well-being. The results will help policymakers, researchers, and the public make data-driven decisions to improve happiness worldwide.
+
+---
+
+*Note: Code chunks will be added later for analysis and visualization.*

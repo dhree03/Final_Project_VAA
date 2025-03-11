@@ -8,6 +8,11 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+      - text: Teams
+        menu:
+          - href: proposal.qmd
+            text: Proposal
+      
 
 format:
   html:
