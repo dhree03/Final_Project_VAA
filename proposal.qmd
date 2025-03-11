@@ -25,6 +25,7 @@ Existing studies often focus on individual factors in isolation, making it diffi
 To bridge this gap, a structured and interactive analysis is needed to uncover the strongest predictors of happiness and allow for a comparative assessment of high- and low-happiness nations. By leveraging data on economic, social, and governance indicators, this research aims to provide a clearer, data-driven understanding of global happiness trends and facilitate more effective decision-making for improving well-being worldwide.
 
 # Methodology
+test
 
 ## Data Collection & Processing
 
