@@ -159,8 +159,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda">4.1 Exploratory Data Analysis (EDA)</a></li>
   <li><a href="#confirmatory-data-analysis-cda" id="toc-confirmatory-data-analysis-cda" class="nav-link" data-scroll-target="#confirmatory-data-analysis-cda">Confirmatory Data Analysis (CDA)</a></li>
   </ul></li>
-  <li><a href="#dashboard-implementation" id="toc-dashboard-implementation" class="nav-link" data-scroll-target="#dashboard-implementation">Dashboard Implementation</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#dashboard-implementation" id="toc-dashboard-implementation" class="nav-link" data-scroll-target="#dashboard-implementation">5.Dashboard Implementation</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">6.Conclusion</a></li>
   </ul>
 </nav>
     </div>
@@ -365,7 +365,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Scatter Plots – Relationships between key indicators and happiness<br>
 </li>
 </ul>
-<p><em>Correlation Analysis</em> to identify which factors have the strongest relationship with happiness.</p>
+<p><strong>Correlation Analysis</strong> To identify which factors have the strongest relationship with happiness.</p>
 <pre><code>o   *Measure the Strength of Relationships* – Identify which factors (GDP per capita, social support, freedom, generosity, corruption perception, etc.) have the strongest positive or negative correlation with happiness.
 
 o   *Detect Key Influencers* – Determine whether economic factors (e.g., GDP per capita) or social indicators (e.g., social support, freedom) have a greater impact on happiness.</code></pre>
@@ -375,14 +375,17 @@ o   *Detect Key Influencers* – Determine whether economic factors (e.g., GDP p
 <p><img src="plots/correlation-heatmap.png" class="img-fluid" width="512"></p>
 </div>
 </div>
-<p><strong>Correlation Insights: Happiness (Ladder Score) has the strongest correlations with:</strong></p>
+<p><em>Correlation Insights</em>:</p>
+<p>Happiness (Ladder Score) has the strongest correlations with:</p>
 <ul>
 <li><p>Social Support (0.81) → Countries with stronger support systems are generally happier. GDP per Capita (0.77) → Wealthier countries tend to be happier. Healthy Life Expectancy (0.76) → Better health leads to higher happiness. Weak or Negative Correlations:</p></li>
 <li><p>Generosity (0.13) and Perceptions of Corruption (0.45) have low influence on happiness. Dystopia + Residual (0.53) captures unexplained variance, slightly correlated.</p></li>
-<li><p><em>Geospatial Analysis</em>: Mapping happiness scores across countries to highlight global patterns</p>
-<p>o <em>Identify Global Happiness Trends</em> – Highlight regions with consistently high or low happiness levels, revealing geographical clusters of well-being.</p>
-<p>o <em>Compare Regional Differences</em> – Examine how happiness varies across continents and correlate findings with economic, social, and governance factors.</p></li>
+<li><p><strong>Geospatial Analysis</strong>:</p></li>
 </ul>
+<p>Mapping happiness scores across countries to highlight global patterns</p>
+<pre><code>o   *Identify Global Happiness Trends* – Highlight regions with consistently high or low happiness levels, revealing geographical clusters of well-being.
+
+o   *Compare Regional Differences* – Examine how happiness varies across continents and correlate findings with economic, social, and governance factors.</code></pre>
 </section>
 <section id="confirmatory-data-analysis-cda" class="level2">
 <h2 class="anchored" data-anchor-id="confirmatory-data-analysis-cda">Confirmatory Data Analysis (CDA)</h2>
@@ -390,10 +393,12 @@ o   *Detect Key Influencers* – Determine whether economic factors (e.g., GDP p
 <p>Method: Use Multiple Linear Regression (MLR) to quantify the impact of each factor on happiness scores. Perform Stepwise Regression to refine the model and select only the most significant predictors. Check for multicollinearity using Variance Inflation Factor (VIF) to ensure predictor variables are independent.</p>
 <p>Outcome: A predictive model that explains which factors contribute the most to national happiness.</p>
 <p><strong>Feature Importance Analysis</strong>: Objective: Understand which variables influence happiness the most when applying non-linear models.</p>
-<p>Method: Train Random Forest Regression and compute feature importance scores. Use SHAP (SHapley Additive exPlanations) values to interpret how each feature contributes to happiness. Compare machine learning models (Random Forest, Gradient Boosting, etc.) to check if non-linear relationships exist.</p>
+<p>Method:</p>
+<p>Train Random Forest Regression and compute feature importance scores. Use SHAP (SHapley Additive exPlanations) values to interpret how each feature contributes to happiness. Compare machine learning models (Random Forest, Gradient Boosting, etc.) to check if non-linear relationships exist.</p>
 <p>Outcome: A ranked list of happiness predictors, identifying both strong contributors and lesser influential factors.</p>
 <p><strong>Clustering Analysis</strong>: Objective: Group countries based on similarities in happiness determinants to uncover hidden patterns.</p>
-<p>Method: Use K-Means Clustering to categorize countries into groups based on economic, social, and governance factors. Apply Hierarchical Clustering to visualize the relationships between similar countries. Perform PCA (Principal Component Analysis) to reduce dimensionality and highlight key differences.</p>
+<p>Method:</p>
+<p>Use K-Means Clustering to categorize countries into groups based on economic, social, and governance factors. Apply Hierarchical Clustering to visualize the relationships between similar countries. Perform PCA (Principal Component Analysis) to reduce dimensionality and highlight key differences.</p>
 <p>Outcome: Clusters of countries with similar happiness profiles, allowing for comparative regional analysis.</p>
 <p><strong>Longitudinal Analysis</strong>: Objective: Examine how happiness scores evolve over time and assess the impact of global events (e.g., economic crises, political shifts, COVID-19 pandemic).</p>
 <p>Method:</p>
@@ -402,7 +407,7 @@ o   *Detect Key Influencers* – Determine whether economic factors (e.g., GDP p
 </section>
 </section>
 <section id="dashboard-implementation" class="level1">
-<h1>Dashboard Implementation</h1>
+<h1>5.Dashboard Implementation</h1>
 <p>An interactive <strong>Shiny Dashboard</strong> will be developed with the following components:</p>
 <ol type="1">
 <li><strong>Comparison Dashboard</strong></li>
@@ -430,7 +435,7 @@ o   *Detect Key Influencers* – Determine whether economic factors (e.g., GDP p
 <p>Step-by-step insights with buttons/sliders: Users navigate through different insights. Illustrative charts with annotations (e.g., callouts explaining major dips/rises). “Did You Know?” pop-ups for user engagement.</p>
 </section>
 <section id="conclusion" class="level1">
-<h1>Conclusion</h1>
+<h1>6.Conclusion</h1>
 <p>By analyzing the World Happiness Report data through interactive visualizations, this project aims to provide deeper insights into the factors influencing well-being. The results will help policymakers, researchers, and the public make data-driven decisions to improve happiness worldwide.</p>
 <hr>
 <p><em>Note: This is just proposal and final results may slightly differ.</em></p>

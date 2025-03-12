@@ -178,7 +178,8 @@ ggplot(happiness_data, aes(x = as.factor(year), y = social_support)) +
 -   Scatter Plots -- Relationships between key indicators and happiness\
 
 
-  *Correlation Analysis* to identify which factors have the strongest relationship with happiness.
+  **Correlation Analysis** 
+To identify which factors have the strongest relationship with happiness.
 
     o   *Measure the Strength of Relationships* – Identify which factors (GDP per capita, social support, freedom, generosity, corruption perception, etc.) have the strongest positive or negative correlation with happiness.
 
@@ -188,13 +189,15 @@ ggplot(happiness_data, aes(x = as.factor(year), y = social_support)) +
 knitr::include_graphics('plots/correlation-heatmap.png')
 ```
 
-**Correlation Insights: Happiness (Ladder Score) has the strongest correlations with:**
+ *Correlation Insights*: 
+ 
+ Happiness (Ladder Score) has the strongest correlations with:
 
 -   Social Support (0.81) → Countries with stronger support systems are generally happier. GDP per Capita (0.77) → Wealthier countries tend to be happier. Healthy Life Expectancy (0.76) → Better health leads to higher happiness. Weak or Negative Correlations:
 
 -   Generosity (0.13) and Perceptions of Corruption (0.45) have low influence on happiness. Dystopia + Residual (0.53) captures unexplained variance, slightly correlated.
 
- *Geospatial Analysis*: 
+- **Geospatial Analysis**: 
  
 Mapping happiness scores across countries to highlight global patterns
 
