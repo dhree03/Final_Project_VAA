@@ -44,7 +44,7 @@ pacman::p_load(
 ```
 
 
-```{r}
+```{r, code-fold: true}
 # Install the readxl package (if not already installed)
 
 
@@ -123,11 +123,11 @@ EDA is the first step in understanding the structure and patterns within the *Wo
 
     -   Histograms & Density Plots -- Distribution of Happiness Scores
 
-```{r}
+```{r, code-fold: true}
 knitr::include_graphics('plots/density-plots1.png')
 ```
 
-```{r}
+```{r, code-fold: true}
 knitr::include_graphics('plots/density-plots2.png')
 ```
 
@@ -144,7 +144,7 @@ knitr::include_graphics('plots/density-plots2.png')
         
 -   Boxplots -- Comparison of happiness scores across regions
 
-```{r}
+```{r, code-fold: true}
 happiness_data <- read_excel(file_path) %>% clean_names()  # Clean column names
 
 # Generate a Boxplot for Happiness Scores across Years
@@ -183,7 +183,7 @@ ggplot(happiness_data, aes(x = as.factor(year), y = social_support)) +
 
     o   *Detect Key Influencers* – Determine whether economic factors (e.g., GDP per capita) or social indicators (e.g., social support, freedom) have a greater impact on happiness.
 
-```{r}
+```{r,code-fold: true}
 knitr::include_graphics('plots/correlation-heatmap.png')
 ```
 
@@ -200,35 +200,54 @@ knitr::include_graphics('plots/correlation-heatmap.png')
     o   *Compare Regional Differences* – Examine how happiness varies across continents and correlate findings with economic, social, and governance factors.
     
 
-```{r}
-library(sf)
-world_map <- st_read("world_shapefile.shp")  
-ggplot(world_map) + geom_sf(aes(fill = Happiness_Score))  
-
-```
-
-
 
 ## Confirmatory Data Analysis (CDA)
 
--   **Regression Analysis**: Identifying the strongest predictors of happiness.
--   **Feature Importance Analysis**: Using machine learning techniques.
--   **Clustering Analysis**: Grouping similar countries based on happiness determinants.
--   **Longitudinal Analysis**: Observe how happiness scores have evolved before and after significant events (e.g., economic crises, policy changes, or the COVID-19 pandemic).
+-   **Regression Analysis**:
+Objective: Identify the strongest predictors of happiness by modeling the relationship between the dependent variable (Happiness Score/Life Ladder) and independent variables (e.g., GDP per capita, social support, freedom, corruption perception, etc.).
 
-```{r}
-# Placeholder for statistical modeling
-```
+Method:
+Use Multiple Linear Regression (MLR) to quantify the impact of each factor on happiness scores.
+Perform Stepwise Regression to refine the model and select only the most significant predictors.
+Check for multicollinearity using Variance Inflation Factor (VIF) to ensure predictor variables are independent.
+
+Outcome: A predictive model that explains which factors contribute the most to national happiness.
+-   **Feature Importance Analysis**:
+Objective: Understand which variables influence happiness the most when applying non-linear models.
+
+Method:
+Train Random Forest Regression and compute feature importance scores.
+Use SHAP (SHapley Additive exPlanations) values to interpret how each feature contributes to happiness.
+Compare machine learning models (Random Forest, Gradient Boosting, etc.) to check if non-linear relationships exist.
+
+Outcome: A ranked list of happiness predictors, identifying both strong contributors and lesser influential factors.
+-   **Clustering Analysis**:
+
+Objective: Group countries based on similarities in happiness determinants to uncover hidden patterns.
+
+Method:
+Use K-Means Clustering to categorize countries into groups based on economic, social, and governance factors.
+Apply Hierarchical Clustering to visualize the relationships between similar countries.
+Perform PCA (Principal Component Analysis) to reduce dimensionality and highlight key differences.
+
+Outcome: Clusters of countries with similar happiness profiles, allowing for comparative regional analysis.
+
+-   **Longitudinal Analysis**:
+Objective: Examine how happiness scores evolve over time and assess the impact of global events (e.g., economic crises, political shifts, COVID-19 pandemic).
+
+Method:
+
+Use Trend Analysis with LOESS Smoothing to visualize long-term patterns.
+Apply ARIMA (AutoRegressive Integrated Moving Average) or Exponential Smoothing to forecast future happiness trends.
+Conduct Interrupted Time Series Analysis (ITSA) to measure the impact of specific events on happiness scores.
+
+Outcome: Insights into how happiness levels have changed across different periods and predictions for future trends.
 
 ## Time Series & Forecasting
 
 -   **Trend Analysis**: Examining how happiness has evolved over time.
 -   **Time Series Decomposition**: Identifying trend and seasonal effects.
--   **Predictive Modeling**: Forecasting future happiness scores using ARIMA or Exponential Smoothing.
-
-```{r}
-# Placeholder for time series analysis
-```
+-   **Predictive Modeling**: Forecasting future happiness scores using ARIMA or                                     Exponential Smoothing.
 
 # Dashboard Implementation
 
@@ -273,6 +292,8 @@ Feature importance ranking
 Step-by-step insights with buttons/sliders: Users navigate through different insights.
 Illustrative charts with annotations (e.g., callouts explaining major dips/rises).
 "Did You Know?" pop-ups for user engagement.
+
+
 # Conclusion
 
 By analyzing the World Happiness Report data through interactive visualizations, this project aims to provide deeper insights into the factors influencing well-being. The results will help policymakers, researchers, and the public make data-driven decisions to improve happiness worldwide.
