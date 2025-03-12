@@ -219,6 +219,7 @@ Outcome: A predictive model that explains which factors contribute the most to n
 Objective: Understand which variables influence happiness the most when applying non-linear models.
 
 Method:
+
 Train Random Forest Regression and compute feature importance scores.
 Use SHAP (SHapley Additive exPlanations) values to interpret how each feature contributes to happiness.
 Compare machine learning models (Random Forest, Gradient Boosting, etc.) to check if non-linear relationships exist.
@@ -229,6 +230,7 @@ Outcome: A ranked list of happiness predictors, identifying both strong contribu
 Objective: Group countries based on similarities in happiness determinants to uncover hidden patterns.
 
 Method:
+
 Use K-Means Clustering to categorize countries into groups based on economic, social, and governance factors.
 Apply Hierarchical Clustering to visualize the relationships between similar countries.
 Perform PCA (Principal Component Analysis) to reduce dimensionality and highlight key differences.
