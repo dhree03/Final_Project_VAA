@@ -246,11 +246,6 @@ Conduct Interrupted Time Series Analysis (ITSA) to measure the impact of specifi
 
 Outcome: Insights into how happiness levels have changed across different periods and predictions for future trends.
 
-## Time Series & Forecasting
-
--   **Trend Analysis**: Examining how happiness has evolved over time.
--   **Time Series Decomposition**: Identifying trend and seasonal effects.
--   **Predictive Modeling**: Forecasting future happiness scores using ARIMA or                                     Exponential Smoothing.
 
 # Dashboard Implementation
 
