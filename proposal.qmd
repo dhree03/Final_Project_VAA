@@ -271,7 +271,96 @@ Purpose: Narrate the story of happiness using engaging visual elements.
 
 Step-by-step insights with buttons/sliders: Users navigate through different insights. Illustrative charts with annotations (e.g., callouts explaining major dips/rises). "Did You Know?" pop-ups for user engagement.
 
-# 6.Conclusion
+
+# 6.Gantt Chart
+```{r}
+#| echo = FALSE
+
+# Load required libraries
+library(ggplot2)
+library(dplyr)
+
+# Define the proposal due date and final date
+proposal_date <- as.Date("2025-03-12")
+final_date <- as.Date("2025-04-06")
+
+# Create a dataframe with tasks and their start & end dates
+tasks <- data.frame(
+  Task = c("Explore Ideas", "Finalise Topic", "Obtain Feedback from Prof", 
+           "Setup GitHub & Netlify", "Proposal Writeup - Motivation, Problems, Solution",
+           "Proposal Writeup - Methodology & Analysis", "Proposal Writeup - R Shiny & PM",
+           "Draft Individual Submodules", "Submit Proposal", "Preliminary Data Cleaning",
+           "Get Proposal Feedback & Update", "Data Preparation + 1st Prototype",
+           "Refine Prototype", "Finalise Shiny App", "Project Poster Update",
+           "Prepare User Guide", "Poster Presentation", "Poster Preparation"),  
+  Start = as.Date(c("2025-01-15", "2025-01-20", "2025-01-25", "2025-01-30",
+                    "2025-02-05", "2025-02-10", "2025-02-15", "2025-02-20",
+                    "2025-03-12", "2025-03-14", "2025-03-18", "2025-03-22",
+                    "2025-03-28", "2025-03-30", "2025-04-02", "2025-04-04",
+                    "2025-04-05", "2025-04-06")),  
+  End = as.Date(c("2025-01-20", "2025-01-25", "2025-01-30", "2025-02-05",
+                  "2025-02-15", "2025-02-20", "2025-02-25", "2025-03-01",
+                  "2025-03-12", "2025-03-16", "2025-03-20", "2025-03-26",
+                  "2025-04-02", "2025-04-06", "2025-04-06", "2025-04-06",
+                  "2025-04-06", "2025-04-06"))  
+)
+
+# Assign status based on the proposal due date
+tasks <- tasks %>%
+  mutate(Status = ifelse(Start < proposal_date, "Completed", "Not Yet Done"))
+
+# Define milestone lines
+milestone_lines <- data.frame(
+  Date = c(proposal_date, final_date),
+  Label = c("Proposal Due", "Final Due")
+)
+
+# Define colors
+status_colors <- c("Completed" = "skyblue", "Not Yet Done" = "pink")
+milestone_colors <- c("Proposal Due" = "blue", "Final Due" = "red")
+
+# Define highest y-position for labels
+max_y_pos <- max(as.numeric(factor(tasks$Task))) + 1.5
+
+# Ensure date limits are properly set
+min_date <- min(tasks$Start, na.rm = TRUE) - 10
+max_date <- max(tasks$End, na.rm = TRUE) + 10
+
+# Plot Gantt chart
+ggplot() +
+  # Task bars
+  geom_segment(data = tasks, aes(y = reorder(Task, desc(Start)), 
+                                 x = Start, xend = End, color = Status, yend = Task), 
+               linewidth = 5, show.legend = FALSE) +  # Remove legend
+  
+  # Milestone lines
+  geom_vline(data = milestone_lines, aes(xintercept = as.numeric(Date), color = Label, linetype = Label), 
+             linewidth = 1.5, show.legend = FALSE) +  # Remove legend
+  
+  # Milestone labels
+  annotate("text", x = proposal_date, y = max_y_pos, label = "Proposal Due", 
+           color = "blue", angle = 0, size = 5, fontface = "bold", vjust = -1.5) +
+  annotate("text", x = final_date, y = max_y_pos, label = "Final Due", 
+           color = "red", angle = 0, size = 5, fontface = "bold", vjust = -1.5) +
+  
+  # Define colors for task status
+  scale_color_manual(values = c(status_colors, milestone_colors)) +
+  
+  # Define linetypes for milestone lines
+  scale_linetype_manual(values = c("Proposal Due" = "dashed", "Final Due" = "solid")) +
+  
+  # Expand x-axis limits and fix date breaks issue
+  scale_x_date(limits = c(min_date, max_date), date_labels = "%b") +
+  
+  # Labels and themes
+  labs(title = "Project Timeline Gantt Chart", x = "Date", y = "Task") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend entirely
+
+
+```
+
+# 7.Conclusion
 
 By analyzing the World Happiness Report data through interactive visualizations, this project aims to provide deeper insights into the factors influencing well-being. The results will help policymakers, researchers, and the public make data-driven decisions to improve happiness worldwide.
 
