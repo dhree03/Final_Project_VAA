@@ -194,7 +194,9 @@ knitr::include_graphics('plots/correlation-heatmap.png')
 
 -   Generosity (0.13) and Perceptions of Corruption (0.45) have low influence on happiness. Dystopia + Residual (0.53) captures unexplained variance, slightly correlated.
 
--   *Geospatial Analysis*: Mapping happiness scores across countries to highlight global patterns
+ *Geospatial Analysis*: 
+ 
+Mapping happiness scores across countries to highlight global patterns
 
     o   *Identify Global Happiness Trends* – Highlight regions with consistently high or low happiness levels, revealing geographical clusters of well-being.
 
