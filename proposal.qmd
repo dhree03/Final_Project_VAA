@@ -249,7 +249,7 @@ Conduct Interrupted Time Series Analysis (ITSA) to measure the impact of specifi
 Outcome: Insights into how happiness levels have changed across different periods and predictions for future trends.
 
 
-# Dashboard Implementation
+# 5.Dashboard Implementation
 
 An interactive **Shiny Dashboard** will be developed with the following components:
 
@@ -298,7 +298,7 @@ Illustrative charts with annotations (e.g., callouts explaining major dips/rises
 "Did You Know?" pop-ups for user engagement.
 
 
-# Conclusion
+# 6.Conclusion
 
 By analyzing the World Happiness Report data through interactive visualizations, this project aims to provide deeper insights into the factors influencing well-being. The results will help policymakers, researchers, and the public make data-driven decisions to improve happiness worldwide.
 
