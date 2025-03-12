@@ -24,16 +24,46 @@ Existing studies often focus on individual factors in isolation, making it diffi
 
 To bridge this gap, a structured and interactive analysis is needed to uncover the strongest predictors of happiness and allow for a comparative assessment of high- and low-happiness nations. By leveraging data on economic, social, and governance indicators, this research aims to provide a clearer, data-driven understanding of global happiness trends and facilitate more effective decision-making for improving well-being worldwide.
 
-# 3. Methodology
+# 3. Data Collection & Processing
 
-This study employs a data-driven approach to analyze the key determinants of happiness across countries. The process includes:
+```{r}
+pacman::p_load(
+  tidyverse,   # For data manipulation and visualization
+  readxl,      # For reading Excel files
+  janitor,     # For cleaning data (e.g., column names)
+  lubridate,   # For handling date/time data
+  ggplot2,     # For creating visualizations
+  dplyr,       # For data manipulation
+  tidyr,       # For reshaping data
+  tsibble,     # For time series data manipulation
+  feasts,      # For time series visualization & decomposition
+  fable,       # For forecasting models
+  plotly,      # For interactive visualizations
+  shiny        # For building interactive web apps
+)
+```
 
-1.  **Data Collection & Processing:** Gathering and cleaning data on happiness scores and factors such as GDP, social support, life expectancy, freedom, generosity, and corruption perceptions.
-2.  **Exploratory Analysis & Visualization:** Identifying trends and correlations using descriptive statistics and visual analytics.
-3.  **Regression & Comparative Analysis:** Examining the strongest predictors of happiness and comparing high- and low-ranking countries.
-4.  **Interactive Dashboard Development**: Creating a user-friendly visualization tool using Shiny application to explore happiness trends dynamically.
 
-# 4. The data
+```{r}
+# Install the readxl package (if not already installed)
+
+
+# Load the package
+library(readxl)  
+
+# Set the file path (update this with your actual file location)
+file_path <- "data_files/world_happiness.xlsx"  
+
+# Read the first sheet of the Excel file
+happiness_data <- read_excel(file_path)  
+
+# Preview the data  
+head(happiness_data)      # View first few rows  
+colnames(happiness_data)  # Check column names  
+str(happiness_data)       # Check structure of the dataset  
+
+```
+
 
 This study utilizes data from the \[World Happiness Report 2024\] (https://worldhappiness.report/ed/2024/), specifically the **Chapter 2 Appendix**, which provides country-level happiness indicators over multiple years. The dataset includes economic, social, and governance-related factors that influence national well-being. The focus of this research is to analyze what constitutes a higher level of happiness across countries by identifying key contributing factors and their relationships.
 
@@ -53,13 +83,18 @@ The dataset contains 11 variables, each representing a different aspect of well-
 
 By analyzing these variables, this research aims to uncover the strongest predictors of happiness and highlight the differences between high-happiness and low-happiness nations.
 
-## Data Collection & Processing
-
-This study utilizes data from the [\*\*World Happiness Report 2024](https://worldhappiness.report/ed/2024/)\*\* (), specifically the **Chapter 2 Appendix**, which provides country-level happiness indicators over multiple years. The dataset includes economic, social, and governance-related factors that influence national well-being. The focus of this research is to analyze what constitutes a higher level of happiness across countries by identifying key contributing factors and their relationships.
-
 # 4. Methodology
 
-## ![]()Exploratory Data Analysis (EDA)
+This study employs a data-driven approach to analyze the key determinants of happiness across countries. The process includes:
+
+1.  **Data Collection & Processing:** Gathering and cleaning data on happiness scores and factors such as GDP, social support, life expectancy, freedom, generosity, and corruption perceptions.
+2.  **Exploratory Analysis & Visualization:** Identifying trends and correlations using descriptive statistics and visual analytics.
+3.  **Regression & Comparative Analysis:** Examining the strongest predictors of happiness and comparing high- and low-ranking countries.
+4.  **Interactive Dashboard Development**: Creating a user-friendly visualization tool using Shiny application to explore happiness trends dynamically.
+
+
+
+## 4.1 Exploratory Data Analysis (EDA)
 
 EDA is the first step in understanding the structure and patterns within the *World Happiness Report dataset*. The primary objectives of EDA in this project include:
 
@@ -106,10 +141,41 @@ knitr::include_graphics('plots/density-plots2.png')
 
 -   Highly skewed left, showing many countries perceive corruption as a major issue.
 
-```         
--   Boxplots -- Comparison of happiness scores across regions\
--   Scatter Plots -- Relationships between key indicators and happiness\
+        
+-   Boxplots -- Comparison of happiness scores across regions
+
+```{r}
+happiness_data <- read_excel(file_path) %>% clean_names()  # Clean column names
+
+# Generate a Boxplot for Happiness Scores across Years
+ggplot(happiness_data, aes(x = as.factor(year), y = life_ladder)) + 
+  geom_boxplot(fill = "skyblue", color = "black") + 
+  labs(title = "Happiness Score Distribution by Year",
+       x = "Year",
+       y = "Happiness Score (Life Ladder)") + 
+  theme_minimal()
+
+# Generate a Boxplot for GDP per Capita across Years
+ggplot(happiness_data, aes(x = as.factor(year), y = log_gdp_per_capita)) + 
+  geom_boxplot(fill = "lightgreen", color = "black") + 
+  labs(title = "GDP per Capita Distribution by Year",
+       x = "Year",
+       y = "Log GDP per Capita") + 
+  theme_minimal()
+
+# Generate a Boxplot for Social Support across Years
+ggplot(happiness_data, aes(x = as.factor(year), y = social_support)) + 
+  geom_boxplot(fill = "lightcoral", color = "black") + 
+  labs(title = "Social Support Distribution by Year",
+       x = "Year",
+       y = "Social Support") + 
+  theme_minimal()
+
 ```
+
+
+-   Scatter Plots -- Relationships between key indicators and happiness\
+
 
   *Correlation Analysis* to identify which factors have the strongest relationship with happiness.
 
@@ -132,15 +198,23 @@ knitr::include_graphics('plots/correlation-heatmap.png')
     o   *Identify Global Happiness Trends* – Highlight regions with consistently high or low happiness levels, revealing geographical clusters of well-being.
 
     o   *Compare Regional Differences* – Examine how happiness varies across continents and correlate findings with economic, social, and governance factors.
+    
 
-    o   *Track Changes Over Time* – Observe how happiness scores have evolved before and after significant events (e.g., economic crises, policy changes, or the COVID-19 pandemic).
+```{r}
+library(sf)
+world_map <- st_read("world_shapefile.shp")  
+ggplot(world_map) + geom_sf(aes(fill = Happiness_Score))  
+
+```
+
+
 
 ## Confirmatory Data Analysis (CDA)
 
 -   **Regression Analysis**: Identifying the strongest predictors of happiness.
 -   **Feature Importance Analysis**: Using machine learning techniques.
 -   **Clustering Analysis**: Grouping similar countries based on happiness determinants.
--   **Longitudinal Analysis**: Tracking changes in happiness over time.
+-   **Longitudinal Analysis**: Observe how happiness scores have evolved before and after significant events (e.g., economic crises, policy changes, or the COVID-19 pandemic).
 
 ```{r}
 # Placeholder for statistical modeling
@@ -160,15 +234,49 @@ knitr::include_graphics('plots/correlation-heatmap.png')
 
 An interactive **Shiny Dashboard** will be developed with the following components:
 
-1.  **Comparison Dashboard**: Compare happiness metrics between countries.
-2.  **Factor Analysis Dashboard**: Explore relationships between different factors.
-3.  **Prediction Dashboard**: Provide happiness forecasts based on user inputs.
-4.  **Storytelling Dashboard**: Present an interactive narrative of global happiness trends.
+1.  **Comparison Dashboard**
 
+Purpose: Compare happiness scores and influencing factors across countries or regions.
+📌 Layout:
+
+Sidebar: Country/region selection, year filters.
+Main Panel:
+Side-by-side bar charts comparing happiness factors across selected countries.
+Radar chart to visualize multiple happiness indicators at once.
+Boxplots to compare score distributions by region.
+
+2.  **Factor Analysis Dashboard**
+
+Purpose: Show the influence of different factors on happiness scores.
+📌 Layout:
+
+Sidebar: Select variables (GDP, social support, health, etc.).
+Main Panel:
+Scatter plots with regression lines (showing correlation).
+Feature importance ranking using ML models (optional).
+Predicted happiness score calculator (users input GDP, social support, etc., to estimate score).
+
+3.  **Prediction Dashboard**
+
+Purpose: Show correlations between happiness scores and different factors + predict happiness.
+📌 Key Features:
+
+Scatter plots to visualize factor relationships
+ML-based predictions of happiness score
+Feature importance ranking
+
+4.  **Storytelling Dashboard**
+
+📌 Purpose: Narrate the story of happiness using engaging visual elements.
+📌 Layout:
+
+Step-by-step insights with buttons/sliders: Users navigate through different insights.
+Illustrative charts with annotations (e.g., callouts explaining major dips/rises).
+"Did You Know?" pop-ups for user engagement.
 # Conclusion
 
 By analyzing the World Happiness Report data through interactive visualizations, this project aims to provide deeper insights into the factors influencing well-being. The results will help policymakers, researchers, and the public make data-driven decisions to improve happiness worldwide.
 
 ------------------------------------------------------------------------
 
-*Note: Code chunks will be added later for analysis and visualization.*
+*Note: This is just proposal and final results may slightly differ.*
