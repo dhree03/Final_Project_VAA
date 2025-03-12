@@ -158,7 +158,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda">4.1 Exploratory Data Analysis (EDA)</a></li>
   <li><a href="#confirmatory-data-analysis-cda" id="toc-confirmatory-data-analysis-cda" class="nav-link" data-scroll-target="#confirmatory-data-analysis-cda">Confirmatory Data Analysis (CDA)</a></li>
-  <li><a href="#time-series-forecasting" id="toc-time-series-forecasting" class="nav-link" data-scroll-target="#time-series-forecasting">Time Series &amp; Forecasting</a></li>
   </ul></li>
   <li><a href="#dashboard-implementation" id="toc-dashboard-implementation" class="nav-link" data-scroll-target="#dashboard-implementation">Dashboard Implementation</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
@@ -401,14 +400,6 @@ o   *Detect Key Influencers* – Determine whether economic factors (e.g., GDP p
 <p>Use Trend Analysis with LOESS Smoothing to visualize long-term patterns. Apply ARIMA (AutoRegressive Integrated Moving Average) or Exponential Smoothing to forecast future happiness trends. Conduct Interrupted Time Series Analysis (ITSA) to measure the impact of specific events on happiness scores.</p>
 <p>Outcome: Insights into how happiness levels have changed across different periods and predictions for future trends.</p>
 </section>
-<section id="time-series-forecasting" class="level2">
-<h2 class="anchored" data-anchor-id="time-series-forecasting">Time Series &amp; Forecasting</h2>
-<ul>
-<li><strong>Trend Analysis</strong>: Examining how happiness has evolved over time.</li>
-<li><strong>Time Series Decomposition</strong>: Identifying trend and seasonal effects.</li>
-<li><strong>Predictive Modeling</strong>: Forecasting future happiness scores using ARIMA or Exponential Smoothing.</li>
-</ul>
-</section>
 </section>
 <section id="dashboard-implementation" class="level1">
 <h1>Dashboard Implementation</h1>
@@ -422,17 +413,20 @@ o   *Detect Key Influencers* – Determine whether economic factors (e.g., GDP p
 <ol start="2" type="1">
 <li><strong>Factor Analysis Dashboard</strong></li>
 </ol>
-<p>Purpose: Show the influence of different factors on happiness scores. 📌 Layout:</p>
+<p>Purpose: Show the influence of different factors on happiness scores.</p>
+<p>📌 Layout:</p>
 <p>Sidebar: Select variables (GDP, social support, health, etc.). Main Panel: Scatter plots with regression lines (showing correlation). Feature importance ranking using ML models (optional). Predicted happiness score calculator (users input GDP, social support, etc., to estimate score).</p>
 <ol start="3" type="1">
 <li><strong>Prediction Dashboard</strong></li>
 </ol>
-<p>Purpose: Show correlations between happiness scores and different factors + predict happiness. 📌 Key Features:</p>
+<p>Purpose: Show correlations between happiness scores and different factors + predict happiness.</p>
+<p>📌 Key Features:</p>
 <p>Scatter plots to visualize factor relationships ML-based predictions of happiness score Feature importance ranking</p>
 <ol start="4" type="1">
 <li><strong>Storytelling Dashboard</strong></li>
 </ol>
-<p>📌 Purpose: Narrate the story of happiness using engaging visual elements. 📌 Layout:</p>
+<p>Purpose: Narrate the story of happiness using engaging visual elements.</p>
+<p>📌 Layout:</p>
 <p>Step-by-step insights with buttons/sliders: Users navigate through different insights. Illustrative charts with annotations (e.g., callouts explaining major dips/rises). “Did You Know?” pop-ups for user engagement.</p>
 </section>
 <section id="conclusion" class="level1">
