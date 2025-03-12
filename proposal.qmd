@@ -266,6 +266,7 @@ Boxplots to compare score distributions by region.
 2.  **Factor Analysis Dashboard**
 
 Purpose: Show the influence of different factors on happiness scores.
+
 📌 Layout:
 
 Sidebar: Select variables (GDP, social support, health, etc.).
@@ -277,6 +278,7 @@ Predicted happiness score calculator (users input GDP, social support, etc., to 
 3.  **Prediction Dashboard**
 
 Purpose: Show correlations between happiness scores and different factors + predict happiness.
+
 📌 Key Features:
 
 Scatter plots to visualize factor relationships
@@ -286,6 +288,7 @@ Feature importance ranking
 4.  **Storytelling Dashboard**
 
 Purpose: Narrate the story of happiness using engaging visual elements.
+
 📌 Layout:
 
 Step-by-step insights with buttons/sliders: Users navigate through different insights.
