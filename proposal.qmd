@@ -1,6 +1,6 @@
 ---
 title: "World Happiness Report (WHR) Analysis"
-author: "Your Name"
+author: "Group 14"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -8,6 +8,9 @@ output:
     toc_depth: 2
     number_sections: true
     theme: readable
+    code_folding: show
+execute: 
+  warning: false
 ---
 
 # 1. Overview and motivation of project
@@ -26,6 +29,8 @@ To bridge this gap, a structured and interactive analysis is needed to uncover t
 
 # 3. Data Collection & Processing
 
+The following are the libraries we will be using for the project :
+
 ```{r}
 pacman::p_load(
   tidyverse,   # For data manipulation and visualization
@@ -43,10 +48,9 @@ pacman::p_load(
 )
 ```
 
+Reading the excel file
 
-```{r, code-fold: true}
-# Install the readxl package (if not already installed)
-
+```{r setup, code-fold: true, echo: false}
 
 # Load the package
 library(readxl)  
@@ -57,10 +61,7 @@ file_path <- "data_files/world_happiness.xlsx"
 # Read the first sheet of the Excel file
 happiness_data <- read_excel(file_path)  
 
-# Preview the data  
-head(happiness_data)      # View first few rows  
-colnames(happiness_data)  # Check column names  
-str(happiness_data)       # Check structure of the dataset  
+head(happiness_data)
 
 ```
 
@@ -123,11 +124,11 @@ EDA is the first step in understanding the structure and patterns within the *Wo
 
     -   Histograms & Density Plots -- Distribution of Happiness Scores
 
-```{r, code-fold: true}
+```{r density-plot1, code-fold: true}
 knitr::include_graphics('plots/density-plots1.png')
 ```
 
-```{r, code-fold: true}
+```{r density-plot2, code-fold: true}
 knitr::include_graphics('plots/density-plots2.png')
 ```
 
@@ -144,7 +145,7 @@ knitr::include_graphics('plots/density-plots2.png')
         
 -   Boxplots -- Comparison of happiness scores across regions
 
-```{r, code-fold: true}
+```{r boxplot, code-fold: true}
 happiness_data <- read_excel(file_path) %>% clean_names()  # Clean column names
 
 # Generate a Boxplot for Happiness Scores across Years
@@ -183,7 +184,7 @@ ggplot(happiness_data, aes(x = as.factor(year), y = social_support)) +
 
     o   *Detect Key Influencers* – Determine whether economic factors (e.g., GDP per capita) or social indicators (e.g., social support, freedom) have a greater impact on happiness.
 
-```{r,code-fold: true}
+```{r correlation,code-fold: true}
 knitr::include_graphics('plots/correlation-heatmap.png')
 ```
 
@@ -203,7 +204,7 @@ knitr::include_graphics('plots/correlation-heatmap.png')
 
 ## Confirmatory Data Analysis (CDA)
 
--   **Regression Analysis**:
+  **Regression Analysis**:
 Objective: Identify the strongest predictors of happiness by modeling the relationship between the dependent variable (Happiness Score/Life Ladder) and independent variables (e.g., GDP per capita, social support, freedom, corruption perception, etc.).
 
 Method:
@@ -212,7 +213,9 @@ Perform Stepwise Regression to refine the model and select only the most signifi
 Check for multicollinearity using Variance Inflation Factor (VIF) to ensure predictor variables are independent.
 
 Outcome: A predictive model that explains which factors contribute the most to national happiness.
--   **Feature Importance Analysis**:
+
+
+ **Feature Importance Analysis**:
 Objective: Understand which variables influence happiness the most when applying non-linear models.
 
 Method:
@@ -221,8 +224,8 @@ Use SHAP (SHapley Additive exPlanations) values to interpret how each feature co
 Compare machine learning models (Random Forest, Gradient Boosting, etc.) to check if non-linear relationships exist.
 
 Outcome: A ranked list of happiness predictors, identifying both strong contributors and lesser influential factors.
--   **Clustering Analysis**:
 
+ **Clustering Analysis**:
 Objective: Group countries based on similarities in happiness determinants to uncover hidden patterns.
 
 Method:
@@ -232,7 +235,7 @@ Perform PCA (Principal Component Analysis) to reduce dimensionality and highligh
 
 Outcome: Clusters of countries with similar happiness profiles, allowing for comparative regional analysis.
 
--   **Longitudinal Analysis**:
+   **Longitudinal Analysis**:
 Objective: Examine how happiness scores evolve over time and assess the impact of global events (e.g., economic crises, political shifts, COVID-19 pandemic).
 
 Method:
@@ -256,6 +259,7 @@ An interactive **Shiny Dashboard** will be developed with the following componen
 1.  **Comparison Dashboard**
 
 Purpose: Compare happiness scores and influencing factors across countries or regions.
+
 📌 Layout:
 
 Sidebar: Country/region selection, year filters.
@@ -286,7 +290,7 @@ Feature importance ranking
 
 4.  **Storytelling Dashboard**
 
-📌 Purpose: Narrate the story of happiness using engaging visual elements.
+Purpose: Narrate the story of happiness using engaging visual elements.
 📌 Layout:
 
 Step-by-step insights with buttons/sliders: Users navigate through different insights.
