@@ -174,11 +174,8 @@ ggplot(happiness_data, aes(x = as.factor(year), y = social_support)) +
 
 ```
 
-
--   Scatter Plots -- Relationships between key indicators and happiness\
-
-
   **Correlation Analysis** 
+  
 To identify which factors have the strongest relationship with happiness.
 
     o   *Measure the Strength of Relationships* – Identify which factors (GDP per capita, social support, freedom, generosity, corruption perception, etc.) have the strongest positive or negative correlation with happiness.
@@ -207,7 +204,7 @@ Mapping happiness scores across countries to highlight global patterns
     
 
 
-## Confirmatory Data Analysis (CDA)
+## 4.2 Confirmatory Data Analysis (CDA)
 
   **Regression Analysis**:
 Objective: Identify the strongest predictors of happiness by modeling the relationship between the dependent variable (Happiness Score/Life Ladder) and independent variables (e.g., GDP per capita, social support, freedom, corruption perception, etc.).

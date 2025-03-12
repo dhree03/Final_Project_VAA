@@ -157,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">4. Methodology</a>
   <ul class="collapse">
   <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda">4.1 Exploratory Data Analysis (EDA)</a></li>
-  <li><a href="#confirmatory-data-analysis-cda" id="toc-confirmatory-data-analysis-cda" class="nav-link" data-scroll-target="#confirmatory-data-analysis-cda">Confirmatory Data Analysis (CDA)</a></li>
+  <li><a href="#confirmatory-data-analysis-cda" id="toc-confirmatory-data-analysis-cda" class="nav-link" data-scroll-target="#confirmatory-data-analysis-cda">4.2 Confirmatory Data Analysis (CDA)</a></li>
   </ul></li>
   <li><a href="#dashboard-implementation" id="toc-dashboard-implementation" class="nav-link" data-scroll-target="#dashboard-implementation">5.Dashboard Implementation</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">6.Conclusion</a></li>
@@ -361,11 +361,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="proposal_files/figure-html/boxplot, code-fold- true-3.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<ul>
-<li>Scatter Plots – Relationships between key indicators and happiness<br>
-</li>
-</ul>
-<p><strong>Correlation Analysis</strong> To identify which factors have the strongest relationship with happiness.</p>
+<p><strong>Correlation Analysis</strong></p>
+<p>To identify which factors have the strongest relationship with happiness.</p>
 <pre><code>o   *Measure the Strength of Relationships* – Identify which factors (GDP per capita, social support, freedom, generosity, corruption perception, etc.) have the strongest positive or negative correlation with happiness.
 
 o   *Detect Key Influencers* – Determine whether economic factors (e.g., GDP per capita) or social indicators (e.g., social support, freedom) have a greater impact on happiness.</code></pre>
@@ -388,7 +385,7 @@ o   *Detect Key Influencers* – Determine whether economic factors (e.g., GDP p
 o   *Compare Regional Differences* – Examine how happiness varies across continents and correlate findings with economic, social, and governance factors.</code></pre>
 </section>
 <section id="confirmatory-data-analysis-cda" class="level2">
-<h2 class="anchored" data-anchor-id="confirmatory-data-analysis-cda">Confirmatory Data Analysis (CDA)</h2>
+<h2 class="anchored" data-anchor-id="confirmatory-data-analysis-cda">4.2 Confirmatory Data Analysis (CDA)</h2>
 <p><strong>Regression Analysis</strong>: Objective: Identify the strongest predictors of happiness by modeling the relationship between the dependent variable (Happiness Score/Life Ladder) and independent variables (e.g., GDP per capita, social support, freedom, corruption perception, etc.).</p>
 <p>Method: Use Multiple Linear Regression (MLR) to quantify the impact of each factor on happiness scores. Perform Stepwise Regression to refine the model and select only the most significant predictors. Check for multicollinearity using Variance Inflation Factor (VIF) to ensure predictor variables are independent.</p>
 <p>Outcome: A predictive model that explains which factors contribute the most to national happiness.</p>
