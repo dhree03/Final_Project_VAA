@@ -1,5 +1,5 @@
 ---
-title: "Final_Project_VAA"
+title: "WORLD HAPPINESS"
 ---
 
 Hello, Welcome to our Final Project for Visual Analytics
