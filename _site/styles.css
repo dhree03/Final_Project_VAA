@@ -1,38 +1,38 @@
 /* css styles */
 
-/* Change Navbar Background Color */
-.navbar-default {
-    background-color: #FFD700 !important; /* Gold/Yellow */
-    border-color: #E6B800;
+/* Override Default Navbar */
+.navbar {
+    background-color: #FFC107 !important; /* Warm Golden Yellow */
+    border-color: #E6A800 !important;
 }
 
-/* Change Navbar Brand and Links Color */
-.navbar-default .navbar-brand,
-.navbar-default .navbar-nav > li > a {
-    color: #333 !important; /* Dark text for readability */
+/* Navbar Text & Links */
+.navbar .navbar-brand, 
+.navbar .navbar-nav > li > a {
+    color: #FFFFFF !important; /* White text */
 }
 
-/* Navbar Link Hover Color */
-.navbar-default .navbar-nav > li > a:hover {
-    color: #000 !important; /* Darker text on hover */
+/* Navbar Hover Effect */
+.navbar .navbar-nav > li > a:hover {
+    color: #F8F8F8 !important; /* Slightly softer white */
 }
 
-/* Page Background Color */
+/* Light Yellow Page Background */
 body {
-    background-color: #FFF8DC; /* Warm Yellow/Light Beige */
-    color: #333; /* Dark text for readability */
+    background-color: #FFFDE7 !important; /* Soft Warm Yellow */
+    color: #333333 !important; /* Dark Gray for readability */
 }
 
-/* Headings Color */
+/* Headings (Keep them golden yellow for balance) */
 h1, h2, h3, h4, h5, h6 {
-    color: #FFCC00; /* Bright Yellow Headings */
+    color: #FFC107 !important; /* Golden Yellow */
 }
 
-/* Link Colors */
+/* Links */
 a {
-    color: #FF9900; /* Warm Yellow Links */
+    color: #FFC107 !important; /* Bright Yellow */
 }
 
 a:hover {
-    color: #CC7A00; /* Darker Orange on Hover */
+    color: #FFD700 !important; /* Gold Hover Effect */
 }

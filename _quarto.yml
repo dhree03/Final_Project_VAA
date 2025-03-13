@@ -19,7 +19,7 @@ website:
       
 format:
   html:
-    theme: yeti
+    theme: united
     css: styles.css
     toc: true
 
