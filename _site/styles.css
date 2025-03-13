@@ -1,1 +1,38 @@
 /* css styles */
+
+/* Change Navbar Background Color */
+.navbar-default {
+    background-color: #FFD700 !important; /* Gold/Yellow */
+    border-color: #E6B800;
+}
+
+/* Change Navbar Brand and Links Color */
+.navbar-default .navbar-brand,
+.navbar-default .navbar-nav > li > a {
+    color: #333 !important; /* Dark text for readability */
+}
+
+/* Navbar Link Hover Color */
+.navbar-default .navbar-nav > li > a:hover {
+    color: #000 !important; /* Darker text on hover */
+}
+
+/* Page Background Color */
+body {
+    background-color: #FFF8DC; /* Warm Yellow/Light Beige */
+    color: #333; /* Dark text for readability */
+}
+
+/* Headings Color */
+h1, h2, h3, h4, h5, h6 {
+    color: #FFCC00; /* Bright Yellow Headings */
+}
+
+/* Link Colors */
+a {
+    color: #FF9900; /* Warm Yellow Links */
+}
+
+a:hover {
+    color: #CC7A00; /* Darker Orange on Hover */
+}

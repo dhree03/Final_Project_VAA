@@ -11,12 +11,15 @@ website:
       - text: Teams
         menu:
           - href: proposal.qmd
-            text: Proposal
+            text: Project proposal
+          - href: minutes_of_meeting.qmd
+            text: Meeting records
+          - href: acknowledgement.qmd
+            text: Acknowledgement
       
-
 format:
   html:
-    theme: cosmo
+    theme: yeti
     css: styles.css
     toc: true
 
