@@ -13,3 +13,95 @@ execute:
   warning: false
 ---
 
+# 1. ISSS608 Group 14 Meeting Minutes
+
+**Project Meeting 1:** Project Proposal, Project Methodology, Project Timeline
+
+**Date:** 05/03/2025
+
+**Time:** 8.00pm – 10.00pm
+
+**In Attendance:** Andrea YEO Si Han, Dhreeti SHAH, OU Yi Ming
+
+**Minutes Taker:** Andrea YEO Si Han
+
+# 2. Agenda Items
+
+1.  **Agenda Item 1:** Decision on Project Topic
+
+2.  **Agenda Item 2:** Discussion on Project Methodology/ Overall Approach
+
+3.  **Agenda Item 3:** Consensus of the Project Timeline
+
+4.  **Agenda Item 4:** Any Other Matters/ Follow-up Action
+
+# 3. Agenda Item 1: Decision on Project Topic
+
+Prior to the first meeting, the team had an informal discussion on 01 March 2025 and agreed to explore topics that provide ample variables (both continuous and categorical) to allow for different visualization techniques and analytical methods.
+
+## 3.1 Discussion on Proposed Topics:
+
+### 3.1.1 Evaluation of the financial transactions and fraud detection dataset
+
+**Dhreeti** suggested analyzing financial transactions and fraud detection using a dataset available on Kaggle. She noted that this dataset is well-suited for Exploratory Data Analysis (EDA) and predictive modeling techniques such as classification and anomaly detection. The dataset included various transaction types, timestamps, and fraud indicators, making it a compelling choice for understanding financial fraud patterns.
+
+**Good:**
+
+-   Contained diverse transaction types and timestamps.
+
+-   Suitable for predictive modeling and anomaly detection.
+
+-   Could provide insights into fraud trends and detection patterns.
+
+**Bad:**
+
+-   Data credibility concerns due to the confidential nature of financial transactions.
+
+-   Lack of transparency in data sourcing and potential synthetic data issues.
+
+-   Limited time period (Total: 8 years), reducing the ability to analyze long-term trends.
+
+-   Narrow scope for exploratory data analysis beyond anomaly detection. There may or may not be any anomaly in the dataset. 
+
+### 3.1.2 Evaluation of the World Happiness Report (WHR) dataset
+
+**Andrea** introduced the idea of analyzing global happiness trends using data from the World Happiness Report (WHR). The dataset includes economic, social, and governance-related factors that contribute to national well-being. This dataset spans from 2008 to 2014 and is released as an annual report. It provides an opportunity to explore how happiness levels change year over year for different countries and identify patterns over time. By examining key contributing factors such as GDP per capita, social support, life expectancy, freedom, generosity, and perceptions of corruption, this dataset allows for an in-depth analysis of what influences a country's happiness score. It will be particularly interesting to visualize trends across different regions and observe how certain global or national events impact overall happiness.
+
+**Good:**
+
+-   Covers at least 16 years of data (2008-2024), enabling trend analysis.
+
+-   Provides a mix of economic, social, and governance factors, allowing for a multi-dimensional exploration of happiness.
+
+-   Open-source and publicly available, ensuring data credibility.
+
+-   Allows for geographic and time-series visualizations.
+
+-   Potential for interactive dashboards to explore how different factors influence happiness across countries and over time.
+
+**Bad:**
+
+-   Some variables may have missing values, requiring data cleaning and imputation.
+
+-   Limited number of happiness-related factors (total of 8), which may restrict deeper analysis on additional influences beyond those included.
+
+### 3.1.3 Evaluation of the Tourism dataset
+**Yi Ming** suggested analyzing tourism trends using a dataset from the Singapore Department of Statistics (DOS). This dataset contains data on visitor arrivals on a month-to-month basis across countries, hotel occupancy rates, and available room nights. It is suited for seasonal forecasting, trend analysis, and geographic visualization, making it a strong candidate for exploring tourism behavior and economic impact.
+
+**Good:**
+
+-   Provides structured data on international visitor arrivals, hotel occupancy, and tourism trends over time.
+
+-   Suitable for seasonal trend analysis and forecasting.
+
+-   Allows for geographic and time-series visualizations.
+
+**Bad:**
+
+-   Primarily focused on tourism volume without deeper insights into traveler behavior and spending.
+
+-   Extensive existing research on tourism spending, making the analysis less original.
+
+
+
+
