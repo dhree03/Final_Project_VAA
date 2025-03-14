@@ -1,5 +1,5 @@
 ---
-title: "World Happiness"
+title: "World Happiness Visualization"
 ---
 
 Hello, Welcome to our Final Project for Visual Analytics

@@ -12,7 +12,7 @@ website:
         menu:
           - href: proposal.qmd
             text: Project proposal
-          - href: minutes_of_meeting.qmd
+          - href: Minutes of Meeting/minutes_of_meeting.qmd
             text: Meeting records
           - href: acknowledgement.qmd
             text: Acknowledgement

@@ -1,5 +1,5 @@
 ---
-title: "World Happiness Report (WHR) Analysis"
+title: "ISSS608 Group 14 Project Meeting Minutes Records"
 author: "Group 14"
 date: "`r Sys.Date()`"
 output:
@@ -12,3 +12,15 @@ output:
 execute: 
   warning: false
 ---
+
+**Project Meeting 1:** Project Proposal, Project Methodology, Project Timeline
+
+**Date:** 05/03/2024
+
+**Time:** 8pm – 10.00pm
+
+**In Attendance:** Andrea YEO Si Han, Dhreeti SHAH, OU Yi Ming
+
+[Click here to view meeting minutes - 1.](Minutes of Meeting/meeting1.qmd)
+
+------------------------------------------------------------------------
