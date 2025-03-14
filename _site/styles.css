@@ -1,1 +1,37 @@
 /* css styles */
+/* Override Default Navbar */
+.navbar {
+    background-color: #FFC107 !important; /* Warm Golden Yellow */
+    border-color: #E6A800 !important;
+}
+
+/* Navbar Text & Links */
+.navbar .navbar-brand, 
+.navbar .navbar-nav > li > a {
+    color: #FFFFFF !important; /* White text */
+}
+
+/* Navbar Hover Effect */
+.navbar .navbar-nav > li > a:hover {
+    color: #F8F8F8 !important; /* Slightly softer white */
+}
+
+/* Light Yellow Page Background */
+body {
+    background-color: #FFFDE7 !important; /* Soft Warm Yellow */
+    color: #333333 !important; /* Dark Gray for readability */
+}
+
+/* Headings (Keep them golden yellow for balance) */
+h1, h2, h3, h4, h5, h6 {
+    color: #FFC107 !important; /* Golden Yellow */
+}
+
+/* Links */
+a {
+    color: #FFEB3B !important; /* Bright Yellow */
+}
+
+a:hover {
+    color: #FFD700 !important; /* Gold Hover Effect */
+}
