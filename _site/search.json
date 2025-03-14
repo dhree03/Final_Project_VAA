@@ -1,31 +1,10 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "WORLD HAPPINESS",
-    "section": "",
-    "text": "Hello, Welcome to our Final Project for Visual Analytics\nHere you will find our proposal, our shiny dashboard and other important things."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
-  },
-  {
     "objectID": "proposal.html",
     "href": "proposal.html",
     "title": "World Happiness Report (WHR) Analysis",
     "section": "",
     "text": "Happiness is a key measure of societal well-being, influenced by both economic (e.g., GDP per capita) and non-economic factors (e.g., social support, freedom, and governance). However, understanding how these factors interact remains a challenge.\nThis project aims to analyze the strongest predictors of happiness using data from the World Happiness Report and develop an interactive visualization tool to explore these relationships. By making happiness data more accessible and insightful, this study supports evidence-based decision-making for policymakers and researchers seeking to enhance well-being worldwide."
-  },
-  {
-    "objectID": "proposal.html#data-collection-processing",
-    "href": "proposal.html#data-collection-processing",
-    "title": "World Happiness Report (WHR) Analysis",
-    "section": "Data Collection & Processing",
-    "text": "Data Collection & Processing\nThis study utilizes data from the **World Happiness Report 2024** (), specifically the Chapter 2 Appendix, which provides country-level happiness indicators over multiple years. The dataset includes economic, social, and governance-related factors that influence national well-being. The focus of this research is to analyze what constitutes a higher level of happiness across countries by identifying key contributing factors and their relationships."
   },
   {
     "objectID": "proposal.html#exploratory-data-analysis-eda",
@@ -42,10 +21,17 @@
     "text": "4.2 Confirmatory Data Analysis (CDA)\nRegression Analysis: Objective: Identify the strongest predictors of happiness by modeling the relationship between the dependent variable (Happiness Score/Life Ladder) and independent variables (e.g., GDP per capita, social support, freedom, corruption perception, etc.).\nMethod: Use Multiple Linear Regression (MLR) to quantify the impact of each factor on happiness scores. Perform Stepwise Regression to refine the model and select only the most significant predictors. Check for multicollinearity using Variance Inflation Factor (VIF) to ensure predictor variables are independent.\nOutcome: A predictive model that explains which factors contribute the most to national happiness.\nFeature Importance Analysis: Objective: Understand which variables influence happiness the most when applying non-linear models.\nMethod:\nTrain Random Forest Regression and compute feature importance scores. Use SHAP (SHapley Additive exPlanations) values to interpret how each feature contributes to happiness. Compare machine learning models (Random Forest, Gradient Boosting, etc.) to check if non-linear relationships exist.\nOutcome: A ranked list of happiness predictors, identifying both strong contributors and lesser influential factors.\nClustering Analysis: Objective: Group countries based on similarities in happiness determinants to uncover hidden patterns.\nMethod:\nUse K-Means Clustering to categorize countries into groups based on economic, social, and governance factors. Apply Hierarchical Clustering to visualize the relationships between similar countries. Perform PCA (Principal Component Analysis) to reduce dimensionality and highlight key differences.\nOutcome: Clusters of countries with similar happiness profiles, allowing for comparative regional analysis.\nLongitudinal Analysis: Objective: Examine how happiness scores evolve over time and assess the impact of global events (e.g., economic crises, political shifts, COVID-19 pandemic).\nMethod:\nUse Trend Analysis with LOESS Smoothing to visualize long-term patterns. Apply ARIMA (AutoRegressive Integrated Moving Average) or Exponential Smoothing to forecast future happiness trends. Conduct Interrupted Time Series Analysis (ITSA) to measure the impact of specific events on happiness scores.\nOutcome: Insights into how happiness levels have changed across different periods and predictions for future trends."
   },
   {
-    "objectID": "proposal.html#time-series-forecasting",
-    "href": "proposal.html#time-series-forecasting",
-    "title": "World Happiness Report (WHR) Analysis",
-    "section": "Time Series & Forecasting",
-    "text": "Time Series & Forecasting\n\nTrend Analysis: Examining how happiness has evolved over time.\nTime Series Decomposition: Identifying trend and seasonal effects.\nPredictive Modeling: Forecasting future happiness scores using ARIMA or Exponential Smoothing."
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "World Happiness",
+    "section": "",
+    "text": "Hello, Welcome to our Final Project for Visual Analytics\nHere you will find our proposal, our shiny dashboard and other important things."
   }
 ]

@@ -271,8 +271,8 @@ Purpose: Narrate the story of happiness using engaging visual elements.
 
 Step-by-step insights with buttons/sliders: Users navigate through different insights. Illustrative charts with annotations (e.g., callouts explaining major dips/rises). "Did You Know?" pop-ups for user engagement.
 
-
 # 6.Gantt Chart
+
 ```{r}
 #| echo = FALSE
 
