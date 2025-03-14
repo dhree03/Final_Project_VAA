@@ -189,10 +189,10 @@ The final step involves integrating **Shiny** to develop an interactive web-base
 
 The team agreed on the broad task and tenative project timeline set out in the Gantt Chart below:
 
--   Blue line: Project proposal due date
--   Red line: Project final due date
--   Blue blocks: Completed
--   Pink blocks: Yet to be completed
+-   [**Blue line**]{style="color:#0000FF;"}**:** Project proposal due date\
+-   [**Red line**]{style="color:#FF0000;"}**:** Project final due date\
+-   [**Blue blocks**]{style="color:#87CEEB;"}**:** Completed\
+-   [**Pink blocks**]{style="color:#FFC0CB;"}**:** Yet to be completed
 
 ```{r}
 #| echo = FALSE
