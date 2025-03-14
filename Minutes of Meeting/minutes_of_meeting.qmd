@@ -21,6 +21,6 @@ execute:
 
 **In Attendance:** Andrea YEO Si Han, Dhreeti SHAH, OU Yi Ming
 
-[Click here to view meeting minutes - 1.](Minutes of Meeting/meeting1.qmd)
+[Click here to view meeting minutes - 1.](meeting1.qmd)
 
 ------------------------------------------------------------------------
