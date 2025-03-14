@@ -1,4 +1,3 @@
-/* css styles */
 /* Override Default Navbar */
 .navbar {
     background-color: #FFC107 !important; /* Warm Golden Yellow */
@@ -16,9 +15,26 @@
     color: #F8F8F8 !important; /* Slightly softer white */
 }
 
-/* Light Yellow Page Background */
+/* Dropdown Menu */
+.navbar .dropdown-menu {
+    background-color: #FFECB3 !important; /* Light pastel yellow dropdown */
+    border: none !important; /* Remove border for a softer look */
+}
+
+/* Dropdown Text Color */
+.navbar .dropdown-menu > li > a {
+    color: #333333 !important; /* Black font for dropdown items */
+}
+
+/* Dropdown Hover Effect */
+.navbar .dropdown-menu > li > a:hover {
+    background-color: #FFD54F !important; /* Slightly deeper pastel yellow */
+    color: #000000 !important; /* Ensure black text remains visible */
+}
+
+/* Warm Pastel Yellow Background with Soft Gradient */
 body {
-    background-color: #FFFDE7 !important; /* Soft Warm Yellow */
+    background: linear-gradient(#FFF9C4) !important; /* Soft pastel yellows */
     color: #333333 !important; /* Dark Gray for readability */
 }
 
@@ -29,9 +45,14 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Links */
 a {
-    color: #FFEB3B !important; /* Bright Yellow */
+    color: #FFD700  !important; /* Bright Yellow */
 }
 
 a:hover {
     color: #FFD700 !important; /* Gold Hover Effect */
+}
+
+/* Font Styling */
+body {
+    font-family: 'Fredoka One', sans-serif;
 }

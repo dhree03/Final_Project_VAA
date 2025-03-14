@@ -61,7 +61,7 @@ Prior to the first meeting, the team had an informal discussion on 01 March 2025
 
 -   Limited time period (Total: 8 years), reducing the ability to analyze long-term trends.
 
--   Narrow scope for exploratory data analysis beyond anomaly detection. There may or may not be any anomaly in the dataset. 
+-   Narrow scope for exploratory data analysis beyond anomaly detection. There may or may not be any anomaly in the dataset.
 
 ### 3.1.2 Evaluation of the World Happiness Report (WHR) dataset
 
@@ -86,6 +86,7 @@ Prior to the first meeting, the team had an informal discussion on 01 March 2025
 -   Limited number of happiness-related factors (total of 8), which may restrict deeper analysis on additional influences beyond those included.
 
 ### 3.1.3 Evaluation of the Tourism dataset
+
 **Yi Ming** suggested analyzing tourism trends using a dataset from the Singapore Department of Statistics (DOS). This dataset contains data on visitor arrivals on a month-to-month basis across countries, hotel occupancy rates, and available room nights. It is suited for seasonal forecasting, trend analysis, and geographic visualization, making it a strong candidate for exploring tourism behavior and economic impact.
 
 **Good:**
@@ -102,6 +103,197 @@ Prior to the first meeting, the team had an informal discussion on 01 March 2025
 
 -   Extensive existing research on tourism spending, making the analysis less original.
 
+### 3.1.4 Final Project Selection and Key Areas of Exploration
 
+After considering the different proposed ideas, the team narrowed the options down to two: **Tourism Dataset** and **World Happiness Report (WHR) Dataset**. Ultimately, the team unanimously decided on the **World Happiness Report (WHR) Analysis** due to its novelty and the opportunity to explore and apply the various data visualization techniques learned in class effectively. Using this dataset, the group aims to develop an interactive visual analytics application using Shiny that will allow users to explore happiness trends in a comprehensive and dynamic manner.
 
+### Key Areas of Exploration:
 
+-   **Impact of Various Factors on Happiness**: Analyze how economic, social, and governance-related factors contribute to happiness across different countries and regions.
+
+-   **Temporal Trends in Happiness**: Examine how happiness levels have changed over time from 2008 to 2024 and identify key global events that may have influenced these changes.
+
+-   **Significant Predictors of Happiness**: Determine which variables have the strongest impact on a country's happiness score and explore regional differences in their influence.
+
+# 4. Agenda Item 2: Discussion on Project Methodology
+
+## 4.1 Proposed Methodology - Broad overall project approach
+
+The team discussed the methodology for conducting the **World Happiness Report Analysis**, focusing on a structured approach that integrates **data preparation, exploratory data analysis, confirmatory analysis, and visualization techniques**.
+
+### 4.1.1 Data preparation
+
+-   Import and clean the dataset by handling missing values, normalizing data, and ensuring consistency in variable formats.
+
+-   Remove redundant or highly correlated variables to avoid overfitting in statistical analysis.
+
+-   Encode categorical variables (if needed) for analytical consistency.
+
+-   Transform time-series data to facilitate trend analysis.
+
+### 4.1.2 Exploratory Data Analysis (EDA) via Data Visualization Methods
+
+The goal of EDA is to understand variable distributions, relationships, and trends across different regions and time periods. The team identified key visualization techniques, including:
+
+-   **Time-series analysis:**
+
+    -   **Line charts & bar plots** to show how happiness scores evolve over time per country/region.
+
+    -   **Stacked area charts** to compare happiness trends across multiple countries.
+
+-   **Geospatial visualization:**
+
+    -   **Choropleth maps** to display global happiness levels by country.
+
+    -   **Heatmaps** for regional variations in specific happiness factors (e.g., social support, GDP, governance).
+
+-   **Correlation and distribution analysis:**
+
+    -   **Bubble plots & scatter plots** to analyze relationships between happiness scores and key factors (e.g., GDP per capita, freedom).
+
+    -   **Violin & box plots** to compare happiness score distributions across economic classifications.
+
+### 4.1.3 Confirmatory Data Analysis (CDA) via Statistical Methods\*\*
+
+To validate hypotheses and measure the impact of various factors on happiness, statistical methods will be applied:
+
+-   **Correlation analysis:**
+
+    -   **Pearson/Spearman correlation tests** to determine the strength of relationships between happiness and key factors.
+
+    -   **Network correlation plots** to visualize interdependencies among happiness variables.
+
+-   **Regression modeling:**
+
+    -   **Multiple Linear Regression (MLR)** to quantify how economic, social, and governance factors predict happiness.
+
+    -   **Feature importance analysis** using **Random Forest or SHAP values** to identify the most influential predictors.
+
+-   **Comparative analysis:**
+
+    -   **ANOVA (One-Way and Two-Way) tests** to assess happiness differences across income groups, regions, or governance levels.
+
+    -   **T-tests & Wilcoxon tests** for pairwise country comparisons of happiness scores over time.
+
+### 4.1.4 Visualization & Dashboard Development
+
+The final step involves integrating **Shiny** to develop an interactive web-based visualization tool that:
+
+-   **Allows users to explore happiness trends** by selecting regions, time periods, and key influencing factors.
+
+-   **Provides real-time filtering and comparison tools** for analyzing multiple countries side-by-side.
+
+-   **Integrates predictive modeling outputs** to showcase which factors most significantly affect happiness scores.
+
+# 5. Agenda Item 3: Consensus on the Project Timeline
+
+The team agreed on the broad task and tenative project timeline set out in the Gantt Chart below:
+
+-   Blue line: Project proposal due date
+-   Red line: Project final due date
+-   Blue blocks: Completed
+-   Pink blocks: Yet to be completed
+
+```{r}
+#| echo = FALSE
+
+# Load required libraries
+library(ggplot2)
+library(dplyr)
+
+# Define the proposal due date and final date
+proposal_date <- as.Date("2025-03-12")
+final_date <- as.Date("2025-04-06")
+
+# Create a dataframe with tasks and their start & end dates
+tasks <- data.frame(
+  Task = c("Explore Ideas", "Finalise Topic", "Obtain Feedback from Prof", 
+           "Setup GitHub & Netlify", "Proposal Writeup - Motivation, Problems, Solution",
+           "Proposal Writeup - Methodology & Analysis", "Proposal Writeup - R Shiny & PM",
+           "Draft Individual Submodules", "Submit Proposal", "Preliminary Data Cleaning",
+           "Get Proposal Feedback & Update", "Data Preparation + 1st Prototype",
+           "Refine Prototype", "Finalise Shiny App", "Project Poster Update",
+           "Prepare User Guide", "Poster Presentation", "Poster Preparation"),  
+  Start = as.Date(c("2025-01-15", "2025-01-20", "2025-01-25", "2025-01-30",
+                    "2025-02-05", "2025-02-10", "2025-02-15", "2025-02-20",
+                    "2025-03-12", "2025-03-14", "2025-03-18", "2025-03-22",
+                    "2025-03-28", "2025-03-30", "2025-04-02", "2025-04-04",
+                    "2025-04-05", "2025-04-06")),  
+  End = as.Date(c("2025-01-20", "2025-01-25", "2025-01-30", "2025-02-05",
+                  "2025-02-15", "2025-02-20", "2025-02-25", "2025-03-01",
+                  "2025-03-12", "2025-03-16", "2025-03-20", "2025-03-26",
+                  "2025-04-02", "2025-04-06", "2025-04-06", "2025-04-06",
+                  "2025-04-06", "2025-04-06"))  
+)
+
+# Assign status based on the proposal due date
+tasks <- tasks %>%
+  mutate(Status = ifelse(Start < proposal_date, "Completed", "Not Yet Done"))
+
+# Define milestone lines
+milestone_lines <- data.frame(
+  Date = c(proposal_date, final_date),
+  Label = c("Proposal Due", "Final Due")
+)
+
+# Define colors
+status_colors <- c("Completed" = "skyblue", "Not Yet Done" = "pink")
+milestone_colors <- c("Proposal Due" = "blue", "Final Due" = "red")
+
+# Define highest y-position for labels
+max_y_pos <- max(as.numeric(factor(tasks$Task))) + 1.5
+
+# Ensure date limits are properly set
+min_date <- min(tasks$Start, na.rm = TRUE) - 10
+max_date <- max(tasks$End, na.rm = TRUE) + 10
+
+# Plot Gantt chart
+ggplot() +
+  # Task bars
+  geom_segment(data = tasks, aes(y = reorder(Task, desc(Start)), 
+                                 x = Start, xend = End, color = Status, yend = Task), 
+               linewidth = 5, show.legend = FALSE) +  # Remove legend
+  
+  # Milestone lines
+  geom_vline(data = milestone_lines, aes(xintercept = as.numeric(Date), color = Label, linetype = Label), 
+             linewidth = 1.5, show.legend = FALSE) +  # Remove legend
+  
+  # Milestone labels
+  annotate("text", x = proposal_date, y = max_y_pos, label = "Proposal Due", 
+           color = "blue", angle = 0, size = 5, fontface = "bold", vjust = -1.5) +
+  annotate("text", x = final_date, y = max_y_pos, label = "Final Due", 
+           color = "red", angle = 0, size = 5, fontface = "bold", vjust = -1.5) +
+  
+  # Define colors for task status
+  scale_color_manual(values = c(status_colors, milestone_colors)) +
+  
+  # Define linetypes for milestone lines
+  scale_linetype_manual(values = c("Proposal Due" = "dashed", "Final Due" = "solid")) +
+  
+  # Expand x-axis limits and fix date breaks issue
+  scale_x_date(limits = c(min_date, max_date), date_labels = "%b") +
+  
+  # Labels and themes
+  labs(title = "Project Timeline Gantt Chart", x = "Date", y = "Task") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend entirely
+
+```
+
+# 6. Agenda Item 4: Any Other Matters/ Follow-up Action
+
+With no further matters to discuss, the meeting ended at 10:00 PM.
+
+**Follow-up Actions:**
+
+-   **Set up a group GitHub repository** to centralize code and ensure all team members have access.
+
+-   **Establish a Git branching strategy** (e.g., feature branches) to prevent merge conflicts when working on the same codebase.
+
+-   **Deploy an early version of the project on Netlify** to track progress and share updates.
+
+-   **Schedule bi-weekly check-in meetings** to monitor progress, discuss challenges, and align on next steps.
+
+-   **Storyboard brainstorming for the Shiny application:** Outline potential tabs for the web application.
+
+**Meeting Adjourned.**
