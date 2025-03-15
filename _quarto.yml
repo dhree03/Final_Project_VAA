@@ -7,13 +7,20 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - href: about.qmd
+        text: About
       - text: Teams
         menu:
           - href: proposal.qmd
             text: Project proposal
-          - href: Minutes of Meeting/minutes_of_meeting.qmd
-            text: Meeting records
+          - text: Meeting records
+            menu:
+              - href: Minutes of Meeting/meeting1.qmd
+                text: Meeting 1
+              - href: Minutes of Meeting/meeting2.qmd
+                text: Meeting 2
+              - href: Minutes of Meeting/meeting3.qmd
+                text: Meeting 3
           - href: acknowledgement.qmd
             text: Acknowledgement
       
