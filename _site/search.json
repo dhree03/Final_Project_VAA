@@ -21,27 +21,6 @@
     "text": "4.2 Confirmatory Data Analysis (CDA)\nRegression Analysis: Objective: Identify the strongest predictors of happiness by modeling the relationship between the dependent variable (Happiness Score/Life Ladder) and independent variables (e.g., GDP per capita, social support, freedom, corruption perception, etc.).\nMethod: Use Multiple Linear Regression (MLR) to quantify the impact of each factor on happiness scores. Perform Stepwise Regression to refine the model and select only the most significant predictors. Check for multicollinearity using Variance Inflation Factor (VIF) to ensure predictor variables are independent.\nOutcome: A predictive model that explains which factors contribute the most to national happiness.\nFeature Importance Analysis: Objective: Understand which variables influence happiness the most when applying non-linear models.\nMethod:\nTrain Random Forest Regression and compute feature importance scores. Use SHAP (SHapley Additive exPlanations) values to interpret how each feature contributes to happiness. Compare machine learning models (Random Forest, Gradient Boosting, etc.) to check if non-linear relationships exist.\nOutcome: A ranked list of happiness predictors, identifying both strong contributors and lesser influential factors.\nClustering Analysis: Objective: Group countries based on similarities in happiness determinants to uncover hidden patterns.\nMethod:\nUse K-Means Clustering to categorize countries into groups based on economic, social, and governance factors. Apply Hierarchical Clustering to visualize the relationships between similar countries. Perform PCA (Principal Component Analysis) to reduce dimensionality and highlight key differences.\nOutcome: Clusters of countries with similar happiness profiles, allowing for comparative regional analysis.\nLongitudinal Analysis: Objective: Examine how happiness scores evolve over time and assess the impact of global events (e.g., economic crises, political shifts, COVID-19 pandemic).\nMethod:\nUse Trend Analysis with LOESS Smoothing to visualize long-term patterns. Apply ARIMA (AutoRegressive Integrated Moving Average) or Exponential Smoothing to forecast future happiness trends. Conduct Interrupted Time Series Analysis (ITSA) to measure the impact of specific events on happiness scores.\nOutcome: Insights into how happiness levels have changed across different periods and predictions for future trends."
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "World Happiness Visualization",
-    "section": "",
-    "text": "Hello, Welcome to our Final Project for Visual Analytics\nHere you will find our proposal, our shiny dashboard and other important things."
-  },
-  {
-    "objectID": "Minutes of Meeting/minutes_of_meeting.html",
-    "href": "Minutes of Meeting/minutes_of_meeting.html",
-    "title": "ISSS608 Group 14 Project Meeting Minutes Records",
-    "section": "",
-    "text": "Project Meeting 1: Project Proposal, Project Methodology, Project Timeline\nDate: 05/03/2024\nTime: 8pm – 10.00pm\nIn Attendance: Andrea YEO Si Han, Dhreeti SHAH, OU Yi Ming\nClick here to view meeting minutes - 1."
-  },
-  {
     "objectID": "Minutes of Meeting/meeting1.html",
     "href": "Minutes of Meeting/meeting1.html",
     "title": "ISSS608 Group 14 Meeting Minutes 1",
@@ -61,5 +40,33 @@
     "title": "ISSS608 Group 14 Meeting Minutes 1",
     "section": "4.1 Proposed Methodology - Broad overall project approach",
     "text": "4.1 Proposed Methodology - Broad overall project approach\nThe team discussed the methodology for conducting the World Happiness Report Analysis, focusing on a structured approach that integrates data preparation, exploratory data analysis, confirmatory analysis, and visualization techniques.\n\n4.1.1 Data preparation\n\nImport and clean the dataset by handling missing values, normalizing data, and ensuring consistency in variable formats.\nRemove redundant or highly correlated variables to avoid overfitting in statistical analysis.\nEncode categorical variables (if needed) for analytical consistency.\nTransform time-series data to facilitate trend analysis.\n\n\n\n4.1.2 Exploratory Data Analysis (EDA) via Data Visualization Methods\nThe goal of EDA is to understand variable distributions, relationships, and trends across different regions and time periods. The team identified key visualization techniques, including:\n\nTime-series analysis:\n\nLine charts & bar plots to show how happiness scores evolve over time per country/region.\nStacked area charts to compare happiness trends across multiple countries.\n\nGeospatial visualization:\n\nChoropleth maps to display global happiness levels by country.\nHeatmaps for regional variations in specific happiness factors (e.g., social support, GDP, governance).\n\nCorrelation and distribution analysis:\n\nBubble plots & scatter plots to analyze relationships between happiness scores and key factors (e.g., GDP per capita, freedom).\nViolin & box plots to compare happiness score distributions across economic classifications.\n\n\n\n\n4.1.3 Confirmatory Data Analysis (CDA) via Statistical Methods**\nTo validate hypotheses and measure the impact of various factors on happiness, statistical methods will be applied:\n\nCorrelation analysis:\n\nPearson/Spearman correlation tests to determine the strength of relationships between happiness and key factors.\nNetwork correlation plots to visualize interdependencies among happiness variables.\n\nRegression modeling:\n\nMultiple Linear Regression (MLR) to quantify how economic, social, and governance factors predict happiness.\nFeature importance analysis using Random Forest or SHAP values to identify the most influential predictors.\n\nComparative analysis:\n\nANOVA (One-Way and Two-Way) tests to assess happiness differences across income groups, regions, or governance levels.\nT-tests & Wilcoxon tests for pairwise country comparisons of happiness scores over time.\n\n\n\n\n4.1.4 Visualization & Dashboard Development\nThe final step involves integrating Shiny to develop an interactive web-based visualization tool that:\n\nAllows users to explore happiness trends by selecting regions, time periods, and key influencing factors.\nProvides real-time filtering and comparison tools for analyzing multiple countries side-by-side.\nIntegrates predictive modeling outputs to showcase which factors most significantly affect happiness scores."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "World Happiness Visualization",
+    "section": "",
+    "text": "Hello, Welcome to our Final Project for Visual Analytics\nHere you will find our proposal, our shiny dashboard and other important things."
+  },
+  {
+    "objectID": "acknowledgement.html",
+    "href": "acknowledgement.html",
+    "title": "Acknowledgement",
+    "section": "",
+    "text": "About this project\nWe would like to express our deepest gratitude to Prof. Kam for his invaluable teachings and insightful advice throughout this project. His guidance has greatly enriched our understanding and helped refined our approach, and his support has been instrumental in shaping the outcomes of this work. Huge thank for his encouragement and dedication to fostering learning and growth."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "Minutes of Meeting/minutes_of_meeting.html",
+    "href": "Minutes of Meeting/minutes_of_meeting.html",
+    "title": "ISSS608 Group 14 Project Meeting Minutes Records",
+    "section": "",
+    "text": "Project Meeting 1: Project Proposal, Project Methodology, Project Timeline\nDate: 05/03/2024\nTime: 8.00pm – 10.00pm\nIn Attendance: Andrea YEO Si Han, Dhreeti SHAH, OU Yi Ming\nClick here to view meeting minutes - 1."
   }
 ]
