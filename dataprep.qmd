@@ -140,9 +140,6 @@ Before we map the countries to the regions, the countries name is also observed 
 # Removal of special characters
 cleaned_data <- cleaned_data %>%
   mutate(country = str_replace_all(country, "\\*", "") %>% str_trim())
-```
-
-```{r}
 
 # Country name matching
 country_name_fixes <- c(
@@ -225,8 +222,8 @@ cleaned_data <- cleaned_data %>%
 cleaned_data <- cleaned_data %>%
   mutate(country = if_else(
     country %in% c("Cyprus", "Northern Cyprus", "North Cyprus"),
-    country,            # keep the original
-    country_recode      # use the recoded version
+    country,
+    country_recode
   )) %>%
   select(-country_recode)
 ```
@@ -240,7 +237,6 @@ summary(cleaned_data)
 There are missing numerical evaluation scores in the dataset as shown below.
 
 ```{r}
-# Count total missing values in each column
 missing_summary <- cleaned_data %>%
   summarise(across(everything(), ~ sum(is.na(.)))) %>%
   pivot_longer(everything(), names_to = "column", values_to = "missing_count") %>%
@@ -276,7 +272,6 @@ cleaned_data <- cleaned_data %>%
 There is a need to check if there are any countries with more than 10 rows of data given that the number of yearly data obtained is 10.
 
 ```{r}
-# Check for duplicate rows
 cleaned_data %>%
   count(country) %>%
   filter(n > 10)
@@ -299,7 +294,10 @@ cleaned_data <- cleaned_data %>%
     rank = as.integer(rank),
     country = as.character(country),
     region = as.factor(region)
-  )
+    ) %>%
+  mutate(
+    across(c(ladder_score, economy_score, social_score, lifeexpectancy_score, freedom_score, generosity_score, corrperception_score, residual_score),
+                ~ round(., 5)))
 ```
 
 The cleaned dataset is as shown below.
