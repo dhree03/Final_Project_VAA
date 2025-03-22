@@ -39,10 +39,9 @@ html, body{
   padding: 0;
 }
 
-/* Warm Pastel Yellow Background with Soft Gradient */
+/* White Background */
 body {
-    background: linear-gradient(#FFF9C4, #FFE082, #FFD54F) fixed !important; /* Soft pastel yellows */
-    background-size: cover;
+    background: #FFFFFF !important; /* Plain white background */
     color: #333333 !important; /* Dark Gray for readability */
 }
 
