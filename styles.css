@@ -33,9 +33,16 @@
     color: #000000 !important; /* Ensure black text remains visible */
 }
 
+html, body{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 /* Warm Pastel Yellow Background with Soft Gradient */
 body {
-    background: linear-gradient(#FFF9C4, #FFE082, #FFD54F) !important; /* Soft pastel yellows */
+    background: linear-gradient(#FFF9C4, #FFE082, #FFD54F) fixed !important; /* Soft pastel yellows */
+    background-size: cover;
     color: #333333 !important; /* Dark Gray for readability */
 }
 

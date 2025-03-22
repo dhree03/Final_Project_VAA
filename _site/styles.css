@@ -1,10 +1,4 @@
-/* White Background */
-body {
-    background-color: #FFFFFF !important; /* Pure white */
-    background-image: none !important; /* Remove any background images or gradients */
-    color: #333333 !important; /* Dark Gray for readability */
-}
-
+/* css styles */
 /* Override Default Navbar */
 .navbar {
     background-color: #FFC107 !important; /* Warm Golden Yellow */
@@ -39,14 +33,27 @@ body {
     color: #000000 !important; /* Ensure black text remains visible */
 }
 
-/* Headings */
+html, body{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Warm Pastel Yellow Background with Soft Gradient */
+body {
+    background: linear-gradient(#FFF9C4, #FFE082, #FFD54F) fixed !important; /* Soft pastel yellows */
+    background-size: cover;
+    color: #333333 !important; /* Dark Gray for readability */
+}
+
+/* Headings (Keep them golden yellow for balance) */
 h1, h2, h3, h4, h5, h6 {
     color: #FFC107 !important; /* Golden Yellow */
 }
 
 /* Links */
 a {
-    color: #FFD700 !important; /* Bright Yellow */
+    color: #FFEB3B !important; /* Bright Yellow */
 }
 
 a:hover {

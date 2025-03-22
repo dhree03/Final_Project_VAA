@@ -13,6 +13,8 @@ website:
         menu:
           - href: proposal.qmd
             text: Project proposal
+          - href: dataprep.qm
+            text: Data preparation
           - href: project.qmd
             text: Shiny App
       - text: Meeting records

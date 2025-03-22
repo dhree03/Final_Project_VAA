@@ -5,3 +5,5 @@ title: "World Happiness Visualization"
 Hello, Welcome to our Final Project for Visual Analytics
 
 Here you will find our proposal, our shiny dashboard and other important things.
+
+![](images/Smiles-1.png){width="703"}
