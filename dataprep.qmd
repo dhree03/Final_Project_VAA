@@ -308,3 +308,7 @@ DT::datatable(cleaned_data,
           class = 'cell-border stripe hover',
           rownames = FALSE)
 ```
+```{r}
+write_csv(cleaned_data, "data_files/world_happiness.csv")
+```
+
