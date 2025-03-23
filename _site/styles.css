@@ -39,7 +39,9 @@ html, body{
   padding: 0;
 }
 
+/* White Background */
 body {
+    background: #FFFFFF !important; /* Plain white background */
     color: #333333 !important; /* Dark Gray for readability */
 }
 
