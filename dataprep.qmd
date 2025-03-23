@@ -333,6 +333,9 @@ DT::datatable(cleaned_data,
 ```
 
 ```{r}
+```{r, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE}
 write_csv(cleaned_data, "data_files/world_happiness.csv")
 ```
+
+
 

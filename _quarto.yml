@@ -14,6 +14,7 @@ website:
           - href: proposal.qmd
             text: Project proposal
           - href: dataprep.qm
+          - href: dataprep.qmd
             text: Data preparation
           - href: project.qmd
             text: Shiny App
