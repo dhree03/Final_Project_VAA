@@ -145,13 +145,16 @@ cleaned_data <- cleaned_data %>%
 country_name_fixes <- c(
   "Czech Republic" = "Czechia",
   "Congo (Brazzaville)" = "Congo",
+  "DR Congo" = "Congo, Democratic Republic of the",
   "Congo (Kinshasa)" = "Congo, Democratic Republic of the",
   "Congo" = "Congo, Democratic Republic of the",
   "State of Palestine" = "Palestine, State of",
   "Palestinian Territories" = "Palestine, State of",
+  "Hong Kong SAR of China" = "Hong Kong",
   "Hong Kong S.A.R. of China" = "Hong Kong",
   "Hong Kong S.A.R., China" = "Hong Kong",
   "South Korea" = "Korea, Democratic People's Republic of",
+  "Republic of Korea" = "Korea, Democratic People's Republic of",
   "Macedonia" = "North Macedonia",
   "Russia" = "Russian Federation",
   "Eswatini, Kingdom of" = "Eswatini",
@@ -164,17 +167,21 @@ country_name_fixes <- c(
   "Trinidad & Tobago" = "Trinidad and Tobago",
   "Vietnam" = "Viet Nam",
   "Moldova" = "Moldova, Republic of",
+  "Republic of Moldova" = "Moldova, Republic of",
   "Bolivia" = "Bolivia, Plurinational State of",
   "Northern Cyprus" = "Cyprus",
   "North Cyprus" = "Cyprus",
   "Turkey" = "Türkiye",
   "Turkiye" = "Türkiye",
   "Ivory Coast" = "Côte d'Ivoire",
+  "Côte d’Ivoire" = "Côte d'Ivoire",
   "Laos" = "Lao People's Democratic Republic",
+  "Lao PDR" = "Lao People's Democratic Republic",
   "Iran" = "Iran, Islamic Republic of",
   "Swaziland" = "Eswatini",
   "Tanzania" = "Tanzania, United Republic of",
-  "Syria" = "Syrian Arab Republic"
+  "Syria" = "Syrian Arab Republic",
+  "Somaliland region" = "Somaliland Region"
 )
 
 # Apply mapping
@@ -194,6 +201,20 @@ country_region_mapping <- read_csv(url)
 cleaned_data <- cleaned_data %>%
   left_join(country_region_mapping %>% select(name, region), by = c("country_recode" = "name")) %>%
   mutate(region = if_else(is.na(region), "Unknown", region))
+
+# Additional country_region_mapping
+country_region <- c(
+  "Kosovo" = "Europe",
+  "Somaliland Region" = "Africa",
+  "Taiwan, Province of China" = "Asia"
+)
+
+cleaned_data <- cleaned_data %>%
+  mutate(
+    region = if_else(
+      !is.na(country_region[country_recode]),
+      country_region[country_recode],
+      region))
 ```
 
 The country column is then recoded with the country_recoded column with Cyprus mapped back to either Northern Cyrpus and North Cyprus in the years 2014-2021 accordingly with the country being combined to Cyprus in 2022-2023 as per the original dataset.
@@ -234,15 +255,17 @@ After all the preliminary cleaning of dataset is performed, a summary of the cle
 summary(cleaned_data)
 ```
 
-There are missing numerical evaluation scores in the dataset as shown below.
+Since Oman only has 2 rows of data in the dataset for 2014 and 2024, it will be more intuitional to remove the data.
 
 ```{r}
-missing_summary <- cleaned_data %>%
-  summarise(across(everything(), ~ sum(is.na(.)))) %>%
-  pivot_longer(everything(), names_to = "column", values_to = "missing_count") %>%
-  arrange(desc(missing_count))
-
-print(missing_summary)
+cleaned_data %>%
+  filter(if_any(everything(), is.na)) %>%
+  group_by(country) %>%
+  summarise(missing_cols = sum(is.na(across(everything()))))
+```
+```{r}
+cleaned_data <- cleaned_data %>%
+  filter(country != "Oman")
 ```
 
 For each country with missing values in a given year, the missing scores are filled using the mean from the past 3 years for the same country and same column while the residual score is populated as the residual of the ladder score after deducting all the explanatory scores.
