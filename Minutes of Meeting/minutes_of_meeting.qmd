@@ -17,10 +17,12 @@ execute:
 
 **Date:** 05/03/2024
 
-**Time:** 8.00pm – 10.00pm
+**Time:** 8.00pm -- 10.00pm
 
 **In Attendance:** Andrea YEO Si Han, Dhreeti SHAH, OU Yi Ming
 
 [Click here to view meeting minutes - 1.](meeting1.qmd)
+[Click here to view meeting minutes - 2.](meeting2.qmd)
+
 
 ------------------------------------------------------------------------

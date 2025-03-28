@@ -1,0 +1,110 @@
+---
+title: "ISSS608 Group 14 Meeting Minutes 2"
+author: "Group 14"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    theme: readable
+    code_folding: show
+execute: 
+  warning: false
+---
+
+# 1. ISSS608 Group 14 Meeting Minutes
+
+**Project Meeting 2:** Data cleaning, Dashboard Design, Indiviual tasks
+
+**Date:** 20/03/2025
+
+**Time:** 6.30pm -- 8.30pm
+
+**In Attendance:** Andrea YEO Si Han, Dhreeti SHAH, OU Yi Ming
+
+**Minutes Taker:** Dhreeti SHAH
+
+# 2. Agenda Items
+
+1.  **Agenda Item 1:**Assigning Responsibilities -- Deciding who will work on which analysis.
+
+2.  **Agenda Item 2:**Dashboard Design and Components -- Planning the layout and interactive elements of the dashboards.
+
+3.  **Agenda Item 3:**Data Cleaning and Merging Strategy -- Establishing how to preprocess and structure the dataset for analysis.
+
+4.  **Agenda Item 4:**Prototyping and Next Steps -- Reviewing initial work, setting deadlines, and refining approaches.
+
+# 3. Agenda Item 1
+
+## 3.1 Assigning Responsiblites and Justification
+
+**Yi Ming** (Data Prep & EDA): Volunteered for data preparation and exploratory data analysis, citing a strong background in data wrangling and visualization. Felt comfortable working with raw datasets and uncovering insights through distributions and correlations.
+
+**Dhreeti Shah** (CDA & Time Series): Chose confirmatory data analysis and time series due to prior experience with statistical modeling. Preferred working with hypothesis testing and tracking trends over time to assess patterns in happiness scores.Also was comfortable with what was taught in class and was able to grasps the concepts.
+
+**Andrea YEO Si Han** (Geospatial): Opted for geospatial analysis and clustering because of familiarity with spatial mapping tools. Had previous experience in working with geographic datasets and felt confident in segmenting countries into meaningful groups.
+
+# 4. Agenda Item 2
+
+## 4.1 Dashboard design and components
+
+**Yi Ming** Suggested an interactive EDA dashboard to display happiness score distributions and explore relationships between key factors such as GDP, social support, and freedom. The goal is to provide an intuitive way to observe how different variables interact, using visualizations like histograms, scatterplots, and correlation heatmaps. This step is critical because it lays the foundation for deeper analyses by identifying patterns, potential outliers, and trends before applying advanced models.
+
+**Dhreeti Shah** suggested a confirmatory data analysis and time series dashboard to validate trends and test statistical significance. This dashboard will allow users to compare happiness score changes over the years and determine which factors have the strongest influence. The reasoning behind this is to ensure that observed patterns are not coincidental but statistically meaningful. Line charts and regression models will be included to visualize long-term trends and relationships. This is crucial for understanding how global happiness has evolved and what factors consistently impact it.
+
+**Andrea YEO Si Han** Proposed an interactive geospatial dashboard featuring a world map where users can visualize happiness scores across different regions. Additionally, the clustering dashboard will group similar countries based on happiness-related factors. The rationale behind this is that happiness is highly dependent on geographic and cultural factors, making spatial analysis essential. Mapping allows for an easy, intuitive comparison between countries, while clustering reveals hidden groupings that may not be obvious through numerical analysis alone. Together, these visualizations help in drawing regional insights and making data-driven policy recommendations.
+
+# 5. Agenda Item 3
+
+## 5.1 Data Cleaning and Merging Strategy
+
+**Yi Ming** identified missing values, duplicate records, and inconsistent column names, proposing standardization and imputation methods.
+
+**Dhreeti Shah** recommended merging yearly datasets into a single structured dataset to facilitate time series analysis while ensuring consistency.
+
+**Andrea YEO Si Han** suggested normalizing and scaling data for clustering and verifying geographic coordinates for accurate geospatial representation.
+
+# 6. Agenda Item 4
+
+## 6.1 Reviewing and next steps
+
+**Setting the Deadline:**
+
+We collectively decided on March 28th as the deadline for completing individual components. This ensures we have enough time before the final submission deadline on April 2nd to integrate our different analyses into a cohesive Shiny app, conduct testing, and make final adjustments. The reasoning behind this was:
+
+Avoiding last-minute debugging issues.
+
+Ensuring time for reviewing each component and resolving inconsistencies between dashboards.
+
+Allowing buffer time for unexpected issues, particularly in data merging and UI integration.
+
+Discussion on Prototyping Tools: To efficiently prototype and visualize our dashboards before full implementation, we discussed several options, including:
+
+Figma: Considered for UI/UX planning but was ruled out since our focus was more on functionality rather than design-heavy components.
+
+Shiny Sketchboard: A simple sketching tool for planning app layout, which was useful for rough component placements.
+
+R Markdown & Quarto: Chosen for early-stage visualization testing because it allowed us to quickly generate and refine static graphs before incorporating them into Shiny.
+
+Google Colab & Jupyter Notebooks: Used for preliminary analysis but not for final visualization since we needed an interactive dashboard.
+
+**Final Decision:**
+
+We agreed to use Quarto for initial visualization prototypes since it aligns with R's ecosystem and is easy to translate into Shiny components.
+
+The Shiny framework will be used for the final app development, ensuring smooth interactive capabilities.
+
+GitHub will be used for version control, allowing seamless integration of each person's work while keeping track of changes.
+
+**Next Steps:**
+
+March 10-20: Each person finalizes their individual analysis and data transformations.
+
+March 21-28: Dashboards are developed separately but using a consistent design structure.
+
+March 28-30: Team integrates dashboards, ensuring compatibility and a smooth user experience.
+
+March 30-April 2: Final testing, bug fixes, and refinements before submission.
+
+**Meeting Adjourned.**
