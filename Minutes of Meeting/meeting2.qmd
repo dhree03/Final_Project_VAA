@@ -15,7 +15,7 @@ execute:
 
 # 1. ISSS608 Group 14 Meeting Minutes
 
-**Project Meeting 2:** Data cleaning, Dashboard Design, Indiviual tasks
+**Project Meeting 2:** Data cleaning, Dashboard Design, Individual tasks
 
 **Date:** 20/03/2025
 
