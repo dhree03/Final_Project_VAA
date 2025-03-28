@@ -19,6 +19,8 @@ website:
             text: Shiny App
       - text: Meeting records
         menu:
+          - href: Minutes of Meeting/minutes_of_meeting.qmd
+            text: Meeting Overview
           - href: Minutes of Meeting/meeting1.qmd
             text: Meeting 1
           - href: Minutes of Meeting/meeting2.qmd
