@@ -205,7 +205,7 @@ server <- function(input, output) {
     library(plotly)
     
     # Select only numeric columns
-    num_data <- world_happiness_data[, c("ladder_score", "economy_score",
+    num_data <- happiness_df[, c("ladder_score", "economy_score",
                                          "social_score", "lifeexpectancy_score",
                                          "freedom_score", "generosity_score",
                                          "corrperception_score", "residual_score")]
@@ -250,7 +250,7 @@ server <- function(input, output) {
     library(plotly)
     
     # Select relevant columns (excluding categorical ones)
-    feature_data <- world_happiness_data[, c("ladder_score", "economy_score",
+    feature_data <- happiness_df[, c("ladder_score", "economy_score",
                                              "social_score", "lifeexpectancy_score",
                                              "freedom_score", "generosity_score",
                                              "corrperception_score", "residual_score")]
@@ -279,7 +279,7 @@ server <- function(input, output) {
     library(zoo)
     
     # Choose a country, e.g., United States
-    country_data <- subset(world_happiness_data, country == "Mexico")  # Example country
+    country_data <- subset(happiness_df, country == "Mexico")  # Example country
     
     # Check if there's data for the country
     if (nrow(country_data) == 0) {
