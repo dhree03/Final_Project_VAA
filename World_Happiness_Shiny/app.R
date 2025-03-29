@@ -13,11 +13,26 @@ library(leaflet)
 library(rnaturalearth)
 library(readr)
 library(gridExtra)
+library(plm)
+library(tibble)
 
 # Load happiness data
 happiness_df <- read.csv("data/world_happiness.csv") %>%
   mutate(year = as.numeric(year)) %>%
   filter(year %in% 2014:2024)
+
+happiness_df <- happiness_df %>% na.omit()
+
+fe_model <- plm(ladder_score ~ economy_score + social_score + lifeexpectancy_score +
+                  freedom_score + generosity_score + corrperception_score, 
+                data = happiness_df, model = "within")
+
+coef_df <- as.data.frame(coef(summary(fe_model))) %>%
+  rownames_to_column(var = "Feature") %>%
+  rename(Coefficient = Estimate)
+
+print(coef_df)
+
 
 # Prepare geospatial data
 world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
@@ -29,6 +44,7 @@ ui <- dashboardPage(
   dashboardSidebar(
     sidebarMenu(
       menuItem("Time Series", tabName = "time_series", icon = icon("chart-line")),
+      menuItem("Panel Model", tabName = "panel_model", icon = icon("chart-line")),
       menuItem("EDA", tabName = "eda", icon = icon("search")),
       menuItem("CDA", tabName = "cda", icon = icon("cogs")),
       menuItem("Geospatial", tabName = "geospatial", icon = icon("globe")),
@@ -59,6 +75,23 @@ ui <- dashboardPage(
                 )
               )
       ),
+      
+      tabItem(tabName = "panel_model",
+              fluidPage(
+                titlePanel("Panel Data Model Insights"),
+                sidebarLayout(
+                  sidebarPanel(
+                    selectInput("feature_selection", "Select Factor:", 
+                                choices = c("economy_score", "social_score", "lifeexpectancy_score",
+                                            "freedom_score", "generosity_score", "corrperception_score"))
+                  ),
+                  mainPanel(
+                    plotlyOutput("feature_importance_plot"),
+                    plotlyOutput("pred_vs_actual_plot")
+                  )
+                )
+              )),
+      
       
       tabItem(tabName = "eda",
               fluidPage(
@@ -227,6 +260,25 @@ server <- function(input, output, session) {
       addLegend("bottomright", pal = colorNumeric("YlGnBu", coords$ladder_score), values = ~ladder_score,
                 title = "Happiness Score")
   })
+ 
+  output$feature_importance_plot <- renderPlotly({
+    p <- ggplot(coef_df, aes(x = Coefficient, y = reorder(Feature, Coefficient))) +
+      geom_col(fill = "steelblue") +
+      labs(title = "Feature Importance (Fixed Effects Model)", x = "Coefficient", y = "Feature") +
+      theme_minimal()
+    
+    ggplotly(p)  # Convert ggplot to interactive plot
+  })
+  
+  output$pred_vs_actual_plot <- renderPlotly({
+    happiness_df$predicted <- fitted(fe_model)  # Use fitted() instead of predict()
+    
+    plot_ly(happiness_df, x = ~ladder_score, y = ~predicted, type = "scatter", mode = "markers") %>%
+      layout(title = "Predicted vs. Actual Happiness Scores",
+             xaxis = list(title = "Actual Happiness Score"),
+             yaxis = list(title = "Predicted Happiness Score"))
+  })
+  
 }
 
 shinyApp(ui, server)
