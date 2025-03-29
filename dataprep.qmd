@@ -263,6 +263,7 @@ cleaned_data %>%
   group_by(country) %>%
   summarise(missing_cols = sum(is.na(across(everything()))))
 ```
+
 ```{r}
 cleaned_data <- cleaned_data %>%
   filter(country != "Oman")
@@ -335,6 +336,3 @@ DT::datatable(cleaned_data,
 ```{r, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE}
 write_csv(cleaned_data, "data_files/world_happiness.csv")
 ```
-
-
-
