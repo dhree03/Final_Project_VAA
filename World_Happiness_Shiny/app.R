@@ -94,12 +94,36 @@ ui <- dashboardPage(
                   ),
                   mainPanel(
                     tabsetPanel(
-                      tabPanel("Feature Importance",plotlyOutput("feature_importance_plot")),
-                      tabPanel("Predicted vs Actual",plotlyOutput("pred_vs_actual_plot")),
-                      tabPanel("Happiness Trend",plotlyOutput("happiness_trend_plot")),
-                      tabPanel("Panel Data Table",DTOutput("panel_data_table")),
-                      tabPanel("Top Improvement",verbatimTextOutput("top_improvement"))
+                      tabPanel("Feature Importance", 
+                               plotlyOutput("feature_importance_plot",
+                                            box(
+                                              title = "Chart Interpretation",
+                                              collapsible = TRUE,
+                                              width = 12,
+                                              status = "info",
+                                              solidHeader = TRUE,
+                                              textOutput("happiness_trend_note")  # Collapsible text box with description
+                                            ))),     
+                                            
+                              # Add a note below the plot
+                      tabPanel("Predicted vs Actual", 
+                               plotlyOutput("pred_vs_actual_plot"),
+                               textOutput("pred_vs_actual_note")  # Add a note below the plot
+                      ),
+                      tabPanel("Happiness Trend", 
+                               plotlyOutput("happiness_trend_plot"),
+                               textOutput("happiness_trend_note")  # Add a note below the plot
+                      ),
+                      tabPanel("Panel Data Table", 
+                               DTOutput("panel_data_table"),
+                               textOutput("panel_data_table_note")  # Add a note below the table
+                      ),
+                      tabPanel("Top Improvement", 
+                               verbatimTextOutput("top_improvement"),
+                               textOutput("top_improvement_stats")  # Additional statistics below the output
+                      )
                     )
+                    
                   )
                 )
               )),
@@ -274,13 +298,21 @@ server <- function(input, output, session) {
   })
  
   output$feature_importance_plot <- renderPlotly({
+    print(head(coef_df))  # Print first few rows to check data before plotting
+    
+    req(nrow(coef_df) > 0)  # Ensure there is data to plot
+    
     p <- ggplot(coef_df, aes(x = Coefficient, y = reorder(Feature, Coefficient))) +
       geom_col(fill = "steelblue") +
       labs(title = "Feature Importance (Fixed Effects Model)", x = "Coefficient", y = "Feature") +
       theme_minimal()
     
-    ggplotly(p)  # Convert ggplot to interactive plot
+    ggplotly(p)# Convert ggplot to interactive plot
   })
+  output$feature_importance_note <- renderText({
+    "This plot shows the feature importance from the fixed effects model. Higher coefficients indicate stronger relationships with happiness scores."
+  })
+  
   
   output$pred_vs_actual_plot <- renderPlotly({
     happiness_df$predicted <- predict(fe_model)  # Ensure predictions are calculated
@@ -296,7 +328,10 @@ server <- function(input, output, session) {
       layout(title = "Predicted vs. Actual Happiness Scores",
              xaxis = list(title = "Actual Happiness Score"),
              yaxis = list(title = "Predicted Happiness Score"),
-             hovermode = "closest")  # Ensures better hover behavior
+             hovermode = "closest")# Ensures better hover behavior
+  })
+  output$pred_vs_actual_note <- renderText({
+    "This plot compares the predicted happiness scores against actual values, showing the accuracy of the model."
   })
   
   
@@ -316,12 +351,18 @@ server <- function(input, output, session) {
              yaxis = list(title = "Score"),
              legend = list(x = 0, y = 1))
   })
+  output$happiness_trend_note <- renderText({
+    "This plot shows the trend in happiness scores over time. Observe how the scores change year by year."
+  })
   
   output$panel_data_table <- renderDT({
     happiness_df %>% filter(year >= input$year_range[1], year <= input$year_range[2]) %>%
       datatable(happiness_df, 
                           options = list(scrollX = TRUE, autoWidth = TRUE),
                           rownames = FALSE)
+  })
+  output$panel_data_table_note <- renderText({
+    "This table displays the raw data used for analysis, showing happiness scores and other related metrics."
   })
   
   
@@ -337,6 +378,27 @@ server <- function(input, output, session) {
     paste("The country with the highest happiness improvement from", 
           min(happiness_df$year), "to", max(happiness_df$year), "is", top_country, 
           "with an increase of", top_change, "in Ladder Score.")
+  })
+  
+  output$top_improvement <- renderPrint({
+    # Example top improvement code
+    top_improvement_data <- happiness_df %>%
+      filter(year == 2024) %>%
+      arrange(desc(ladder_score)) %>%
+      head(5)  # Top 5 countries in terms of happiness improvement
+    print(top_improvement_data)
+  })
+  
+  output$top_improvement_stats <- renderText({
+    # Additional statistics or insights for Top Improvement
+    improvement <- happiness_df %>%
+      group_by(country) %>%
+      summarise(improvement = last(ladder_score) - first(ladder_score)) %>%
+      arrange(desc(improvement))
+    
+    top_improvement <- improvement[1,]
+    paste("The top country with the most improvement in happiness scores is:", top_improvement$country, 
+          "with an improvement of", round(top_improvement$improvement, 2))
   })
   
   
