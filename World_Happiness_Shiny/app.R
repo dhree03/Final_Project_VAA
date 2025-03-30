@@ -105,6 +105,7 @@ ui <- dashboardPage(
                                               textOutput("happiness_trend_note")  # Collapsible text box with description
                                             ))),     
                                             
+          
                               # Add a note below the plot
                       tabPanel("Predicted vs Actual", 
                                plotlyOutput("pred_vs_actual_plot"),
