@@ -15,6 +15,7 @@ library(readr)
 library(gridExtra)
 library(plm)
 library(tibble)
+library(DT)
 
 # Load happiness data
 happiness_df <- read.csv("data/world_happiness.csv") %>%
@@ -81,13 +82,24 @@ ui <- dashboardPage(
                 titlePanel("Panel Data Model Insights"),
                 sidebarLayout(
                   sidebarPanel(
-                    selectInput("feature_selection", "Select Factor:", 
-                                choices = c("economy_score", "social_score", "lifeexpectancy_score",
-                                            "freedom_score", "generosity_score", "corrperception_score"))
+                    selectInput("country_select", "Select Country:", choices = unique(happiness_df$country)),
+                    sliderInput("year_range", "Select Year Range:", 
+                                min = min(happiness_df$year), max = max(happiness_df$year), 
+                                value = c(min(happiness_df$year), max(happiness_df$year)), step = 1),
+                    checkboxGroupInput("factor_select", "Select Happiness Factors:", 
+                                       choices = c("ladder_score", "economy_score", "social_score", 
+                                                   "lifeexpectancy_score", "freedom_score", 
+                                                   "generosity_score", "corrperception_score"),
+                                       selected = "ladder_score")
                   ),
                   mainPanel(
-                    plotlyOutput("feature_importance_plot"),
-                    plotlyOutput("pred_vs_actual_plot")
+                    tabsetPanel(
+                      tabPanel("Feature Importance",plotlyOutput("feature_importance_plot")),
+                      tabPanel("Predicted vs Actual",plotlyOutput("pred_vs_actual_plot")),
+                      tabPanel("Happiness Trend",plotlyOutput("happiness_trend_plot")),
+                      tabPanel("Panel Data Table",DTOutput("panel_data_table")),
+                      tabPanel("Top Improvement",verbatimTextOutput("top_improvement"))
+                    )
                   )
                 )
               )),
@@ -271,13 +283,62 @@ server <- function(input, output, session) {
   })
   
   output$pred_vs_actual_plot <- renderPlotly({
-    happiness_df$predicted <- fitted(fe_model)  # Use fitted() instead of predict()
+    happiness_df$predicted <- predict(fe_model)  # Ensure predictions are calculated
     
-    plot_ly(happiness_df, x = ~ladder_score, y = ~predicted, type = "scatter", mode = "markers") %>%
+    plot_ly(happiness_df, 
+            x = ~ladder_score, 
+            y = ~predicted, 
+            text = ~paste("Country:", country, "<br>Year:", year), 
+            hoverinfo = "text",
+            type = "scatter", 
+            mode = "markers",
+            marker = list(size = 7, color = 'blue', opacity = 0.7)) %>%
       layout(title = "Predicted vs. Actual Happiness Scores",
              xaxis = list(title = "Actual Happiness Score"),
-             yaxis = list(title = "Predicted Happiness Score"))
+             yaxis = list(title = "Predicted Happiness Score"),
+             hovermode = "closest")  # Ensures better hover behavior
   })
+  
+  
+  output$happiness_trend_plot <- renderPlotly({
+    df_filtered <- happiness_df %>% filter(country == input$country_select, 
+                                 year >= input$year_range[1], year <= input$year_range[2])
+    
+    plot <- plot_ly(df_filtered, x = ~year)
+    
+    for (factor in input$factor_select) {
+      plot <- plot %>% add_trace(y = df_filtered[[factor]], name = factor, type = "scatter", mode = "lines+markers")
+    }
+    
+    plot %>%
+      layout(title = paste("Happiness Trends in", input$country_select),
+             xaxis = list(title = "Year"), 
+             yaxis = list(title = "Score"),
+             legend = list(x = 0, y = 1))
+  })
+  
+  output$panel_data_table <- renderDT({
+    happiness_df %>% filter(year >= input$year_range[1], year <= input$year_range[2]) %>%
+      datatable(happiness_df, 
+                          options = list(scrollX = TRUE, autoWidth = TRUE),
+                          rownames = FALSE)
+  })
+  
+  
+  output$top_improvement <- renderText({
+    improvement_df <- happiness_df %>%
+      group_by(country) %>%
+      summarize(improvement = max(ladder_score) - min(ladder_score), .groups = "drop") %>%
+      arrange(desc(improvement))
+    
+    top_country <- improvement_df$country[1]
+    top_change <- round(improvement_df$improvement[1], 2)
+    
+    paste("The country with the highest happiness improvement from", 
+          min(happiness_df$year), "to", max(happiness_df$year), "is", top_country, 
+          "with an increase of", top_change, "in Ladder Score.")
+  })
+  
   
 }
 
