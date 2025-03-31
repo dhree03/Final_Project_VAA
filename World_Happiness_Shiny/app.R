@@ -16,6 +16,8 @@ library(gridExtra)
 library(plm)
 library(tibble)
 library(DT)
+library(spdep)
+
 
 # Load happiness data
 happiness_df <- read.csv("data/world_happiness.csv") %>%
@@ -415,6 +417,76 @@ server <- function(input, output, session) {
         )
     }
   })
+  
+  # --- LISA & Moran's I Functionality ---
+  world_data <- reactive({
+    data <- happiness_df %>% filter(year == input$selected_year)
+    world %>%
+      left_join(data, by = c("name" = "country")) %>%
+      filter(!is.na(ladder_score))
+  })
+  
+  local_moran <- reactive({
+    data <- world_data()
+    nb <- poly2nb(data, queen = TRUE)
+    lw <- nb2listw(nb, style = "W", zero.policy = TRUE)
+    localMI <- localmoran(data$ladder_score, lw, zero.policy = TRUE)
+    
+    lagged_score <- lag.listw(lw, data$ladder_score)
+    centered_lag <- lagged_score - mean(lagged_score)
+    centered_localMI <- localMI[, 1] - mean(localMI[, 1])
+    
+    quadrant <- vector(mode = "numeric", length = nrow(data))
+    quadrant[centered_lag < 0 & centered_localMI > 0] <- 1  # Low-Low
+    quadrant[centered_lag > 0 & centered_localMI < 0] <- 2  # Low-High
+    quadrant[centered_lag < 0 & centered_localMI < 0] <- 3  # High-Low
+    quadrant[centered_lag > 0 & centered_localMI > 0] <- 4  # High-High
+    quadrant[localMI[, 5] > 0.05] <- 0                      # Not significant
+    
+    data$quadrant <- quadrant
+    data$cluster_label <- factor(
+      quadrant,
+      levels = 0:4,
+      labels = c("Insignificant", "Low-Low", "Low-High", "High-Low", "High-High")
+    )
+    
+    list(data = data, lw = lw)
+  })
+  
+  output$moran_plot <- renderPlot({
+    dat <- local_moran()
+    moran.plot(dat$data$ladder_score, dat$lw,
+               labels = dat$data$name,
+               xlab = paste("Happiness Score (", input$selected_year, ")", sep = ""),
+               ylab = "Spatially Lagged Happiness Score",
+               zero.policy = TRUE)
+  })
+  
+  output$lisa_map <- renderTmap({
+    tmap_mode("view")
+    tm_shape(local_moran()$data) +
+      tm_fill(
+        col = "cluster_label",
+        palette = c(
+          "Insignificant" = "#ffffcc",
+          "Low-Low" = "blue",
+          "Low-High" = "#78c679",
+          "High-Low" = "#c2e699",
+          "High-High" = "red"
+        ),
+        title = paste("LISA Cluster (", input$selected_year, ")", sep = ""),
+        style = "cat",
+        id = "name",
+        popup.vars = c(
+          "Country" = "name",
+          "Cluster Type" = "cluster_label",
+          "Happiness Score" = "ladder_score"
+        )
+      ) +
+      tm_borders(alpha = 0.4) +
+      tm_layout(frame = FALSE, legend.outside = TRUE)
+  })
 }
+
 
 shinyApp(ui, server)
