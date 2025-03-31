@@ -150,9 +150,8 @@ ui <- dashboardPage(
                            fluidPage(
                              sidebarLayout(
                                sidebarPanel(
-                                 selectInput("selected_year", "Select Year:",
-                                             choices = sort(unique(happiness_df$year)),
-                                             selected = 2024),
+                                 selectInput("selected_year_lisa", "Select Year:",
+                                             choices = sort(unique(happiness_df$year)), selected = 2024),
                                  hr(),
                                  h4("Chart Interpretation"),
                                  HTML(
@@ -420,7 +419,7 @@ server <- function(input, output, session) {
   
   # --- LISA & Moran's I Functionality ---
   world_data <- reactive({
-    data <- happiness_df %>% filter(year == input$selected_year)
+    data <- happiness_df %>% filter(year == input$selected_year_lisa)
     world %>%
       left_join(data, by = c("name" = "country")) %>%
       filter(!is.na(ladder_score))
@@ -457,7 +456,7 @@ server <- function(input, output, session) {
     dat <- local_moran()
     moran.plot(dat$data$ladder_score, dat$lw,
                labels = dat$data$name,
-               xlab = paste("Happiness Score (", input$selected_year, ")", sep = ""),
+               xlab = paste("Happiness Score (", input$selected_year_lisa, ")", sep = ""),
                ylab = "Spatially Lagged Happiness Score",
                zero.policy = TRUE)
   })
@@ -474,7 +473,7 @@ server <- function(input, output, session) {
           "High-Low" = "#c2e699",
           "High-High" = "red"
         ),
-        title = paste("LISA Cluster (", input$selected_year, ")", sep = ""),
+        title = paste("LISA Cluster (", input$selected_year_lisa, ")", sep = ""),
         style = "cat",
         id = "name",
         popup.vars = c(
@@ -486,7 +485,41 @@ server <- function(input, output, session) {
       tm_borders(alpha = 0.4) +
       tm_layout(frame = FALSE, legend.outside = TRUE)
   })
+  
+  output$prop_map <- renderLeaflet({
+    data <- world_data()
+    if (nrow(data) == 0) return(leaflet() %>% addTiles())
+    
+    centroids <- st_centroid(data)
+    coords <- cbind(data, st_coordinates(centroids)) %>%
+      rename(lon = X, lat = Y)
+    
+    leaflet(coords) %>%
+      addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
+      addCircleMarkers(
+        lng = ~lon, lat = ~lat,
+        radius = ~ladder_score * 3,
+        color = "black",
+        fillColor = ~colorNumeric("YlGnBu", domain = coords$ladder_score)(ladder_score),
+        fillOpacity = 0.6, stroke = TRUE, weight = 0.5,
+        popup = ~paste0(
+          "<b>Country:</b> ", name, "<br/>",
+          "<b>Happiness Score:</b> ", round(ladder_score, 2), "<br/>",
+          "<b>Region:</b> ", region
+        )
+      ) %>%
+      addLegend(
+        "bottomright",
+        pal = colorNumeric("YlGnBu", domain = coords$ladder_score),
+        values = ~ladder_score,
+        title = "Happiness Score",
+        opacity = 1
+      )
+  })
 }
+
+
+
 
 
 shinyApp(ui, server)
