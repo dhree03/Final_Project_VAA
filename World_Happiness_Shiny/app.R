@@ -30,12 +30,6 @@ fe_model <- plm(ladder_score ~ economy_score + social_score + lifeexpectancy_sco
                   freedom_score + generosity_score + corrperception_score, 
                 data = happiness_df, model = "within")
 
-coef_df <- as.data.frame(coef(summary(fe_model))) %>%
-  rownames_to_column(var = "Feature") %>%
-  rename(Coefficient = Estimate)
-
-print(coef_df)
-
 
 # Prepare geospatial data
 world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
@@ -84,30 +78,72 @@ ui <- dashboardPage(
                 titlePanel("Panel Data Model Insights"),
                 sidebarLayout(
                   sidebarPanel(
+                    # Country selection remains visible for all tabs
                     selectInput("country_select", "Select Country:", choices = unique(happiness_df$country)),
-                    sliderInput("year_range", "Select Year Range:", 
-                                min = min(happiness_df$year), max = max(happiness_df$year), 
-                                value = c(min(happiness_df$year), max(happiness_df$year)), step = 1),
-                    checkboxGroupInput("factor_select", "Select Happiness Factors:", 
-                                       choices = c("ladder_score", "economy_score", "social_score", 
-                                                   "lifeexpectancy_score", "freedom_score", 
-                                                   "generosity_score", "corrperception_score"),
-                                       selected = "ladder_score")
+                    
+                    # Show these filters only for main panel analysis
+                    conditionalPanel(
+                      condition = "input.subtabs != 'What-If Analysis'",
+                      sliderInput("year_range", "Select Year Range:", 
+                                  min = min(happiness_df$year), max = max(happiness_df$year), 
+                                  value = c(min(happiness_df$year), max(happiness_df$year)), step = 1),
+                      checkboxGroupInput("factor_select", "Select Happiness Factors:", 
+                                         choices = c("ladder_score", "economy_score", "social_score", 
+                                                     "lifeexpectancy_score", "freedom_score", 
+                                                     "generosity_score", "corrperception_score"),
+                                         selected = "ladder_score")
+                    ),
+                    conditionalPanel(
+                      condition = "input.subtabs == 'What-If Analysis'",
+                      h4("Predicted Happiness Score:"),
+                      textOutput("what_if_prediction")
+                    )
+                
                   ),
+                  
                   mainPanel(
+<<<<<<< HEAD
                     tabsetPanel(
                       tabPanel("Feature Importance", plotlyOutput("feature_importance_plot")),
                       tabPanel("Predicted vs Actual", plotlyOutput("pred_vs_actual_plot")),
                       tabPanel("Happiness Trend", plotlyOutput("happiness_trend_plot")),
                       tabPanel("Panel Data Table", DTOutput("panel_data_table")),
                       tabPanel("Top Improvement", verbatimTextOutput("top_improvement"))
+=======
+                    tabsetPanel(id = "tabs",
+                                tabPanel("Feature Importance", plotlyOutput("feature_importance_plot_panel1")),
+                                tabPanel("Predicted vs Actual", plotlyOutput("pred_vs_actual_plot")),
+                                tabPanel("Happiness Trend", plotlyOutput("happiness_trend_plot")),
+                                tabPanel("Panel Data Insights",
+                                         tabsetPanel(id = "subtabs",
+                                                     tabPanel("Panel Data Table", DTOutput("panel_data_table")),
+                                                     tabPanel("Top Improvement", verbatimTextOutput("top_improvement")),
+                                                     tabPanel("What-If Analysis",
+                                                              h3("What-If Analysis: Adjust Factors"),
+                                                              wellPanel(
+                                                                sliderInput("economy_adj", "Economy Score:", min = 0, max = 2, value = 1, step = 0.1),
+                                                                sliderInput("social_adj", "Social Score:", min = 0, max = 2, value = 1, step = 0.1),
+                                                                sliderInput("lifeexp_adj", "Life Expectancy Score:", min = 0, max = 2, value = 1, step = 0.1),
+                                                                sliderInput("freedom_adj", "Freedom Score:", min = 0, max = 2, value = 1, step = 0.1),
+                                                                sliderInput("generosity_adj", "Generosity Score:", min = 0, max = 2, value = 1, step = 0.1),
+                                                                sliderInput("corrperc_adj", "Corruption Perception Score:", min = 0, max = 2, value = 1, step = 0.1)
+                                                              )
+                                                             
+                                                     )
+                                         )
+                                )
+>>>>>>> dd72af3 (updated panel model)
                     )
                   )
                 )
               )
       ),
+<<<<<<< HEAD
+=======
       
-      tabItem(tabName = "eda",
+>>>>>>> dd72af3 (updated panel model)
+      
+      tabItem(tabName = "EDA",
               fluidPage(
                 titlePanel("Exploratory Data Analysis"),
                 plotOutput("eda_plot"),
@@ -115,7 +151,7 @@ ui <- dashboardPage(
               )
       ),
       
-      tabItem(tabName = "cda",
+      tabItem(tabName = "CDA",
               fluidPage(
                 titlePanel("Causal Data Analysis"),
                 tabsetPanel(
@@ -252,12 +288,73 @@ server <- function(input, output, session) {
     if (length(plots) > 0) do.call(grid.arrange, c(plots, ncol = 2)) else ggplot() + ggtitle("Not enough data")
   })
   
+<<<<<<< HEAD
   output$feature_importance_plot <- renderPlotly({
     p <- ggplot(coef_df, aes(x = Coefficient, y = reorder(Feature, Coefficient))) +
       geom_col(fill = "steelblue") +
       labs(title = "Feature Importance (Fixed Effects Model)", x = "Coefficient", y = "Feature") +
       theme_minimal()
     ggplotly(p)
+=======
+  observe({
+    updateSelectInput(session, "selected_region", choices = c("All", sort(unique(world_happy$region))), selected = "All")
+  })
+  
+  geo_filtered_data <- reactive({
+    data <- world_happy %>% filter(year == input$selected_year & !is.na(ladder_score))
+    if (input$selected_region != "All") {
+      data <- data %>% filter(region == input$selected_region)
+    }
+    data
+  })
+  
+  observeEvent(input$selected_region, {
+    countries <- geo_filtered_data() %>% pull(name) %>% unique() %>% sort()
+    updateSelectInput(session, "selected_country", choices = countries, selected = countries[1])
+  })
+  
+  observeEvent(input$selected_country, {
+    selected_region <- world_happy %>% filter(name == input$selected_country, year == input$selected_year) %>% pull(region) %>% unique()
+    if (!is.null(selected_region)) updateSelectInput(session, "selected_region", selected = selected_region)
+  })
+  
+  output$choropleth_map <- renderTmap({
+    tmap_mode("view")
+    selected_geom <- geo_filtered_data() %>% filter(name == input$selected_country)
+    bbox_zoom <- if (nrow(selected_geom) > 0) st_bbox(selected_geom) else st_bbox(geo_filtered_data())
+    tm_shape(geo_filtered_data(), bbox = bbox_zoom) +
+      tm_polygons(col = "ladder_score", palette = "YlGnBu", id = "name",
+                  popup.vars = c("Country" = "name", "Happiness" = "ladder_score"))
+  })
+  
+  output$prop_map <- renderLeaflet({
+    centroids <- st_centroid(geo_filtered_data())
+    coords <- centroids %>% mutate(lon = st_coordinates(geometry)[,1], lat = st_coordinates(geometry)[,2])
+    leaflet(coords) %>%
+      addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
+      addCircleMarkers(
+        lng = ~lon, lat = ~lat, radius = ~ladder_score * 3,
+        fillColor = ~colorNumeric("YlGnBu", domain = coords$ladder_score)(ladder_score),
+        fillOpacity = 0.6, stroke = TRUE, color = "black", weight = 0.5,
+        popup = ~paste0("<b>Country:</b> ", name, "<br/>",
+                        "<b>Happiness Score:</b> ", round(ladder_score, 2), "<br/>",
+                        "<b>Region:</b> ", region)
+      ) %>%
+      addLegend("bottomright", pal = colorNumeric("YlGnBu", coords$ladder_score), values = ~ladder_score,
+                title = "Happiness Score")
+  })
+  
+  output$feature_importance_plot_panel1 <- renderPlotly({
+    
+    coef_df <- as.data.frame(coef(summary(fe_model))) %>%
+      rownames_to_column(var = "Feature") %>%
+      rename(Coefficient = Estimate)
+    
+    ggplot(coef_df, aes(x = Coefficient, y = reorder(Feature, Coefficient))) +
+      geom_col(fill = "steelblue") +
+      labs(title = "Feature Importance (Fixed Effects Model)", x = "Coefficient", y = "Feature") +
+      theme_minimal()
+>>>>>>> dd72af3 (updated panel model)
   })
   
   output$pred_vs_actual_plot <- renderPlotly({
@@ -306,11 +403,30 @@ server <- function(input, output, session) {
           "with an increase of", top_change, "in Ladder Score.")
   })
   
+<<<<<<< HEAD
   # --- FIXED GEOSPATIAL BLOCK ---
   observe({
     regions <- sort(unique(world_happy$region))
     updateSelectInput(session, "selected_region", choices = c("All", regions), selected = "All")
   })
+=======
+  output$what_if_prediction <- renderText({
+    
+    # Extract coefficients from the model
+    coef_values <- coef(fe_model)
+    
+    # Compute the new predicted happiness score
+    new_ladder_score <- (coef_values["economy_score"] * input$economy_adj) +
+      (coef_values["social_score"] * input$social_adj) +
+      (coef_values["lifeexpectancy_score"] * input$lifeexp_adj) +
+      (coef_values["freedom_score"] * input$freedom_adj) +
+      (coef_values["generosity_score"] * input$generosity_adj) +
+      (coef_values["corrperception_score"] * input$corrperc_adj)
+    
+    paste("Predicted Happiness Score based on selected factors:", round(new_ladder_score, 2))
+  })
+  
+>>>>>>> dd72af3 (updated panel model)
   
   geo_filtered_data <- reactive({
     data <- world_happy %>% filter(year == input$selected_year & !is.na(ladder_score))
