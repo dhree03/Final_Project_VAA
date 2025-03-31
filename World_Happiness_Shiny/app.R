@@ -18,6 +18,12 @@ library(plm)
 library(tibble)
 library(DT)
 library(spdep)
+library(shinyWidgets)
+library(gt)
+library(gtExtras)
+library(ggridges)
+
+
 
 
 # Load happiness data
@@ -204,8 +210,47 @@ ui <- dashboardPage(
                                )
                              )
                            )
+                          ),
+                  tabPanel("Aspatial",
+                           fluidPage(
+                             titlePanel("🌍 World Happiness Explorer"),
+                             sidebarLayout(
+                               sidebarPanel(
+                                 width = 3,
+                                 selectInput("year", "Select Year:", choices = sort(unique(happiness_df$year)), selected = 2024),
+                                 pickerInput(
+                                   inputId = "region",
+                                   label = "Search and Select Region(s):",
+                                   choices = unique(happiness_df$region),
+                                   selected = unique(happiness_df$region),
+                                   options = list(`actions-box` = TRUE, `live-search` = TRUE),
+                                   multiple = TRUE
+                                 )
+                               ),
+                               mainPanel(
+                                 width = 9,
+                                 fluidRow(
+                                   column(6, tmapOutput("map", height = "400px")),
+                                   column(6, plotOutput("regionPlot", height = "400px"))
+                                 ),
+                                 fluidRow(
+                                   column(12,
+                                          div(style = "overflow-x: auto;",
+                                              plotOutput("countryPlot", height = "1000px", width = "1500px", inline = TRUE)
+                                          )
+                                   )
+                                 ),
+                                 fluidRow(
+                                   column(12, gt_output("summaryTable"))
+                                 )
+                               )
+                             )
+                           )
                   )
-                )
+                  
+                  
+                  
+                  )
               )
       ),
       
@@ -218,6 +263,8 @@ ui <- dashboardPage(
     ) 
   ) 
 ) 
+
+
 server <- function(input, output, session) {
   # --- Time Series Filtering ---
   filtered_data <- reactive({
@@ -569,10 +616,93 @@ server <- function(input, output, session) {
         opacity = 1
       )
   })
+  
+  # --- ASPATIAL TAB ---
+  filtered_data <- reactiveVal()
+  
+  observeEvent({input$year; input$region}, {
+    new_data <- happiness_df %>%
+      filter(year == input$year, region %in% input$region)
+    filtered_data(new_data)
+  }, ignoreInit = TRUE)
+  
+  output$map <- renderTmap({
+    tmap_mode("view")
+    happiness_latest <- filtered_data()
+    world_happy_latest <- left_join(world, happiness_latest, by = c("name" = "country")) %>%
+      filter(!is.na(ladder_score))
+    
+    tm_shape(world_happy_latest) +
+      tm_polygons(
+        col = "ladder_score",
+        palette = "YlGnBu",
+        id = "name",
+        title = paste("Happiness Score (", input$year, ")", sep = "")
+      )
+  })
+  
+  output$regionPlot <- renderPlot({
+    df <- filtered_data()
+    req(nrow(df) > 0)
+    ggplot(df, aes(x = ladder_score, y = region, fill = region)) +
+      geom_density_ridges(alpha = 0.7, scale = 1.2) +
+      theme_minimal() +
+      labs(title = paste("Distribution by Region (", input$year, ")", sep = ""),
+           x = "Happiness Score (Ladder Score)",
+           y = "Region")
+  })
+  
+  output$countryPlot <- renderPlot({
+    df <- filtered_data()
+    req(nrow(df) > 0)
+    df$country <- factor(df$country, levels = sort(unique(df$country)))
+    
+    ggplot(df, aes(x = ladder_score, y = country, fill = country)) +
+      geom_density_ridges(alpha = 0.7, scale = 1.2, stat = "binline", bins = 30) +
+      theme_minimal(base_size = 14) +
+      labs(title = paste("Distribution of Happiness Scores by Country (", input$year, ")", sep = ""),
+           x = "Happiness Score (Ladder Score)",
+           y = "Country") +
+      theme(legend.position = "none",
+            plot.margin = unit(c(10, 20, 10, 20), "pt"),
+            plot.title = element_text(size = 16, face = "bold"))
+  })
+  
+  output$summaryTable <- render_gt({
+    df <- happiness_df %>% filter(region %in% input$region)
+    
+    summary_df <- df %>%
+      group_by(country) %>%
+      summarise(
+        MIN = min(ladder_score, na.rm = TRUE),
+        MAX = max(ladder_score, na.rm = TRUE),
+        AVERAGE = mean(ladder_score, na.rm = TRUE)
+      )
+    
+    latest_scores <- df %>%
+      filter(year == max(year)) %>%
+      select(country, ACTUAL = ladder_score)
+    
+    combined_df <- summary_df %>%
+      left_join(latest_scores, by = "country") %>%
+      arrange(country) %>%
+      mutate(bullet_chart = ACTUAL) %>%
+      select(country, MIN, MAX, AVERAGE, ACTUAL, bullet_chart)
+    
+    combined_df %>%
+      gt() %>%
+      cols_label(
+        country = "COUNTRY",
+        MIN = "Min Score\n(2014–24)",
+        MAX = "Max Score\n(2014–24)",
+        AVERAGE = "Avg Score\n(2014–24)",
+        ACTUAL = "2024\nScore",
+        bullet_chart = "2024 vs Avg"
+      ) %>%
+      gt_plt_bullet(column = bullet_chart, target = AVERAGE, palette = c("lightblue", "black")) %>%
+      tab_header(title = "Happiness Score Dashboard: 2014–2024")
+  })
 }
-
-
-
 
 
 shinyApp(ui, server)
