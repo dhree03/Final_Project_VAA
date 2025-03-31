@@ -94,16 +94,16 @@ ui <- dashboardPage(
                   ),
                   mainPanel(
                     tabsetPanel(
-                      tabPanel("Feature Importance",plotlyOutput("feature_importance_plot")),
-                      tabPanel("Predicted vs Actual",plotlyOutput("pred_vs_actual_plot")),
-                      tabPanel("Happiness Trend",plotlyOutput("happiness_trend_plot")),
-                      tabPanel("Panel Data Table",DTOutput("panel_data_table")),
-                      tabPanel("Top Improvement",verbatimTextOutput("top_improvement"))
+                      tabPanel("Feature Importance", plotlyOutput("feature_importance_plot")),
+                      tabPanel("Predicted vs Actual", plotlyOutput("pred_vs_actual_plot")),
+                      tabPanel("Happiness Trend", plotlyOutput("happiness_trend_plot")),
+                      tabPanel("Panel Data Table", DTOutput("panel_data_table")),
+                      tabPanel("Top Improvement", verbatimTextOutput("top_improvement"))
                     )
                   )
                 )
-              )),
-      
+              )
+      ),
       
       tabItem(tabName = "eda",
               fluidPage(
@@ -144,8 +144,33 @@ ui <- dashboardPage(
                              )
                            )
                   ),
-                  tabPanel("LISA & Moran's I", 
-                           plotOutput("geo_plot")
+                  tabPanel("LISA & Moran's I",
+                           fluidPage(
+                             sidebarLayout(
+                               sidebarPanel(
+                                 selectInput("selected_year", "Select Year:",
+                                             choices = sort(unique(happiness_df$year)),
+                                             selected = 2024),
+                                 hr(),
+                                 h4("Chart Interpretation"),
+                                 HTML(
+                                   "The Moran scatterplot shows how each country's happiness score correlates with its neighbors'.<br><br>",
+                                   "The LISA Cluster map highlights statistically significant spatial clusters:<br>",
+                                   "- <b style='color:red;'>High-High</b>: Happy countries near other happy countries<br>",
+                                   "- <b style='color:blue;'>Low-Low</b>: Unhappy countries near unhappy neighbors<br>",
+                                   "- <b style='color:#78c679;'>Low-High</b>: Potential outliers<br>",
+                                   "- <b style='color:#c2e699;'>High-Low</b>: Potential outliers<br>",
+                                   "- <b style='color:#ffffcc;'>Insignificant</b>: No strong spatial pattern"
+                                 )
+                               ),
+                               mainPanel(
+                                 fluidRow(
+                                   column(6, plotOutput("moran_plot", height = "500px")),
+                                   column(6, tmapOutput("lisa_map", height = "500px"))
+                                 )
+                               )
+                             )
+                           )
                   )
                 )
               )
@@ -157,11 +182,11 @@ ui <- dashboardPage(
                 p("This is a dashboard to analyze happiness data across different countries and years.")
               )
       )
-    )
-  )
-)
-
+    ) 
+  ) 
+) 
 server <- function(input, output, session) {
+  # --- Time Series Filtering ---
   filtered_data <- reactive({
     happiness_df %>%
       filter(country %in% input$country & year >= input$year_range[1] & year <= input$year_range[2])
@@ -225,66 +250,16 @@ server <- function(input, output, session) {
     if (length(plots) > 0) do.call(grid.arrange, c(plots, ncol = 2)) else ggplot() + ggtitle("Not enough data")
   })
   
-  observe({
-    updateSelectInput(session, "selected_region", choices = c("All", sort(unique(world_happy$region))), selected = "All")
-  })
-  
-  geo_filtered_data <- reactive({
-    data <- world_happy %>% filter(year == input$selected_year & !is.na(ladder_score))
-    if (input$selected_region != "All") {
-      data <- data %>% filter(region == input$selected_region)
-    }
-    data
-  })
-  
-  observeEvent(input$selected_region, {
-    countries <- geo_filtered_data() %>% pull(name) %>% unique() %>% sort()
-    updateSelectInput(session, "selected_country", choices = countries, selected = countries[1])
-  })
-  
-  observeEvent(input$selected_country, {
-    selected_region <- world_happy %>% filter(name == input$selected_country, year == input$selected_year) %>% pull(region) %>% unique()
-    if (!is.null(selected_region)) updateSelectInput(session, "selected_region", selected = selected_region)
-  })
-  
-  output$choropleth_map <- renderTmap({
-    tmap_mode("view")
-    selected_geom <- geo_filtered_data() %>% filter(name == input$selected_country)
-    bbox_zoom <- if (nrow(selected_geom) > 0) st_bbox(selected_geom) else st_bbox(geo_filtered_data())
-    tm_shape(geo_filtered_data(), bbox = bbox_zoom) +
-      tm_polygons(col = "ladder_score", palette = "YlGnBu", id = "name",
-                  popup.vars = c("Country" = "name", "Happiness" = "ladder_score"))
-  })
-  
-  output$prop_map <- renderLeaflet({
-    centroids <- st_centroid(geo_filtered_data())
-    coords <- centroids %>% mutate(lon = st_coordinates(geometry)[,1], lat = st_coordinates(geometry)[,2])
-    leaflet(coords) %>%
-      addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
-      addCircleMarkers(
-        lng = ~lon, lat = ~lat, radius = ~ladder_score * 3,
-        fillColor = ~colorNumeric("YlGnBu", domain = coords$ladder_score)(ladder_score),
-        fillOpacity = 0.6, stroke = TRUE, color = "black", weight = 0.5,
-        popup = ~paste0("<b>Country:</b> ", name, "<br/>",
-                        "<b>Happiness Score:</b> ", round(ladder_score, 2), "<br/>",
-                        "<b>Region:</b> ", region)
-      ) %>%
-      addLegend("bottomright", pal = colorNumeric("YlGnBu", coords$ladder_score), values = ~ladder_score,
-                title = "Happiness Score")
-  })
-  
   output$feature_importance_plot <- renderPlotly({
     p <- ggplot(coef_df, aes(x = Coefficient, y = reorder(Feature, Coefficient))) +
       geom_col(fill = "steelblue") +
       labs(title = "Feature Importance (Fixed Effects Model)", x = "Coefficient", y = "Feature") +
       theme_minimal()
-    
-    ggplotly(p)  # Convert ggplot to interactive plot
+    ggplotly(p)
   })
   
   output$pred_vs_actual_plot <- renderPlotly({
-    happiness_df$predicted <- predict(fe_model)  # Ensure predictions are calculated
-    
+    happiness_df$predicted <- predict(fe_model)
     plot_ly(happiness_df, 
             x = ~ladder_score, 
             y = ~predicted, 
@@ -296,50 +271,150 @@ server <- function(input, output, session) {
       layout(title = "Predicted vs. Actual Happiness Scores",
              xaxis = list(title = "Actual Happiness Score"),
              yaxis = list(title = "Predicted Happiness Score"),
-             hovermode = "closest")  # Ensures better hover behavior
+             hovermode = "closest")
   })
-  
   
   output$happiness_trend_plot <- renderPlotly({
     df_filtered <- happiness_df %>% filter(country == input$country_select, 
                                            year >= input$year_range[1], year <= input$year_range[2])
-    
     plot <- plot_ly(df_filtered, x = ~year)
-    
     for (factor in input$factor_select) {
       plot <- plot %>% add_trace(y = df_filtered[[factor]], name = factor, type = "scatter", mode = "lines+markers")
     }
-    
-    plot %>%
-      layout(title = paste("Happiness Trends in", input$country_select),
-             xaxis = list(title = "Year"), 
-             yaxis = list(title = "Score"),
-             legend = list(x = 0, y = 1))
+    plot %>% layout(title = paste("Happiness Trends in", input$country_select),
+                    xaxis = list(title = "Year"), 
+                    yaxis = list(title = "Score"),
+                    legend = list(x = 0, y = 1))
   })
   
   output$panel_data_table <- renderDT({
     happiness_df %>% filter(year >= input$year_range[1], year <= input$year_range[2]) %>%
-      datatable(happiness_df, 
-                options = list(scrollX = TRUE, autoWidth = TRUE),
-                rownames = FALSE)
+      datatable(options = list(scrollX = TRUE, autoWidth = TRUE), rownames = FALSE)
   })
-  
   
   output$top_improvement <- renderText({
     improvement_df <- happiness_df %>%
       group_by(country) %>%
       summarize(improvement = max(ladder_score) - min(ladder_score), .groups = "drop") %>%
       arrange(desc(improvement))
-    
     top_country <- improvement_df$country[1]
     top_change <- round(improvement_df$improvement[1], 2)
-    
     paste("The country with the highest happiness improvement from", 
           min(happiness_df$year), "to", max(happiness_df$year), "is", top_country, 
           "with an increase of", top_change, "in Ladder Score.")
   })
   
+  # --- FIXED GEOSPATIAL BLOCK ---
+  observe({
+    regions <- sort(unique(world_happy$region))
+    updateSelectInput(session, "selected_region", choices = c("All", regions), selected = "All")
+  })
   
+  geo_filtered_data <- reactive({
+    data <- world_happy %>% filter(year == input$selected_year & !is.na(ladder_score))
+    if (input$selected_region != "All") {
+      data <- data %>% filter(region == input$selected_region)
+    }
+    data <- data %>% filter(!st_is_empty(geometry))
+    return(data)
+  })
+  
+  observeEvent(input$selected_region, {
+    countries <- geo_filtered_data() %>% pull(name) %>% unique() %>% sort()
+    updateSelectInput(session, "selected_country", choices = countries, selected = countries[1])
+  })
+  
+  observeEvent(input$selected_country, {
+    selected_region <- world_happy %>%
+      filter(name == input$selected_country, year == input$selected_year) %>%
+      pull(region) %>% unique()
+    if (!is.null(selected_region) && length(selected_region) == 1) {
+      updateSelectInput(session, "selected_region", selected = selected_region)
+    }
+  })
+  
+  output$choropleth_map <- renderTmap({
+    tmap_mode("view")
+    data <- geo_filtered_data()
+    if (nrow(data) == 0) return(tmap::tm_shape(world) + tm_text("No valid data"))
+    selected_geom <- data %>% filter(name == input$selected_country)
+    bbox_zoom <- if (nrow(selected_geom) > 0) st_bbox(selected_geom) else st_bbox(data)
+    tm_shape(data, bbox = bbox_zoom) +
+      tm_polygons(
+        col = "ladder_score",
+        palette = "YlGnBu",
+        id = "name",
+        popup.vars = c("Country" = "name", "Happiness" = "ladder_score"),
+        title = paste("Happiness Score:", input$selected_year)
+      )
+  })
+  
+  output$prop_map <- renderLeaflet({
+    data <- geo_filtered_data()
+    if (nrow(data) == 0) return(leaflet() %>% addTiles() %>% addPopups(0, 0, "No valid spatial data"))
+    centroids <- st_centroid(data)
+    coords <- centroids %>%
+      mutate(
+        lon = st_coordinates(geometry)[, 1],
+        lat = st_coordinates(geometry)[, 2]
+      )
+    leaflet(coords) %>%
+      addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
+      addCircleMarkers(
+        lng = ~lon,
+        lat = ~lat,
+        radius = ~ladder_score * 3,
+        color = "black",
+        fillColor = ~colorNumeric("YlGnBu", domain = coords$ladder_score)(ladder_score),
+        fillOpacity = 0.6,
+        stroke = TRUE,
+        weight = 0.5,
+        popup = ~paste0(
+          "<b>Country:</b> ", name, "<br/>",
+          "<b>Happiness Score:</b> ", round(ladder_score, 2), "<br/>",
+          "<b>Economy:</b> ", round(economy_score, 2), "<br/>",
+          "<b>Life Expectancy:</b> ", round(lifeexpectancy_score, 2), "<br/>",
+          "<b>Freedom:</b> ", round(freedom_score, 2), "<br/>",
+          "<b>Region:</b> ", region
+        )
+      ) %>%
+      addLegend(
+        "bottomright",
+        pal = colorNumeric("YlGnBu", domain = coords$ladder_score),
+        values = ~ladder_score,
+        title = "Happiness Score",
+        opacity = 1
+      )
+  })
+  
+  observeEvent(input$selected_country, {
+    data <- geo_filtered_data()
+    if (nrow(data) == 0) return()
+    centroids <- st_centroid(data)
+    coords <- centroids %>%
+      mutate(
+        lon = st_coordinates(geometry)[, 1],
+        lat = st_coordinates(geometry)[, 2]
+      )
+    selected_data <- coords %>% filter(name == input$selected_country)
+    if (nrow(selected_data) > 0 && !is.na(selected_data$lon) && !is.na(selected_data$lat)) {
+      leafletProxy("prop_map") %>%
+        setView(lng = selected_data$lon, lat = selected_data$lat, zoom = 5) %>%
+        clearPopups() %>%
+        addPopups(
+          lng = selected_data$lon,
+          lat = selected_data$lat,
+          popup = paste0(
+            "<b>Country:</b> ", selected_data$name, "<br/>",
+            "<b>Happiness Score:</b> ", round(selected_data$ladder_score, 2), "<br/>",
+            "<b>Economy:</b> ", round(selected_data$economy_score, 2), "<br/>",
+            "<b>Life Expectancy:</b> ", round(selected_data$lifeexpectancy_score, 2), "<br/>",
+            "<b>Freedom:</b> ", round(selected_data$freedom_score, 2), "<br/>",
+            "<b>Region:</b> ", selected_data$region
+          )
+        )
+    }
+  })
 }
 
 shinyApp(ui, server)
