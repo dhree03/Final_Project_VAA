@@ -167,7 +167,8 @@ ui <- dashboardPage(
                                mainPanel(
                                  fluidRow(
                                    column(6, plotOutput("moran_plot", height = "500px")),
-                                   column(6, tmapOutput("lisa_map", height = "500px"))
+                                   column(6, tmapOutput("lisa_map", height = "500px")),
+                                   column(12, h4("Proportional Symbol Map (LISA Context)"), leafletOutput("prop_map_lisa", height = "500px"))
                                  )
                                )
                              )
@@ -486,11 +487,11 @@ server <- function(input, output, session) {
       tm_layout(frame = FALSE, legend.outside = TRUE)
   })
   
-  output$prop_map <- renderLeaflet({
+  output$prop_map_lisa <- renderLeaflet({
     data <- world_data()
     if (nrow(data) == 0) return(leaflet() %>% addTiles())
     
-    centroids <- st_centroid(data)
+    centroids <- suppressWarnings(st_centroid(data))
     coords <- cbind(data, st_coordinates(centroids)) %>%
       rename(lon = X, lat = Y)
     
