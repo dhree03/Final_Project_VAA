@@ -1,4 +1,3 @@
-
 library(shiny)
 library(shinydashboard)
 library(ggplot2)
@@ -50,14 +49,21 @@ world_happy <- world %>%
   left_join(happiness_df, by = c("name" = "country"))
 
 ui <- dashboardPage(
-  dashboardHeader(title = "Happiness Dashboard"),
+  dashboardHeader(title = "World Happiness Visualization"),
   dashboardSidebar(
     sidebarMenu(
-      menuItem("Time Series", tabName = "time_series", icon = icon("chart-line")),
-      menuItem("Panel Model", tabName = "panel_model", icon = icon("chart-line")),
-      menuItem("EDA", tabName = "eda", icon = icon("search")),
-      menuItem("CDA", tabName = "cda", icon = icon("cogs")),
-      menuItem("Geospatial", tabName = "geospatial", icon = icon("globe")),
+      menuItem("Time Series", tabName = "time_series", icon = icon("chart-area")),
+      menuItem("Panel Model", tabName = "panel_model", icon = icon("sliders-h")),
+      menuItem("Clustering", tabName = "clustering", icon = icon("sitemap")),
+      
+      # Collapsible Geospatial Section
+      menuItem("Geospatial", icon = icon("globe"), startExpanded = FALSE,
+               menuSubItem("Choropleth & Proportional", tabName = "geo_choropleth"),
+               menuSubItem("LISA & Moran's I", tabName = "geo_lisa"),
+               menuSubItem("Aspatial", tabName = "geo_aspatial")
+      ),
+      
+      # menuItem("Geospatial", tabName = "geospatial", icon = icon("globe")),
       menuItem("About", tabName = "about", icon = icon("info-circle"))
     )
   ),
@@ -163,96 +169,94 @@ ui <- dashboardPage(
               )
       ),
       
-      tabItem(tabName = "geospatial",
+      # Choropleth & Proportional
+      tabItem(tabName = "geo_choropleth",
               fluidPage(
-                titlePanel("Geospatial Analysis"),
-                tabsetPanel(
-                  tabPanel("Choropleth & Proportional Maps",
-                           sidebarLayout(
-                             sidebarPanel(
-                               selectInput("selected_year", "Select Year:",
-                                           choices = sort(unique(world_happy$year)), selected = 2024),
-                               selectInput("selected_region", "Filter by Region:", choices = NULL),
-                               selectInput("selected_country", "Search Country:", choices = NULL)
-                             ),
-                             mainPanel(
-                               fluidRow(
-                                 column(6, h4("Choropleth Map"), tmapOutput("choropleth_map", height = "500px")),
-                                 column(6, h4("Proportional Symbol Map"), leafletOutput("prop_map", height = "500px"))
-                               )
-                             )
-                           )
+                titlePanel("Geospatial Analysis: Choropleth & Proportional Maps"),
+                sidebarLayout(
+                  sidebarPanel(
+                    selectInput("selected_year", "Select Year:",
+                                choices = sort(unique(world_happy$year)), selected = 2024),
+                    selectInput("selected_region", "Filter by Region:", choices = NULL),
+                    selectInput("selected_country", "Search Country:", choices = NULL)
                   ),
-                  tabPanel("LISA & Moran's I",
-                           fluidPage(
-                             sidebarLayout(
-                               sidebarPanel(
-                                 selectInput("selected_year_lisa", "Select Year:",
-                                             choices = sort(unique(happiness_df$year)), selected = 2024),
-                                 hr(),
-                                 h4("Chart Interpretation"),
-                                 HTML(
-                                   "The Moran scatterplot shows how each country's happiness score correlates with its neighbors'.<br><br>",
-                                   "The LISA Cluster map highlights statistically significant spatial clusters:<br>",
-                                   "- <b style='color:red;'>High-High</b>: Happy countries near other happy countries<br>",
-                                   "- <b style='color:blue;'>Low-Low</b>: Unhappy countries near unhappy neighbors<br>",
-                                   "- <b style='color:#78c679;'>Low-High</b>: Potential outliers<br>",
-                                   "- <b style='color:#c2e699;'>High-Low</b>: Potential outliers<br>",
-                                   "- <b style='color:#ffffcc;'>Insignificant</b>: No strong spatial pattern"
-                                 )
-                               ),
-                               mainPanel(
-                                 fluidRow(
-                                   column(6, plotOutput("moran_plot", height = "500px")),
-                                   column(6, tmapOutput("lisa_map", height = "500px")),
-                                   column(12, h4("Proportional Symbol Map (LISA Context)"), leafletOutput("prop_map_lisa", height = "500px"))
-                                 )
-                               )
-                             )
-                           )
-                          ),
-                  tabPanel("Aspatial",
-                           fluidPage(
-                             titlePanel("🌍 World Happiness Explorer"),
-                             sidebarLayout(
-                               sidebarPanel(
-                                 width = 3,
-                                 selectInput("year", "Select Year:", choices = sort(unique(happiness_df$year)), selected = 2024),
-                                 pickerInput(
-                                   inputId = "region",
-                                   label = "Search and Select Region(s):",
-                                   choices = unique(happiness_df$region),
-                                   selected = unique(happiness_df$region),
-                                   options = list(`actions-box` = TRUE, `live-search` = TRUE),
-                                   multiple = TRUE
-                                 )
-                               ),
-                               mainPanel(
-                                 width = 9,
-                                 fluidRow(
-                                   column(6, tmapOutput("map", height = "400px")),
-                                   column(6, plotOutput("regionPlot", height = "400px"))
-                                 ),
-                                 fluidRow(
-                                   column(12,
-                                          div(style = "overflow-x: auto;",
-                                              plotOutput("countryPlot", height = "1000px", width = "1500px", inline = TRUE)
-                                          )
-                                   )
-                                 ),
-                                 fluidRow(
-                                   column(12, gt_output("summaryTable"))
-                                 )
-                               )
-                             )
-                           )
+                  mainPanel(
+                    fluidRow(
+                      column(6, h4("Choropleth Map"), tmapOutput("choropleth_map", height = "500px")),
+                      column(6, h4("Proportional Symbol Map"), leafletOutput("prop_map", height = "500px"))
+                    )
                   )
-                  
-                  
-                  
-                  )
+                )
               )
       ),
+      
+      # LISA & Moran's I
+      tabItem(tabName = "geo_lisa",
+              fluidPage(
+                titlePanel("Geospatial Analysis: LISA & Moran's I"),
+                sidebarLayout(
+                  sidebarPanel(
+                    selectInput("selected_year_lisa", "Select Year:",
+                                choices = sort(unique(happiness_df$year)), selected = 2024),
+                    hr(),
+                    h4("Chart Interpretation"),
+                    HTML("The Moran scatterplot shows how each country's happiness score correlates with its neighbors'.<br><br>
+                           The LISA Cluster map highlights statistically significant spatial clusters:<br>
+                           - <b style='color:red;'>High-High</b>: Top right quadrant - Happy countries near other happy countries<br>
+                           - <b style='color:blue;'>Low-Low</b>: Bottom left quadrant - Unhappy countries near unhappy neighbors<br>
+                           - <b style='color:#78c679;'>Low-High</b>: Top left quadrant - Potential outliers<br>
+                           - <b style='color:#c2e699;'>High-Low</b>: Bottom right quandrant - Potential outliers<br>
+                           - <b style='color:#ffffcc;'>Insignificant</b>: No strong spatial pattern")
+                  ),
+                  mainPanel(
+                    fluidRow(
+                      column(6, plotOutput("moran_plot", height = "500px")),
+                      column(6, tmapOutput("lisa_map", height = "500px")),
+                      column(12, h4("Proportional Symbol Map (LISA Context)"), leafletOutput("prop_map_lisa", height = "500px"))
+                    )
+                  )
+                )
+              )
+      ),
+      
+      # Aspatial
+      tabItem(tabName = "geo_aspatial",
+              fluidPage(
+                titlePanel("Geospatial Analysis: Aspatial Explorer"),
+                sidebarLayout(
+                  sidebarPanel(
+                    width = 3,
+                    selectInput("year", "Select Year:", choices = sort(unique(happiness_df$year)), selected = 2024),
+                    pickerInput(
+                      inputId = "region",
+                      label = "Search and Select Region(s):",
+                      choices = unique(happiness_df$region),
+                      selected = unique(happiness_df$region),
+                      options = list(`actions-box` = TRUE, `live-search` = TRUE),
+                      multiple = TRUE
+                    )
+                  ),
+                  mainPanel(
+                    width = 9,
+                    fluidRow(
+                      column(6, tmapOutput("map", height = "400px")),
+                      column(6, plotOutput("regionPlot", height = "400px"))
+                    ),
+                    fluidRow(
+                      column(12,
+                             div(style = "overflow-x: auto;",
+                                 plotOutput("countryPlot", height = "1000px", width = "1500px", inline = TRUE)
+                             )
+                      )
+                    ),
+                    fluidRow(
+                      column(12, gt_output("summaryTable"))
+                    )
+                  )
+                )
+              )
+      ),
+      
       
       tabItem(tabName = "about",
               fluidPage(
