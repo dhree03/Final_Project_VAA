@@ -1,9 +1,94 @@
 ---
 title: "World Happiness Visualizations"
+format: html
+page-layout: full
 ---
 
-Hello, Welcome to our Final Project for Visual Analytics
+```{=html}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Roboto&display=swap');
 
-Here you will find our proposal, our shiny dashboard and other important things.
+.hero-bg {
+  background-image: url('images/Smiles-1.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 120px 20px;
+  position: relative;
+  color: #222;
+  font-family: 'Playfair Display', serif;
+}
 
-![](images/Smiles-1.png){width="703"}
+.hero-bg::before {
+  content: "";
+  background-color: rgba(255, 255, 255, 0.6); /* fade */
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: auto;
+  text-align: center;
+  font-size: 1.7rem;
+  line-height: 1.8;
+  padding: 40px 20px;
+}
+
+.hero-quote {
+  font-size: 2.4rem;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  color: #444;
+  margin-bottom: 0.5em;
+}
+
+.hero-sub {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #555;
+}
+
+.hero-box {
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 20px;
+  border-radius: 12px;
+}
+</style>
+```
+
+:::::: hero-bg
+::::: {.hero-content .hero-box}
+::: hero-quote
+“There are so many beautiful things to be happy about.”
+:::
+
+::: hero-sub
+A gentle reminder as we explore what happiness looks like around the world 🌍
+:::
+:::::
+::::::
+
+## 🔍 What would you like to explore?
+
+```{=html}
+<style>
+.no-border-table table,
+.no-border-table td,
+.no-border-table th {
+  border: none !important;
+  box-shadow: none !important;
+}
+</style>
+```
+
+::: no-border-table
+|  |  |  |  |
+|:----------------:|:----------------:|:----------------:|:----------------:|
+| [![](images/clipboard-146623810.jpeg){width="100"}](Minutes%20of%20Meeting/minutes_of_meeting.qmd) | ![](images/clipboard-420718178.jpeg){width="90" height="98"} | ![](_site/images/emoticon4.jpg){width="100"} | ![](_site/images/emoticon3.jpg){width="114"} |
+| Minutes of Meeting | Shiny App | User Guide | Poster |
+:::
