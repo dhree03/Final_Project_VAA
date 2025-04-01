@@ -23,8 +23,6 @@ library(gtExtras)
 library(ggridges)
 
 
-
-
 # Load happiness data
 happiness_df <- read.csv("data/world_happiness.csv") %>%
   mutate(year = as.numeric(year)) %>%
@@ -260,10 +258,55 @@ ui <- dashboardPage(
       
       tabItem(tabName = "about",
               fluidPage(
-                titlePanel("About"),
-                p("This is a dashboard to analyze happiness data across different countries and years.")
+                titlePanel("About This Dashboard"),
+                
+                box(
+                  title = "🌍 Project Overview", width = 12, solidHeader = TRUE, collapsible = TRUE,
+                  tags$ul(
+                    tags$li(HTML("This interactive dashboard visualizes global happiness trends from <strong>2014 to 2024</strong>.")),
+                    tags$li("It enables users to explore country-level happiness scores, compare across regions, and identify key drivers using modeling and spatial analysis.")
+                  )
+                ),
+                
+                
+                box(
+                  title = "📊 Features", width = 12, solidHeader = TRUE, collapsible = TRUE,
+                  tags$ul(
+                    tags$li("📈 Time Series: Explore happiness trends, forecasts, and causal impacts"),
+                    tags$li("📊 Panel Model: Fixed effects regression to assess feature importance"),
+                    tags$li("⚙️ What-If Analysis: Simulate changes to happiness factors"),
+                    tags$li("🔍 Clustering: Group similar countries based on happiness indicators"),
+                    tags$li("🗺️ Geospatial: View Choropleth, Proportional, LISA, and Aspatial maps"),
+                  )
+                ),
+                
+                box(
+                  title = "📁 Data Source", width = 12, solidHeader = TRUE, collapsible = TRUE,
+                  tags$ul(
+                    tags$li(HTML('The data is sourced from the <a href="https://worldhappiness.report" target="_blank">World Happiness Report</a>, which evaluates well-being across countries using metrics like GDP per capita, social support, healthy life expectancy, freedom, generosity, and corruption perception.'))
+                  )
+                ),
+                
+                box(
+                  title = "👩‍💻 Developer Info", width = 12, solidHeader = TRUE, collapsible = TRUE,
+                  tags$ul(
+                    tags$li(HTML("Created by <strong>Andrea Yeo, Dhreeti Shah, and Ou Yi Ming</strong> as part of the <strong>ISSS608 Visual Analytics Applications (VAA)</strong> subject in the Master of Information Technology program (MITB) at SMU.")),
+                    tags$li(HTML("This project combines statistical modeling, data visualization, and geospatial techniques using <strong>R Shiny</strong>.")),
+                    tags$li(HTML("🙏 Special thanks to <strong>Prof Kam Tin Seong</strong> for his insightful guidance, encouragement, and support throughout the development of this dashboard."))
+                  )
+                ),
+                
+                
+                
+                box(
+                  title = "📅 Last Updated", width = 12, solidHeader = TRUE, collapsible = TRUE,
+                  p("April 2025")
+                )
               )
       )
+      
+      
+      
     ) 
   ) 
 ) 
