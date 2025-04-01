@@ -38,7 +38,7 @@ coef_df <- as.data.frame(coef(summary(fe_model))) %>%
   rownames_to_column(var = "Feature") %>%
   rename(Coefficient = Estimate)
 
-print(coef_df)
+
 
 
 # Prepare geospatial data
@@ -77,13 +77,16 @@ ui <- dashboardPage(
                                    options = list(maxItems = 5, placeholder = "Select countries")),
                     sliderInput("year_range", "Select Year Range:", 
                                 min = 2014, max = 2024, value = c(2014, 2024),
-                                step = 1, animate = TRUE)
+                                step = 1, animate = TRUE,pre = "",  # Removes formatting
+                                sep = "")
+                    
+                  
                   ),
                   mainPanel(
                     tabsetPanel(
-                      tabPanel("Trend", plotlyOutput("trend_plot")),
-                      tabPanel("Forecast", plotlyOutput("forecast_plot")),
-                      tabPanel("Causal Impact", plotOutput("causal_impact_plot"))
+                      tabPanel("Trend", plotlyOutput("trend_plot"), uiOutput("trend_explanation")),
+                      tabPanel("Forecast", plotlyOutput("forecast_plot"),uiOutput("forecast_explanation")),
+                      tabPanel("Causal Impact", plotOutput("causal_impact_plot"),uiOutput("causal_impact_explanation"))
                     )
                   )
                 )
@@ -95,15 +98,29 @@ ui <- dashboardPage(
                 titlePanel("Panel Data Model Insights"),
                 sidebarLayout(
                   sidebarPanel(
-                    # Country selection remains visible for all tabs
-                    selectInput("country_select", "Select Country:", choices = unique(happiness_df$country)),
+                    conditionalPanel(
+                      condition = "input.tabs != 'Feature Importance' && input.tabs != 'Predicted vs Actual'",
+                      selectInput("country_select", "Select Country:", 
+                                  choices = unique(happiness_df$country))
+                      
+                    ),
                     
+                    # Conditional UI: Multi-country select for Feature Importance
+                    conditionalPanel(
+                      condition = "input.tabs == 'Feature Importance'",
+                      selectInput("country_select_multi", "Select Up to 2 Countries:", 
+                                  choices = unique(happiness_df$country), 
+                                  multiple = TRUE, 
+                                  selectize = TRUE)
+                    ),
+                  
                     # Show these filters only for main panel analysis
                     conditionalPanel(
                       condition = "input.subtabs != 'What-If Analysis'",
                       sliderInput("year_range", "Select Year Range:", 
                                   min = min(happiness_df$year), max = max(happiness_df$year), 
-                                  value = c(min(happiness_df$year), max(happiness_df$year)), step = 1),
+                                  value = c(min(happiness_df$year), max(happiness_df$year)), step = 1,pre = "",  # Removes formatting
+                                  sep = ""),
                       checkboxGroupInput("factor_select", "Select Happiness Factors:", 
                                          choices = c("ladder_score", "economy_score", "social_score", 
                                                      "lifeexpectancy_score", "freedom_score", 
@@ -112,17 +129,20 @@ ui <- dashboardPage(
                     ),
                     conditionalPanel(
                       condition = "input.subtabs == 'What-If Analysis'",
+                      selectInput("year_select", "Select Year:", 
+                                  choices = unique(happiness_df$year), 
+                                  selected = max(happiness_df$year)),
                       h4("Predicted Happiness Score:"),
-                      textOutput("what_if_prediction")
+                      verbatimTextOutput("what_if_prediction")
                     )
-                    
+              
                   ),
+                  
                   
                   mainPanel(
                     tabsetPanel(id = "tabs",
-                                tabPanel("Feature Importance", plotlyOutput("feature_importance_plot_panel1")),
-                                tabPanel("Predicted vs Actual", plotlyOutput("pred_vs_actual_plot")),
-                                tabPanel("Happiness Trend", plotlyOutput("happiness_trend_plot")),
+                                tabPanel("Feature Importance", plotlyOutput("feature_importance_plot_panel1"), uiOutput("feature_importance_explanation")),
+                                tabPanel("Happiness Trend", plotlyOutput("happiness_trend_plot"), uiOutput("happiness_trend_explanation")),
                                 tabPanel("Panel Data Insights",
                                          tabsetPanel(id = "subtabs",
                                                      tabPanel("Panel Data Table", DTOutput("panel_data_table")),
@@ -156,16 +176,6 @@ ui <- dashboardPage(
               )
       ),
       
-      tabItem(tabName = "cda",
-              fluidPage(
-                titlePanel("Causal Data Analysis"),
-                tabsetPanel(
-                  tabPanel("Correlation Heatmap", plotlyOutput("corr_plot")),
-                  tabPanel("Feature Importance", plotlyOutput("feature_importance_plot")),
-                  tabPanel("Stationarity Check", plotOutput("stationary_plot"))
-                )
-              )
-      ),
       
       # Choropleth & Proportional
       tabItem(tabName = "geo_choropleth",
@@ -319,19 +329,40 @@ server <- function(input, output, session) {
       filter(country %in% input$country & year >= input$year_range[1] & year <= input$year_range[2])
   })
   
+  output$trend_explanation <- renderUI({
+    HTML("<div style='border: 1px solid #ddd; padding: 10px; background-color: #f9f9f9;'>
+            <h4>Trend Analysis</h4>
+            <p>This plot shows the trend of happiness scores over time across selected countries. Use the filters to select a specific country and year range to explore the trend.</p>
+          </div>")
+  })
+  
+  # Explanation for Forecast tab
+  output$forecast_explanation <- renderUI({
+    HTML("<div style='border: 1px solid #ddd; padding: 10px; background-color: #f9f9f9;'>
+            <h4>Forecasting Happiness</h4>
+            <p>This plot provides a forecast of future happiness scores based on past trends. Adjust the year range to explore potential future outcomes.</p>
+          </div>")
+  })
+  
+  # Explanation for Causal Impact tab
+  output$causal_impact_explanation <- renderUI({
+    HTML("<div style='border: 1px solid #ddd; padding: 10px; background-color: #f9f9f9;'>
+            <h4>Causal Impact Analysis</h4>
+            <p>This plot shows the causal impact of events (e.g., COVID-19, economic crises) on happiness scores. Use this to understand how external factors may have influenced the happiness trends.</p>
+          </div>")
+  })
+  
   output$trend_plot <- renderPlotly({
     filtered <- filtered_data()
-    if (nrow(filtered) > 0) {
+  
       plot_ly(data = filtered, x = ~year, y = ~ladder_score, color = ~country, type = 'scatter', mode = 'lines+markers') %>%
         layout(title = "Happiness Trend",
                xaxis = list(title = "Year"),
                yaxis = list(title = "Happiness Score"),
                legend = list(title = list(text = "Country")))
-    } else {
-      plot_ly() %>% add_text(text = "No data available for the selected country/year range")
-    }
   })
   
+
   output$forecast_plot <- renderPlotly({
     filtered <- filtered_data()
     p <- plot_ly()
@@ -377,33 +408,73 @@ server <- function(input, output, session) {
     if (length(plots) > 0) do.call(grid.arrange, c(plots, ncol = 2)) else ggplot() + ggtitle("Not enough data")
   })
   
-  output$feature_importance_plot_panel1 <- renderPlotly({
-    
-    coef_df <- as.data.frame(coef(summary(fe_model))) %>%
-      rownames_to_column(var = "Feature") %>%
-      rename(Coefficient = Estimate)
-    
-    ggplot(coef_df, aes(x = Coefficient, y = reorder(Feature, Coefficient))) +
-      geom_col(fill = "steelblue") +
-      labs(title = "Feature Importance (Fixed Effects Model)", x = "Coefficient", y = "Feature") +
-      theme_minimal()
+  output$feature_importance_explanation <- renderUI({
+    HTML("<div style='border: 1px solid #ddd; padding: 10px; background-color: #f9f9f9;'>
+          <h4>Feature Importance</h4>
+          <p>This plot highlights the most significant factors influencing happiness scores. Larger bars indicate greater importance in predicting happiness levels.</p>
+        </div>")
   })
   
-  output$pred_vs_actual_plot <- renderPlotly({
-    happiness_df$predicted <- predict(fe_model)
-    plot_ly(happiness_df, 
-            x = ~ladder_score, 
-            y = ~predicted, 
-            text = ~paste("Country:", country, "<br>Year:", year), 
-            hoverinfo = "text",
-            type = "scatter", 
-            mode = "markers",
-            marker = list(size = 7, color = 'blue', opacity = 0.7)) %>%
-      layout(title = "Predicted vs. Actual Happiness Scores",
-             xaxis = list(title = "Actual Happiness Score"),
-             yaxis = list(title = "Predicted Happiness Score"),
-             hovermode = "closest")
+  # Explanation for Happiness Trend
+  output$happiness_trend_explanation <- renderUI({
+    HTML("<div style='border: 1px solid #ddd; padding: 10px; background-color: #f9f9f9;'>
+          <h4>Happiness Trend</h4>
+          <p>This plot shows the changes in happiness scores over time. Use this to analyze trends, compare countries, and identify patterns in happiness levels.</p>
+        </div>")
   })
+  
+  output$feature_importance_plot_panel1 <- renderPlotly({
+    # Ensure at least one or two countries are selected
+    req(input$country_select_multi)
+    
+    selected_countries <- input$country_select_multi
+    
+    # Limit selection to exactly two countries
+    if (length(selected_countries) != 2) {
+      return(NULL) # Do not render if less/more than 2 countries are selected
+    }
+    
+    # Subset data for the selected countries
+    filtered_data <- happiness_df %>% 
+      filter(country %in% selected_countries)
+    
+    # Run Fixed Effects Model for each country
+    fe_model_1 <- plm(ladder_score ~ economy_score + social_score + lifeexpectancy_score + 
+                        freedom_score + generosity_score + corrperception_score, 
+                      data = filtered_data %>% filter(country == selected_countries[1]), 
+                      index = c("country", "year"), model = "within")
+    
+    fe_model_2 <- plm(ladder_score ~ economy_score + social_score + lifeexpectancy_score + 
+                        freedom_score + generosity_score + corrperception_score, 
+                      data = filtered_data %>% filter(country == selected_countries[2]), 
+                      index = c("country", "year"), model = "within")
+    
+    # Extract coefficients
+    coefs_1 <- as.data.frame(coef(summary(fe_model_1))) %>%
+      rownames_to_column(var = "Feature") %>%
+      rename(Coefficient = Estimate) %>%
+      mutate(Country = selected_countries[1])
+    
+    coefs_2 <- as.data.frame(coef(summary(fe_model_2))) %>%
+      rownames_to_column(var = "Feature") %>%
+      rename(Coefficient = Estimate) %>%
+      mutate(Country = selected_countries[2])
+    
+    # Combine both dataframes
+    coefs_df <- bind_rows(coefs_1, coefs_2)
+    
+    # Create ggplot
+    p <- ggplot(coefs_df, aes(x = Coefficient, y = reorder(Feature, Coefficient), fill = Country)) +
+      geom_col(position = "dodge") +  # Side-by-side bars
+      scale_fill_manual(values = c("steelblue", "darkorange")) +  # Colors for each country
+      labs(title = "Feature Importance (Fixed Effects Model)", x = "Coefficient", y = "Feature") +
+      theme_minimal()
+    
+    # Convert ggplot to plotly
+    ggplotly(p)
+  })
+  
+  
   
   output$happiness_trend_plot <- renderPlotly({
     df_filtered <- happiness_df %>% filter(country == input$country_select, 
@@ -421,6 +492,7 @@ server <- function(input, output, session) {
   output$panel_data_table <- renderDT({
     happiness_df %>% filter(year >= input$year_range[1], year <= input$year_range[2]) %>%
       datatable(options = list(scrollX = TRUE, autoWidth = TRUE), rownames = FALSE)
+    
   })
   
   output$top_improvement <- renderText({
@@ -437,19 +509,44 @@ server <- function(input, output, session) {
   
   output$what_if_prediction <- renderText({
     
+    req(input$selected_country, input$selected_year)  # Ensure inputs are available
+    
     # Extract coefficients from the model
     coef_values <- coef(fe_model)
     
-    # Compute the new predicted happiness score
-    new_ladder_score <- (coef_values["economy_score"] * input$economy_adj) +
-      (coef_values["social_score"] * input$social_adj) +
-      (coef_values["lifeexpectancy_score"] * input$lifeexp_adj) +
-      (coef_values["freedom_score"] * input$freedom_adj) +
-      (coef_values["generosity_score"] * input$generosity_adj) +
-      (coef_values["corrperception_score"] * input$corrperc_adj)
+    # Get the existing ladder score for the selected country and year
+    existing_score <- happiness_df %>%
+      filter(country == input$selected_country, year == input$selected_year) %>%
+      pull(ladder_score)
     
-    paste("Predicted Happiness Score based on selected factors:", round(new_ladder_score, 2))
+    # If no data is found, return a message
+    if (length(existing_score) == 0) {
+      return("No data available for the selected country and year.")
+    }
+    
+    # Compute the new predicted happiness score based on user adjustments
+    new_ladder_score <- existing_score + (
+      (coef_values["economy_score"] * input$economy_adj) +
+        (coef_values["social_score"] * input$social_adj) +
+        (coef_values["lifeexpectancy_score"] * input$lifeexp_adj) +
+        (coef_values["freedom_score"] * input$freedom_adj) +
+        (coef_values["generosity_score"] * input$generosity_adj) +
+        (coef_values["corrperception_score"] * input$corrperc_adj)
+    )
+    
+    # Compute the difference
+    score_change <- new_ladder_score - existing_score
+    
+    # Generate output message
+    paste0(
+      "Selected Country: ", input$selected_country, "\n",
+      "Selected Year: ", input$selected_year, "\n",
+      "Existing Happiness Score: ", round(existing_score, 2), "\n",
+      "New Predicted Happiness Score: ", round(new_ladder_score, 2), "\n",
+      "Change: ", round(score_change, 2)
+    )
   })
+  
   
   
   # --- FIXED GEOSPATIAL BLOCK ---
