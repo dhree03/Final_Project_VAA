@@ -4,6 +4,7 @@ format: html
 page-layout: full
 ---
 
+```{=html}
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Roboto&display=swap');
 
@@ -58,12 +59,36 @@ page-layout: full
   border-radius: 12px;
 }
 </style>
+```
 
-::: {.hero-bg}
+:::::: hero-bg
+::::: {.hero-content .hero-box}
+::: hero-quote
+“There are so many beautiful things to be happy about.”
+:::
 
-<div class="hero-content hero-box">
-  <div class="hero-quote">“There are so many beautiful things to be happy about.”</div>
-  <div class="hero-sub">A gentle reminder as we explore what happiness looks like around the world 🌍</div>
-</div>
+::: hero-sub
+A gentle reminder as we explore what happiness looks like around the world 🌍
+:::
+:::::
+::::::
 
+## 🔍 What would you like to explore?
+
+```{=html}
+<style>
+.no-border-table table,
+.no-border-table td,
+.no-border-table th {
+  border: none !important;
+  box-shadow: none !important;
+}
+</style>
+```
+
+::: no-border-table
+|  |  |  |  |
+|:----------------:|:----------------:|:----------------:|:----------------:|
+| [![](images/clipboard-146623810.jpeg){width="100"}](Minutes of Meeting/minutes_of_meeting.qmd) | ![](images/clipboard-420718178.jpeg){width="90" height="98"} | ![](_site/images/emoticon4.jpg){width="100"} | ![](_site/images/emoticon3.jpg){width="114"} |
+| Minutes of Meeting | Shiny App | User Guide | Poster |
 :::
