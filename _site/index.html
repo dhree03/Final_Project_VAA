@@ -121,7 +121,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">User guide</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./app.R">
+    <a class="dropdown-item" href="./World_Happiness_Shiny/app.R">
  <span class="dropdown-text">Visualization</span></a>
   </li>  
     </ul>
@@ -161,14 +161,14 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
         
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -177,7 +177,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page">
 
     
   
@@ -189,9 +189,70 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Hello, Welcome to our Final Project for Visual Analytics</p>
-<p>Here you will find our proposal, our shiny dashboard and other important things.</p>
-<p><img src="images/Smiles-1.png" class="img-fluid" width="703"></p>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Roboto&display=swap');
+
+.hero-bg {
+  background-image: url('images/Smiles-1.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 120px 20px;
+  position: relative;
+  color: #222;
+  font-family: 'Playfair Display', serif;
+}
+
+.hero-bg::before {
+  content: "";
+  background-color: rgba(255, 255, 255, 0.6); /* fade */
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: auto;
+  text-align: center;
+  font-size: 1.7rem;
+  line-height: 1.8;
+  padding: 40px 20px;
+}
+
+.hero-quote {
+  font-size: 2.4rem;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  color: #444;
+  margin-bottom: 0.5em;
+}
+
+.hero-sub {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #555;
+}
+
+.hero-box {
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 20px;
+  border-radius: 12px;
+}
+</style>
+<div class="hero-bg">
+<div class="hero-content hero-box">
+<div class="hero-quote">
+“There are so many beautiful things to be happy about.”
+</div>
+<div class="hero-sub">
+A gentle reminder as we explore what happiness looks like around the world 🌍
+</div>
+</div>
+</div>
 
 
 
