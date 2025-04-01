@@ -7,16 +7,20 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: about.qmd
-        text: About
       - text: Project
         menu:
           - href: proposal.qmd
             text: Project proposal
           - href: dataprep.qmd
             text: Data preparation
-          - href: project.qmd
-            text: Shiny App
+      - text: Shinny App
+        menu:
+          - href: poster.qmd
+            text: Poster
+          - href: userguide.qmd
+            text: User guide
+          - href: app.R
+            text: Visualization
       - text: Meeting records
         menu:
           - href: Minutes of Meeting/minutes_of_meeting.qmd
