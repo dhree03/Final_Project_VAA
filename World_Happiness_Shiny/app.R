@@ -66,7 +66,8 @@ ui <- dashboardPage(
                                    options = list(maxItems = 5, placeholder = "Select countries")),
                     sliderInput("year_range", "Select Year Range:", 
                                 min = 2014, max = 2024, value = c(2014, 2024),
-                                step = 1, animate = TRUE)
+                                step = 1, animate = TRUE,pre = "",  # Removes formatting
+                                sep = "")
                     
                   
                   ),
@@ -90,6 +91,7 @@ ui <- dashboardPage(
                       condition = "input.tabs != 'Feature Importance' && input.tabs != 'Predicted vs Actual'",
                       selectInput("country_select", "Select Country:", 
                                   choices = unique(happiness_df$country))
+                      
                     ),
                     
                     # Conditional UI: Multi-country select for Feature Importance
@@ -106,7 +108,8 @@ ui <- dashboardPage(
                       condition = "input.subtabs != 'What-If Analysis'",
                       sliderInput("year_range", "Select Year Range:", 
                                   min = min(happiness_df$year), max = max(happiness_df$year), 
-                                  value = c(min(happiness_df$year), max(happiness_df$year)), step = 1),
+                                  value = c(min(happiness_df$year), max(happiness_df$year)), step = 1,pre = "",  # Removes formatting
+                                  sep = ""),
                       checkboxGroupInput("factor_select", "Select Happiness Factors:", 
                                          choices = c("ladder_score", "economy_score", "social_score", 
                                                      "lifeexpectancy_score", "freedom_score", 
@@ -115,16 +118,20 @@ ui <- dashboardPage(
                     ),
                     conditionalPanel(
                       condition = "input.subtabs == 'What-If Analysis'",
+                      selectInput("year_select", "Select Year:", 
+                                  choices = unique(happiness_df$year), 
+                                  selected = max(happiness_df$year)),
                       h4("Predicted Happiness Score:"),
-                      textOutput("what_if_prediction")
+                      verbatimTextOutput("what_if_prediction")
                     )
-                    
+              
                   ),
+                  
                   
                   mainPanel(
                     tabsetPanel(id = "tabs",
-                                tabPanel("Feature Importance", plotlyOutput("feature_importance_plot_panel1")),
-                                tabPanel("Happiness Trend", plotlyOutput("happiness_trend_plot")),
+                                tabPanel("Feature Importance", plotlyOutput("feature_importance_plot_panel1"), uiOutput("feature_importance_explanation")),
+                                tabPanel("Happiness Trend", plotlyOutput("happiness_trend_plot"), uiOutput("happiness_trend_explanation")),
                                 tabPanel("Panel Data Insights",
                                          tabsetPanel(id = "subtabs",
                                                      tabPanel("Panel Data Table", DTOutput("panel_data_table")),
@@ -306,7 +313,20 @@ server <- function(input, output, session) {
     if (length(plots) > 0) do.call(grid.arrange, c(plots, ncol = 2)) else ggplot() + ggtitle("Not enough data")
   })
   
+  output$feature_importance_explanation <- renderUI({
+    HTML("<div style='border: 1px solid #ddd; padding: 10px; background-color: #f9f9f9;'>
+          <h4>Feature Importance</h4>
+          <p>This plot highlights the most significant factors influencing happiness scores. Larger bars indicate greater importance in predicting happiness levels.</p>
+        </div>")
+  })
   
+  # Explanation for Happiness Trend
+  output$happiness_trend_explanation <- renderUI({
+    HTML("<div style='border: 1px solid #ddd; padding: 10px; background-color: #f9f9f9;'>
+          <h4>Happiness Trend</h4>
+          <p>This plot shows the changes in happiness scores over time. Use this to analyze trends, compare countries, and identify patterns in happiness levels.</p>
+        </div>")
+  })
   
   output$feature_importance_plot_panel1 <- renderPlotly({
     # Ensure at least one or two countries are selected
@@ -377,6 +397,7 @@ server <- function(input, output, session) {
   output$panel_data_table <- renderDT({
     happiness_df %>% filter(year >= input$year_range[1], year <= input$year_range[2]) %>%
       datatable(options = list(scrollX = TRUE, autoWidth = TRUE), rownames = FALSE)
+    
   })
   
   output$top_improvement <- renderText({
@@ -393,19 +414,44 @@ server <- function(input, output, session) {
   
   output$what_if_prediction <- renderText({
     
+    req(input$selected_country, input$selected_year)  # Ensure inputs are available
+    
     # Extract coefficients from the model
     coef_values <- coef(fe_model)
     
-    # Compute the new predicted happiness score
-    new_ladder_score <- (coef_values["economy_score"] * input$economy_adj) +
-      (coef_values["social_score"] * input$social_adj) +
-      (coef_values["lifeexpectancy_score"] * input$lifeexp_adj) +
-      (coef_values["freedom_score"] * input$freedom_adj) +
-      (coef_values["generosity_score"] * input$generosity_adj) +
-      (coef_values["corrperception_score"] * input$corrperc_adj)
+    # Get the existing ladder score for the selected country and year
+    existing_score <- happiness_df %>%
+      filter(country == input$selected_country, year == input$selected_year) %>%
+      pull(ladder_score)
     
-    paste("Predicted Happiness Score based on selected factors:", round(new_ladder_score, 2))
+    # If no data is found, return a message
+    if (length(existing_score) == 0) {
+      return("No data available for the selected country and year.")
+    }
+    
+    # Compute the new predicted happiness score based on user adjustments
+    new_ladder_score <- existing_score + (
+      (coef_values["economy_score"] * input$economy_adj) +
+        (coef_values["social_score"] * input$social_adj) +
+        (coef_values["lifeexpectancy_score"] * input$lifeexp_adj) +
+        (coef_values["freedom_score"] * input$freedom_adj) +
+        (coef_values["generosity_score"] * input$generosity_adj) +
+        (coef_values["corrperception_score"] * input$corrperc_adj)
+    )
+    
+    # Compute the difference
+    score_change <- new_ladder_score - existing_score
+    
+    # Generate output message
+    paste0(
+      "Selected Country: ", input$selected_country, "\n",
+      "Selected Year: ", input$selected_year, "\n",
+      "Existing Happiness Score: ", round(existing_score, 2), "\n",
+      "New Predicted Happiness Score: ", round(new_ladder_score, 2), "\n",
+      "Change: ", round(score_change, 2)
+    )
   })
+  
   
   
   # --- FIXED GEOSPATIAL BLOCK ---
