@@ -89,6 +89,6 @@ A gentle reminder as we explore what happiness looks like around the world 🌍
 ::: no-border-table
 |  |  |  |  |
 |:----------------:|:----------------:|:----------------:|:----------------:|
-| [![](images/clipboard-146623810.jpeg){width="100"}](Minutes of Meeting/minutes_of_meeting.qmd) | ![](images/clipboard-420718178.jpeg){width="90" height="98"} | ![](_site/images/emoticon4.jpg){width="100"} | ![](_site/images/emoticon3.jpg){width="114"} |
+| [![](images/clipboard-146623810.jpeg){width="100"}](Minutes%20of%20Meeting/minutes_of_meeting.qmd) | ![](images/clipboard-420718178.jpeg){width="90" height="98"} | ![](_site/images/emoticon4.jpg){width="100"} | ![](_site/images/emoticon3.jpg){width="114"} |
 | Minutes of Meeting | Shiny App | User Guide | Poster |
 :::
