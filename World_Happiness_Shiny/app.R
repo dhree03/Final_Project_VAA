@@ -55,7 +55,11 @@ ui <- dashboardPage(
                menuSubItem("Forecast", tabName = "ts_forecast"),
                menuSubItem("Causal Impact", tabName = "ts_causal")
       ),
-      menuItem("Panel Model", tabName = "panel_model", icon = icon("sliders-h")),
+      menuItem("Panel Model", icon = icon("sliders-h"), startExpanded = FALSE,
+               menuSubItem("Feature Importance", tabName = "panel_feature_importance"),
+               menuSubItem("Happiness Trend", tabName = "panel_happiness_trend"),
+               menuSubItem("Panel Data Insights", tabName = "panel_data_insights")
+      ),
       menuItem("Clustering", tabName = "clustering", icon = icon("sitemap")),
       
       # Collapsible Geospatial Section
@@ -138,34 +142,56 @@ ui <- dashboardPage(
   
   
       
-      tabItem(tabName = "panel_model",
+      tabItem(tabName = "panel_feature_importance",
               fluidPage(
-                titlePanel("Panel Data Model Insights"),
+                titlePanel("Feature Importance"),
                 sidebarLayout(
                   sidebarPanel(
-                    conditionalPanel(
-                      condition = "input.tabs != 'Feature Importance' && input.tabs != 'Predicted vs Actual'",
-                      selectInput("country_select", "Select Country:", 
-                                  choices = unique(happiness_df$country))
-                      
-                    ),
-                    
-                    # Conditional UI: Multi-country select for Feature Importance
-                    conditionalPanel(
-                      condition = "input.tabs == 'Feature Importance'",
-                      selectInput("country_select_multi", "Select Up to 2 Countries:", 
-                                  choices = unique(happiness_df$country), 
-                                  multiple = TRUE, 
-                                  selectize = TRUE)
-                    ),
-                  
-                    # Show these filters only for main panel analysis
+                    selectInput("country_select_multi", "Select Up to 2 Countries:", 
+                                choices = unique(happiness_df$country), 
+                                multiple = TRUE, 
+                                selectize = TRUE)
+                  ),
+                  mainPanel(
+                    plotlyOutput("feature_importance_plot_panel1"),
+                    uiOutput("feature_importance_explanation")
+                  )
+                )
+              )
+      ),
+      
+      tabItem(tabName = "panel_happiness_trend",
+              fluidPage(
+                titlePanel("Happiness Trend"),
+                sidebarLayout(
+                  sidebarPanel(
+                    selectInput("country_select", "Select Country:", 
+                                choices = unique(happiness_df$country)),
+                    checkboxGroupInput("factor_select_trend", "Select Happiness Factors:", 
+                                       choices = c("ladder_score", "economy_score", "social_score", 
+                                                   "lifeexpectancy_score", "freedom_score", 
+                                                   "generosity_score", "corrperception_score"),
+                                       selected = "ladder_score") # Default: Ladder Score
+                  ),
+        
+                  mainPanel(
+                    plotlyOutput("happiness_trend_plot"),
+                    uiOutput("happiness_trend_explanation")
+                  )
+                )
+              )
+      ),
+      
+      tabItem(tabName = "panel_data_insights",
+              fluidPage(
+                titlePanel("Panel Data Insights"),
+                sidebarLayout(
+                  sidebarPanel(
                     conditionalPanel(
                       condition = "input.subtabs != 'What-If Analysis'",
                       sliderInput("year_range", "Select Year Range:", 
                                   min = min(happiness_df$year), max = max(happiness_df$year), 
-                                  value = c(min(happiness_df$year), max(happiness_df$year)), step = 1,pre = "",  # Removes formatting
-                                  sep = ""),
+                                  value = c(min(happiness_df$year), max(happiness_df$year)), step = 1),
                       checkboxGroupInput("factor_select", "Select Happiness Factors:", 
                                          choices = c("ladder_score", "economy_score", "social_score", 
                                                      "lifeexpectancy_score", "freedom_score", 
@@ -180,30 +206,20 @@ ui <- dashboardPage(
                       h4("Predicted Happiness Score:"),
                       verbatimTextOutput("what_if_prediction")
                     )
-              
                   ),
-                  
-                  
                   mainPanel(
-                    tabsetPanel(id = "tabs",
-                                tabPanel("Feature Importance", plotlyOutput("feature_importance_plot_panel1"), uiOutput("feature_importance_explanation")),
-                                tabPanel("Happiness Trend", plotlyOutput("happiness_trend_plot"), uiOutput("happiness_trend_explanation")),
-                                tabPanel("Panel Data Insights",
-                                         tabsetPanel(id = "subtabs",
-                                                     tabPanel("Panel Data Table", DTOutput("panel_data_table")),
-                                                     tabPanel("Top Improvement", verbatimTextOutput("top_improvement")),
-                                                     tabPanel("What-If Analysis",
-                                                              h3("What-If Analysis: Adjust Factors"),
-                                                              wellPanel(
-                                                                sliderInput("economy_adj", "Economy Score:", min = 0, max = 2, value = 1, step = 0.1),
-                                                                sliderInput("social_adj", "Social Score:", min = 0, max = 2, value = 1, step = 0.1),
-                                                                sliderInput("lifeexp_adj", "Life Expectancy Score:", min = 0, max = 2, value = 1, step = 0.1),
-                                                                sliderInput("freedom_adj", "Freedom Score:", min = 0, max = 2, value = 1, step = 0.1),
-                                                                sliderInput("generosity_adj", "Generosity Score:", min = 0, max = 2, value = 1, step = 0.1),
-                                                                sliderInput("corrperc_adj", "Corruption Perception Score:", min = 0, max = 2, value = 1, step = 0.1)
-                                                              )
-                                                              
-                                                     )
+                    tabsetPanel(id = "subtabs",
+                                tabPanel("Panel Data Table", DTOutput("panel_data_table")),
+                                tabPanel("Top Improvement", verbatimTextOutput("top_improvement")),
+                                tabPanel("What-If Analysis",
+                                         h3("What-If Analysis: Adjust Factors"),
+                                         wellPanel(
+                                           sliderInput("economy_adj", "Economy Score:", min = 0, max = 2, value = 1, step = 0.1),
+                                           sliderInput("social_adj", "Social Score:", min = 0, max = 2, value = 1, step = 0.1),
+                                           sliderInput("lifeexp_adj", "Life Expectancy Score:", min = 0, max = 2, value = 1, step = 0.1),
+                                           sliderInput("freedom_adj", "Freedom Score:", min = 0, max = 2, value = 1, step = 0.1),
+                                           sliderInput("generosity_adj", "Generosity Score:", min = 0, max = 2, value = 1, step = 0.1),
+                                           sliderInput("corrperc_adj", "Corruption Perception Score:", min = 0, max = 2, value = 1, step = 0.1)
                                          )
                                 )
                     )
@@ -211,7 +227,6 @@ ui <- dashboardPage(
                 )
               )
       ),
-      
       
       tabItem(tabName = "eda",
               fluidPage(
@@ -548,16 +563,30 @@ server <- function(input, output, session) {
   
   
   output$happiness_trend_plot <- renderPlotly({
-    df_filtered <- happiness_df %>% filter(country == input$country_select, 
-                                           year >= input$year_range[1], year <= input$year_range[2])
+    req(input$country_select, input$factor_select)  # Ensure inputs exist before rendering
+    
+    df_filtered <- happiness_df %>%
+      filter(country == input$country_select, 
+             year >= input$year_range[1], 
+             year <= input$year_range[2])
+    
+    # Create base plot
     plot <- plot_ly(df_filtered, x = ~year)
-    for (factor in input$factor_select) {
-      plot <- plot %>% add_trace(y = df_filtered[[factor]], name = factor, type = "scatter", mode = "lines+markers")
+    
+    # Ensure at least one factor is selected
+    if (length(input$factor_select) > 0) {
+      for (factor in input$factor_select) {
+        plot <- plot %>%
+          add_trace(y = df_filtered[[factor]], name = factor, type = "scatter", mode = "lines+markers")
+      }
     }
-    plot %>% layout(title = paste("Happiness Trends in", input$country_select),
-                    xaxis = list(title = "Year"), 
-                    yaxis = list(title = "Score"),
-                    legend = list(x = 0, y = 1))
+    
+    plot %>% layout(
+      title = paste("Happiness Trends in", input$country_select),
+      xaxis = list(title = "Year"), 
+      yaxis = list(title = "Score"),
+      legend = list(x = 0, y = 1)
+    )
   })
   
   output$panel_data_table <- renderDT({
