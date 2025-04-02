@@ -50,7 +50,11 @@ ui <- dashboardPage(
   dashboardHeader(title = "World Happiness Visualization"),
   dashboardSidebar(
     sidebarMenu(
-      menuItem("Time Series", tabName = "time_series", icon = icon("chart-area")),
+      menuItem("Time Series", icon = icon("chart-area"), startExpanded = FALSE,
+               menuSubItem("Trend", tabName = "ts_trend"),
+               menuSubItem("Forecast", tabName = "ts_forecast"),
+               menuSubItem("Causal Impact", tabName = "ts_causal")
+      ),
       menuItem("Panel Model", tabName = "panel_model", icon = icon("sliders-h")),
       menuItem("Clustering", tabName = "clustering", icon = icon("sitemap")),
       
@@ -67,7 +71,7 @@ ui <- dashboardPage(
   ),
   dashboardBody(
     tabItems(
-      tabItem(tabName = "time_series",
+      tabItem(tabName = "ts_trend",
               fluidPage(
                 sidebarLayout(
                   sidebarPanel(
@@ -77,21 +81,62 @@ ui <- dashboardPage(
                                    options = list(maxItems = 5, placeholder = "Select countries")),
                     sliderInput("year_range", "Select Year Range:", 
                                 min = 2014, max = 2024, value = c(2014, 2024),
-                                step = 1, animate = TRUE,pre = "",  # Removes formatting
-                                sep = "")
-                    
-                  
+                                step = 1, animate = TRUE, pre = "", sep = "")
                   ),
                   mainPanel(
-                    tabsetPanel(
-                      tabPanel("Trend", plotlyOutput("trend_plot"), uiOutput("trend_explanation")),
-                      tabPanel("Forecast", plotlyOutput("forecast_plot"),uiOutput("forecast_explanation")),
-                      tabPanel("Causal Impact", plotOutput("causal_impact_plot"),uiOutput("causal_impact_explanation"))
-                    )
+                    h2("Happiness Trend"),
+                    plotlyOutput("trend_plot"),
+                    uiOutput("trend_explanation")
                   )
                 )
               )
       ),
+      
+      tabItem(tabName = "ts_forecast",
+              fluidPage(
+                sidebarLayout(
+                  sidebarPanel(
+                    selectizeInput("country", "Search and Select Countries:", 
+                                   choices = unique(happiness_df$country), 
+                                   multiple = TRUE, 
+                                   options = list(maxItems = 5, placeholder = "Select countries")),
+                    sliderInput("year_range", "Select Year Range:", 
+                                min = 2014, max = 2024, value = c(2014, 2024),
+                                step = 1, animate = TRUE, pre = "", sep = "")
+                  ),
+                  mainPanel(
+                    h2("Happiness Forecast"),
+                    plotlyOutput("forecast_plot"),
+                    uiOutput("forecast_explanation")
+                  )
+                )
+              )
+      ),
+      
+      tabItem(tabName = "ts_causal",
+              fluidPage(
+                sidebarLayout(
+                  sidebarPanel(
+                    selectizeInput("country", "Search and Select Countries:", 
+                                   choices = unique(happiness_df$country), 
+                                   multiple = TRUE, 
+                                   options = list(maxItems = 5, placeholder = "Select countries")),
+                    sliderInput("year_range", "Select Year Range:", 
+                                min = 2014, max = 2024, value = c(2014, 2024),
+                                step = 1, animate = TRUE, pre = "", sep = "")
+                  ),
+                  mainPanel(
+                    h2("Causal Impact Analysis"),
+                    plotOutput("causal_impact_plot"),
+                    uiOutput("causal_impact_explanation")
+                  )
+                )
+              )
+      ),
+    
+    
+  
+  
       
       tabItem(tabName = "panel_model",
               fluidPage(
