@@ -1,66 +1,44 @@
-/* css styles */
-/* Override Default Navbar */
+/* Set clean white background and default font color */
+body {
+    background: white !important;
+    color: black !important;
+    font-family: 'Fredoka One', sans-serif;
+}
+
+/* Navbar Styles */
 .navbar {
-    background-color: #FFC107 !important; /* Warm Golden Yellow */
+    background-color: #FFC107 !important; /* Yellow bar */
     border-color: #E6A800 !important;
 }
 
-/* Navbar Text & Links */
 .navbar .navbar-brand, 
 .navbar .navbar-nav > li > a {
-    color: #FFFFFF !important; /* White text */
+    color: #FFFFFF !important;
 }
 
-/* Navbar Hover Effect */
 .navbar .navbar-nav > li > a:hover {
-    color: #F8F8F8 !important; /* Slightly softer white */
+    color: #F8F8F8 !important;
 }
 
-/* Dropdown Menu */
-.navbar .dropdown-menu {
-    background-color: #FFECB3 !important; /* Light pastel yellow dropdown */
-    border: none !important; /* Remove border for a softer look */
-}
-
-/* Dropdown Text Color */
-.navbar .dropdown-menu > li > a {
-    color: #333333 !important; /* Black font for dropdown items */
-}
-
-/* Dropdown Hover Effect */
-.navbar .dropdown-menu > li > a:hover {
-    background-color: #FFD54F !important; /* Slightly deeper pastel yellow */
-    color: #000000 !important; /* Ensure black text remains visible */
-}
-
-html, body{
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-/* Warm Pastel Yellow Background with Soft Gradient */
-body {
-    background: linear-gradient(#FFF9C4, #FFE082, #FFD54F) fixed !important; /* Soft pastel yellows */
-    background-size: cover;
-    color: #333333 !important; /* Dark Gray for readability */
-}
-
-/* Headings (Keep them golden yellow for balance) */
+/* Headings (optional: subtle yellow tone) */
 h1, h2, h3, h4, h5, h6 {
-    color: #FFC107 !important; /* Golden Yellow */
+    color: #FFA000 !important; /* Amber-ish headings */
 }
 
 /* Links */
 a {
-    color: #FFEB3B !important; /* Bright Yellow */
+    color: #0066cc !important; /* Clean blue for links */
 }
 
 a:hover {
-    color: #FFD700 !important; /* Gold Hover Effect */
+    color: #004c99 !important;
 }
 
-/* Font Styling */
-body {
-    font-family: 'Fredoka One', sans-serif;
+/* TOC Styling (if using Bookdown or Quarto sidebar) */
+.tocify-item {
+    color: black !important;
+}
+.tocify-item.active {
+    color: #d84315 !important;
+    font-weight: bold;
 }

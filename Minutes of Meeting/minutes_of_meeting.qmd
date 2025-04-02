@@ -22,7 +22,15 @@ execute:
 **In Attendance:** Andrea YEO Si Han, Dhreeti SHAH, OU Yi Ming
 
 [Click here to view meeting minutes - 1.](meeting1.qmd)
-[Click here to view meeting minutes - 2.](meeting2.qmd)
 
+**Project Meeting 2:** Data Cleaning, Dashboard Design, Individual Task Assignment, Prototyping & Timeline Planning
+
+**Date:** 20/03/2024
+
+**Time:** 6.30pm -- 08.30pm
+
+**In Attendance:** Andrea YEO Si Han, Dhreeti SHAH, OU Yi Ming
+
+[Click here to view meeting minutes - 2.](meeting2.qmd)
 
 ------------------------------------------------------------------------
