@@ -49,6 +49,7 @@ world_happy <- world %>%
 ui <- dashboardPage(
   dashboardHeader(title = "World Happiness Visualization"),
   dashboardSidebar(
+    tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "custom_styles.css")),  # Load custom CSS
     sidebarMenu(
       menuItem("Time Series", icon = icon("chart-area"), startExpanded = FALSE,
                menuSubItem("Trend", tabName = "ts_trend"),
@@ -74,6 +75,7 @@ ui <- dashboardPage(
     )
   ),
   dashboardBody(
+    tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "custom_styles.css")),
     tabItems(
       tabItem(tabName = "ts_trend",
               fluidPage(

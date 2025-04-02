@@ -1,0 +1,67 @@
+
+/* Change Dashboard Header (Top Bar) to Yellow */
+.skin-blue .main-header .navbar {
+    background-color: #FFC107 !important;  /* Use the yellow from your image */
+}
+
+/* Change Sidebar Toggle Button (☰) to Black */
+.skin-blue .main-header .navbar .sidebar-toggle {
+    color: black !important;
+}
+
+/* Change Dashboard Title Text to Black */
+.skin-blue .main-header .logo {
+    background-color: #FFC107 !important; /* Same yellow for consistency */
+    color: black !important;
+    font-weight: bold;
+}
+
+
+
+/* Change Main Heading (Title) to Yellow */
+h2, h1, .main-header .logo {
+    /* Adjust based on the shade of yellow */
+    color: black !important; /* Ensure text is readable */
+}
+
+/* Change Sidebar Active Tab to Yellow */
+.skin-blue .main-sidebar .sidebar-menu > li.active > a {
+    background-color: #FFC107 !important;
+    color: black !important;
+}
+
+/* Change Sidebar Hover to Yellow */
+.skin-blue .main-sidebar .sidebar-menu > li:hover > a {
+    background-color: #FFD54F !important;
+    color: black !important;
+}
+
+/* Change Primary Buttons to Yellow */
+.btn-primary {
+    background-color: #FFC107 !important;
+    border-color: #FFA000 !important;
+    color: black !important;
+}
+
+/* Change Tabset Panel Active Tab to Yellow */
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+    background-color: #FFC107 !important;
+    color: black !important;
+}
+
+/* Change Box Headers (Dashboard Panels) to Yellow */
+.box-header {
+    background-color: #FFC107 !important;
+    color: black !important;
+}
+
+/* Apply Yellow Theme to Progress Bars */
+.progress-bar {
+    background-color: #FFC107 !important;
+}
+div#title {
+  background: transparent !important;
+  border: none !important;
+}
