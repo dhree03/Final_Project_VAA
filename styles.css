@@ -13,11 +13,11 @@ body {
 
 .navbar .navbar-brand, 
 .navbar .navbar-nav > li > a {
-    color: #FFFFFF !important;
+    color: black !important;
 }
 
 .navbar .navbar-nav > li > a:hover {
-    color: #F8F8F8 !important;
+    color: black !important;
 }
 
 /* Headings (optional: subtle yellow tone) */
@@ -39,6 +39,14 @@ a:hover {
     color: black !important;
 }
 .tocify-item.active {
-    color: #d84315 !important;
+    color: #FFF3DB !important;
     font-weight: bold;
 }
+/* Fix red highlight in dropdowns */
+.dropdown-menu > li > a:active,
+.dropdown-item.active,
+.dropdown-item:active {
+    background-color: #FFF3DB !important;  /* Match your yellow theme */
+    color: black !important;
+}
+
