@@ -1,0 +1,21 @@
+---
+title: "ISSS608 Group 14 Poster"
+author: "Group 14"
+last-updated: "April 3, 2025"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    theme: readable
+    code-fold: show
+execute:
+  warning: false
+---
+
+![](poster/Poster.png){fig-align="center"}
+
+### 📥 Download the Poster
+
+- Click [here](poster/Poster.pdf) to download the poster as PDF.
+- Click [here](poster/Poster.png) to download the poster as PNG.
