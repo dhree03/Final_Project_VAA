@@ -563,24 +563,37 @@ server <- function(input, output, session) {
   
   
   output$happiness_trend_plot <- renderPlotly({
-    req(input$country_select, input$factor_select)  # Ensure inputs exist before rendering
+    req(input$country_select, input$year_range, input$factor_select)  # Ensure all inputs exist
     
     df_filtered <- happiness_df %>%
-      filter(country == input$country_select, 
-             year >= input$year_range[1], 
-             year <= input$year_range[2])
-    
-    # Create base plot
-    plot <- plot_ly(df_filtered, x = ~year)
+      filter(
+        country == input$country_select,
+        year >= input$year_range[1],
+        year <= input$year_range[2]
+      )
     
     # Ensure at least one factor is selected
-    if (length(input$factor_select) > 0) {
-      for (factor in input$factor_select) {
+    if (length(input$factor_select) == 0) {
+      return(NULL)  # Stop execution if no factors are selected
+    }
+    
+    # Initialize Plotly object
+    plot <- plot_ly(df_filtered, x = ~year)
+    
+    # Dynamically add traces for each selected factor
+    for (factor in input$factor_select) {
+      if (factor %in% names(df_filtered)) {  # Ensure selected factor exists in data
         plot <- plot %>%
-          add_trace(y = df_filtered[[factor]], name = factor, type = "scatter", mode = "lines+markers")
+          add_trace(y = df_filtered[[factor]], 
+                    name = factor, 
+                    type = "scatter", 
+                    mode = "lines+markers", 
+                    hoverinfo = "text",
+                    text = ~paste("Year:", year, "<br>", factor, ":", df_filtered[[factor]]))
       }
     }
     
+    # Final plot layout
     plot %>% layout(
       title = paste("Happiness Trends in", input$country_select),
       xaxis = list(title = "Year"), 
@@ -588,6 +601,7 @@ server <- function(input, output, session) {
       legend = list(x = 0, y = 1)
     )
   })
+  
   
   output$panel_data_table <- renderDT({
     happiness_df %>% filter(year >= input$year_range[1], year <= input$year_range[2]) %>%
