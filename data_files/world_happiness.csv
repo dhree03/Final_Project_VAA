@@ -324,6 +324,7 @@ year,country,ladder_score,economy_score,social_score,lifeexpectancy_score,freedo
 2020,Congo,5.342,0.518,0.392,0.307,0.381,0.144,0.124,3.476,83,Africa
 2022,Congo,5.267,0.921,0.665,0.145,0.464,0.134,0.136,2.802,86,Africa
 2023,Congo,5.221,0.892,0.622,0.306,0.523,0.124,0.138,2.617,89,Africa
+2024,Congo,5.03,1.023,0.796,0.336,0.626,0.082,0.126,2.04,100,Africa
 2014,"Congo, Democratic Republic of the",4.517,0,1.0012,0.09806,0.22605,0.24834,0.07625,2.86712,120,Africa
 2015,"Congo, Democratic Republic of the",4.272,0.05661,0.80676,0.188,0.15602,0.25458,0.06075,2.74924,125,Africa
 2016,"Congo, Democratic Republic of the",4.28,0.0921,1.22902,0.19141,0.23596,0.24646,0.06024,2.22496,126,Africa
@@ -333,7 +334,6 @@ year,country,ladder_score,economy_score,social_score,lifeexpectancy_score,freedo
 2021,"Congo, Democratic Republic of the",5.075,0.95,0.405,0.355,0.431,0.13,0.146,2.658,99,Africa
 2022,"Congo, Democratic Republic of the",3.207,0.531,0.784,0.105,0.375,0.183,0.068,1.162,133,Africa
 2023,"Congo, Democratic Republic of the",3.295,0.534,0.665,0.262,0.473,0.189,0.072,1.102,139,Africa
-2024,"Congo, Democratic Republic of the",5.03,1.023,0.796,0.336,0.626,0.082,0.126,2.04,100,Africa
 2024,"Congo, Democratic Republic of the",3.469,0.544,0.929,0.278,0.6,0.151,0.061,0.906,141,Africa
 2014,Costa Rica,7.226,0.95578,1.23788,0.86027,0.63376,0.25497,0.10583,3.17728,12,Americas
 2015,Costa Rica,7.087,1.06879,1.02152,0.76146,0.55225,0.22553,0.10547,3.35168,14,Americas
