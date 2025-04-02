@@ -248,7 +248,18 @@ ui <- dashboardPage(
                     selectInput("selected_year", "Select Year:",
                                 choices = sort(unique(world_happy$year)), selected = 2024),
                     selectInput("selected_region", "Filter by Region:", choices = NULL),
-                    selectInput("selected_country", "Search Country:", choices = NULL)
+                    selectInput("selected_country", "Search Country:", choices = NULL),
+                    hr(),
+                    h4("Chart Interpretation"),
+                    HTML("The <b>Choropleth Map</b> uses color gradients to represent the overall happiness score of each country. 
+     Darker shades indicate higher happiness, while lighter shades indicate lower happiness. This allows for a quick visual comparison across countries.<br><br>
+     
+     The <b>Proportional Symbol Map</b> overlays circles on each country, where the <b>size of the circle</b> corresponds to the happiness score. 
+     Larger circles represent happier countries. This helps emphasize magnitude and enables easy identification of extreme values.<br><br>
+     
+     Together, these maps provide complementary insights — the choropleth captures regional trends through shading, 
+     while the proportional symbols highlight individual country scores more directly.")
+                    
                   ),
                   mainPanel(
                     fluidRow(
@@ -304,7 +315,17 @@ ui <- dashboardPage(
                       selected = unique(happiness_df$region),
                       options = list(`actions-box` = TRUE, `live-search` = TRUE),
                       multiple = TRUE
-                    )
+                    ),
+                    hr(),
+                    h4("Chart Interpretation"),
+                    HTML("The <b>Left Map</b> provides a simple geographic overview of the selected regions without considering spatial relationships like proximity or clustering. 
+                   It helps orient users geographically while remaining neutral to spatial dependence.<br><br>
+
+                   The <b>Region-Level Ridgeline Plot Chart</b> (top right) compares average happiness scores across selected regions. 
+                   This enables users to quickly identify which regions are generally happier or less happy.<br><br>
+
+                   The <b>Summary Table</b> complements the visuals by providing exact happiness values, 
+                   averages, and rankings, allowing for precise data inspection.")
                   ),
                   mainPanel(
                     width = 9,
@@ -313,19 +334,13 @@ ui <- dashboardPage(
                       column(6, plotOutput("regionPlot", height = "400px"))
                     ),
                     fluidRow(
-                      column(12,
-                             div(style = "overflow-x: auto;",
-                                 plotOutput("countryPlot", height = "1000px", width = "1500px", inline = TRUE)
-                             )
-                      )
-                    ),
-                    fluidRow(
                       column(12, gt_output("summaryTable"))
                     )
                   )
                 )
               )
       ),
+      
       
       
       tabItem(tabName = "about",
@@ -910,22 +925,6 @@ server <- function(input, output, session) {
       labs(title = paste("Distribution by Region (", input$year, ")", sep = ""),
            x = "Happiness Score (Ladder Score)",
            y = "Region")
-  })
-  
-  output$countryPlot <- renderPlot({
-    df <- filtered_data()
-    req(nrow(df) > 0)
-    df$country <- factor(df$country, levels = sort(unique(df$country)))
-    
-    ggplot(df, aes(x = ladder_score, y = country, fill = country)) +
-      geom_density_ridges(alpha = 0.7, scale = 1.2, stat = "binline", bins = 30) +
-      theme_minimal(base_size = 14) +
-      labs(title = paste("Distribution of Happiness Scores by Country (", input$year, ")", sep = ""),
-           x = "Happiness Score (Ladder Score)",
-           y = "Country") +
-      theme(legend.position = "none",
-            plot.margin = unit(c(10, 20, 10, 20), "pt"),
-            plot.title = element_text(size = 16, face = "bold"))
   })
   
   output$summaryTable <- render_gt({
