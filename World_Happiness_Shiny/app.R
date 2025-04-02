@@ -351,35 +351,61 @@ server <- function(input, output, session) {
             <p>This plot shows the causal impact of events (e.g., COVID-19, economic crises) on happiness scores. Use this to understand how external factors may have influenced the happiness trends.</p>
           </div>")
   })
-  
+
   output$trend_plot <- renderPlotly({
-    filtered <- filtered_data()
-  
-      plot_ly(data = filtered, x = ~year, y = ~ladder_score, color = ~country, type = 'scatter', mode = 'lines+markers') %>%
-        layout(title = "Happiness Trend",
-               xaxis = list(title = "Year"),
-               yaxis = list(title = "Happiness Score"),
-               legend = list(title = list(text = "Country")))
+    filtered_data_trendplot <- happiness_df %>%
+      filter(country %in% input$country & 
+               year >= input$year_range[1] & 
+               year <= input$year_range[2])
+    
+    # Plot the filtered data
+    plot_ly(data = filtered_data_trendplot, x = ~year, y = ~ladder_score, 
+            color = ~country, type = 'scatter', mode = 'lines+markers') %>%
+      layout(title = "Happiness Trend",
+             xaxis = list(title = "Year"),
+             yaxis = list(title = "Happiness Score"),
+             legend = list(title = list(text = "Country")))
   })
   
 
   output$forecast_plot <- renderPlotly({
-    filtered <- filtered_data()
+    
+    # Create a filtered dataset specific to this plot
+    filtered_data_forecast <- happiness_df %>%
+      filter(country %in% input$country & 
+               year >= input$year_range[1] & 
+               year <= input$year_range[2])
+    
+    # Debugging: Check if the dataset is empty
+    print(filtered_data_forecast)
+    
+    # Initialize an empty Plotly object
     p <- plot_ly()
-    for (country_name in unique(filtered$country)) {
-      country_data <- filtered %>% filter(country == country_name)
+    
+    # Loop through each selected country and generate forecasts
+    for (country_name in unique(filtered_data_forecast$country)) {
+      
+      country_data <- filtered_data_forecast %>% filter(country == country_name)
       ts_data <- ts(country_data$ladder_score, start = min(country_data$year), frequency = 1)
+      
       if (length(ts_data) > 5) {
         model <- auto.arima(ts_data)
         forecast_data <- forecast(model, h = 5)
         future_years <- seq(max(country_data$year) + 1, by = 1, length.out = 5)
+        
         p <- p %>%
           add_lines(x = country_data$year, y = ts_data, name = paste(country_name, "- Observed")) %>%
-          add_lines(x = future_years, y = forecast_data$mean, name = paste(country_name, "- Forecasted"), line = list(dash = "dash"))
+          add_lines(x = future_years, y = forecast_data$mean, name = paste(country_name, "- Forecasted"), 
+                    line = list(dash = "dash"))
       }
     }
-    p %>% layout(title = "Happiness Forecast Comparison", xaxis = list(title = "Year"), yaxis = list(title = "Happiness Score"))
+    
+    # Layout settings
+    p %>% layout(title = "Happiness Forecast Comparison", 
+                 xaxis = list(title = "Year"), 
+                 yaxis = list(title = "Happiness Score"))
   })
+  
   
   output$causal_impact_plot <- renderPlot({
     pre_period <- c(2014, 2019)
