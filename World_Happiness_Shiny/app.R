@@ -37,6 +37,8 @@ library(TSclust)
 library(networkD3)
 library(factoextra)
 library(RColorBrewer)
+library(rworldmap)
+
 
 # Load happiness data
 happiness_df <- read.csv("data/world_happiness.csv") %>%
@@ -2109,13 +2111,13 @@ server <- function(input, output, session) {
     
     latest_scores <- df %>%
       filter(year == max(year)) %>%
-      select(country, ACTUAL = ladder_score)
+      dplyr::select(country, ACTUAL = ladder_score)
     
     combined_df <- summary_df %>%
       left_join(latest_scores, by = "country") %>%
       arrange(country) %>%
       mutate(bullet_chart = ACTUAL) %>%
-      select(country, MIN, MAX, AVERAGE, ACTUAL, bullet_chart)
+      dplyr::select(country, MIN, MAX, AVERAGE, ACTUAL, bullet_chart)
     
     combined_df %>%
       gt() %>%
