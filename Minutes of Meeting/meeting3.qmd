@@ -12,3 +12,120 @@ output:
 execute: 
   warning: false
 ---
+
+# 1. ISSS608 Group 14 Meeting Minutes
+
+**Project Meeting 3:** Refining of Analysis Techniques, Finalizing of Dashboard Design, Updating of Individual Progress, Resolving of any bottlenecks, Setting of Final Deadlines
+
+**Date:** 29/03/2025
+
+**Time:** 4.00pm -- 6.00pm
+
+**In Attendance:** Andrea YEO Si Han, Dhreeti SHAH, OU Yi Ming
+
+**Minutes Taker:** Ou Yi Ming
+
+------------------------------------------------------------------------
+
+# 2. Agenda Items
+
+1.  **Agenda Item 1:** Refining of Analysis Techniques
+
+2.  **Agenda Item 2:** Finalizing of Dashboard Design
+
+3.  **Agenda Item 3:** Updating of Individual Progress
+
+4.  **Agenda Item 4:** Resolving of Bottlenecks
+
+5.  **Agenda Item 5:** Setting of Final Deadlines
+
+------------------------------------------------------------------------
+
+# 3. Agenda Item 1: Refining of Analysis Techniques
+
+The team discussed and refined the analytical techniques to be applied in the project. The key components to be incorporated into the final analysis include:
+
+-   **Time Series Analysis**: To analyze the temporal patterns of happiness scores and influencing factors.
+
+-   **Multivariate Clustering**: To segment countries based on multiple happiness-related variables by years for a better understanding.
+
+-   **Time Series Forecasting**: To predict future happiness trends based on historical patterns.
+
+-   **Target Variable Prediction via Input Changes**: To allow users to simulate how changes in key variables (e.g., GDP, social support) may affect happiness scores.
+
+-   **Penalized Regression (e.g., Ridge, LASSO)**: To handle multicollinearity issues and select relevant predictors for the final modeling.
+
+Each member agreed on the relevance of these methods and committed to incorporating them into their respective analysis components.
+
+------------------------------------------------------------------------
+
+# 4. Agenda Item 2: Finalizing of Dashboard Design
+
+The team finalized the dashboard's visual structure, focusing on UI design, layout, and color scheme.
+
+-   The overall structure will include the following sections:
+
+    -   **Home Page**
+
+    -   **Time Series Forecasting & Predictive Modeling**
+
+    -   **Clustering (Time-series and Multivariate)**
+
+    -   **Geospatial and Aspatial Analysis**
+
+    -   **About**
+
+-   The color scheme will be soft and professional, ensuring visual clarity without distracting users.
+
+-   A consistent layout (yellow color scheme) will be used across all dashboards to maintain uniformity.
+
+-   The team agreed to keep the UI user-friendly, with filters, sliders, and dropdowns for interactive exploration.
+
+------------------------------------------------------------------------
+
+# 5. Agenda Item 3: Updating of Individual Progress
+
+Each member provided an update on their assigned components:
+
+-   **Andrea** completed exploratory data analysis (EDA), generated initial geographical plots, and performed Local Indicators of Spatial Association (LISA) analysis.
+
+-   **Dhreeti** performed time series forecasting and conducted time series analysis for trend identification.
+
+-   **Yi Ming** performed preliminary EDA and explored suitable clustering techniques to apply in the multivariate clustering section.
+
+------------------------------------------------------------------------
+
+# 6. Agenda Item 4: Resolving of Bottlenecks
+
+A critical issue was identified regarding data inconsistencies due to multiple exports of the cleaned dataset during collaborative work. Specifically, some columns contained unknown or corrupted values.
+
+-   The problem was traced to the repeated execution of code chunks that exported the cleaned dataset to CSV.
+
+-   The issue was resolved by:
+
+    -   Setting the export code chunk to `eval: false` to prevent repeated overwriting.
+
+    -   Creating a shared cleaned dataset saved in a separate folder as a "read-only" resource for all team members.
+
+This solution ensured consistency across all subsequent analyses.
+
+------------------------------------------------------------------------
+
+# 7. Agenda Item 5: Setting of Final Deadlines
+
+The team reached a consensus on the following timeline for deliverables:
+
+| Deliverable             | Deadline   |
+|-------------------------|------------|
+| Combined Shiny App Code | 30/03/2025 |
+| Poster Completion       | 31/03/2025 |
+| UI Refinement           | 01/04/2025 |
+| User Guide Completion   | 02/04/2025 |
+
+This timeline allows for adequate buffer time before the final project submission on **April 5th**.
+
+------------------------------------------------------------------------
+
+With all discussion points addressed, the meeting was adjourned at 6:00 PM.
+
+**Meeting Adjourned**

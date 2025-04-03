@@ -13,7 +13,7 @@ website:
             text: Project proposal
           - href: dataprep.qmd
             text: Data preparation
-      - text: Shinny App
+      - text: Shiny App
         menu:
           - href: poster.qmd
             text: Poster

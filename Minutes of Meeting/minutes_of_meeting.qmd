@@ -15,7 +15,7 @@ execute:
 
 **Project Meeting 1:** Project Proposal, Project Methodology, Project Timeline
 
-**Date:** 05/03/2024
+**Date:** 05/03/2025
 
 **Time:** 8.00pm -- 10.00pm
 
@@ -25,12 +25,22 @@ execute:
 
 **Project Meeting 2:** Data Cleaning, Dashboard Design, Individual Task Assignment, Prototyping & Timeline Planning
 
-**Date:** 20/03/2024
+**Date:** 20/03/2025
 
-**Time:** 6.30pm -- 08.30pm
+**Time:** 6.30pm -- 8.30pm
 
 **In Attendance:** Andrea YEO Si Han, Dhreeti SHAH, OU Yi Ming
 
 [Click here to view meeting minutes - 2.](meeting2.qmd)
+
+**Project Meeting 3:** Refining of Analysis Techniques, Finalizing of Dashboard Design, Updating of Individual Progress, Resolving of any bottlenecks, Setting of Final Deadlines
+
+**Date:** 29/03/2025
+
+**Time:** 4.00pm -- 6.00pm
+
+**In Attendance:** Andrea YEO Si Han, Dhreeti SHAH, OU Yi Ming
+
+[Click here to view meeting minutes - 3.](meeting3.qmd)
 
 ------------------------------------------------------------------------
