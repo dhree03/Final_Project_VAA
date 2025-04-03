@@ -1853,8 +1853,14 @@ server <- function(input, output, session) {
 
   # --- FIXED GEOSPATIAL BLOCK ---
   observe({
-    regions <- sort(unique(world_happy$region))
-    updateSelectInput(session, "selected_region", choices = c("All", regions), selected = "All")
+    data_2024 <- world_happy %>%
+      filter(year == 2024 & !is.na(ladder_score))
+    
+    regions <- sort(unique(data_2024$region))
+    countries <- data_2024 %>% filter(region == "Asia") %>% pull(name) %>% unique() %>% sort()
+    
+    updateSelectInput(session, "selected_region", choices = c("All", regions), selected = "Asia")
+    updateSelectInput(session, "selected_country", choices = countries, selected = "Afghanistan")
   })
   
   geo_filtered_data <- reactive({
@@ -1882,10 +1888,24 @@ server <- function(input, output, session) {
   
   output$choropleth_map <- renderTmap({
     tmap_mode("view")
+    
     data <- geo_filtered_data()
-    if (nrow(data) == 0) return(tmap::tm_shape(world) + tm_text("No valid data"))
+    
+    # Safeguard: ensure we have valid data
+    if (is.null(data) || nrow(data) == 0 || all(is.na(data$geometry))) {
+      return(tm_shape(world) + tm_borders() + tm_text("name", size = 0.5))
+    }
+    
+    # Try to get selected country geometry
     selected_geom <- data %>% filter(name == input$selected_country)
-    bbox_zoom <- if (nrow(selected_geom) > 0) st_bbox(selected_geom) else st_bbox(data)
+    
+    # Use fallback bbox if country not found
+    if (nrow(selected_geom) == 0 || all(is.na(selected_geom$geometry))) {
+      bbox_zoom <- st_bbox(data)
+    } else {
+      bbox_zoom <- st_bbox(selected_geom)
+    }
+    
     tm_shape(data, bbox = bbox_zoom) +
       tm_polygons(
         col = "ladder_score",
@@ -1895,6 +1915,8 @@ server <- function(input, output, session) {
         title = paste("Happiness Score:", input$selected_year)
       )
   })
+  
+  
   
   output$prop_map <- renderLeaflet({
     data <- geo_filtered_data()
