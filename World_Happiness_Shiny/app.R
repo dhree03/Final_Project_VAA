@@ -2064,19 +2064,26 @@ server <- function(input, output, session) {
   })
   
   # --- ASPATIAL TAB ---
-  filtered_data <- reactiveVal()
-  
+  filtered_data <- reactiveVal({
+    happiness_df %>%
+      filter(year == 2024, region %in% unique(happiness_df$region))
+  })  
   observeEvent({input$year; input$region}, {
     new_data <- happiness_df %>%
       filter(year == input$year, region %in% input$region)
     filtered_data(new_data)
-  }, ignoreInit = TRUE)
+  }, ignoreInit = FALSE)
   
   output$map <- renderTmap({
     tmap_mode("view")
     happiness_latest <- filtered_data()
+    
+    req(nrow(happiness_latest) > 0)
+    
     world_happy_latest <- left_join(world, happiness_latest, by = c("name" = "country")) %>%
       filter(!is.na(ladder_score))
+    
+    req(nrow(world_happy_latest) > 0)
     
     tm_shape(world_happy_latest) +
       tm_polygons(
@@ -2090,13 +2097,17 @@ server <- function(input, output, session) {
   output$regionPlot <- renderPlot({
     df <- filtered_data()
     req(nrow(df) > 0)
+    
     ggplot(df, aes(x = ladder_score, y = region, fill = region)) +
-      geom_density_ridges(alpha = 0.7, scale = 1.2) +
+      ggridges::geom_density_ridges(alpha = 0.7, scale = 1.2) +
       theme_minimal() +
-      labs(title = paste("Distribution by Region (", input$year, ")", sep = ""),
-           x = "Happiness Score (Ladder Score)",
-           y = "Region")
+      labs(
+        title = paste("Distribution by Region (", input$year, ")", sep = ""),
+        x = "Happiness Score (Ladder Score)",
+        y = "Region"
+      )
   })
+  
   
   output$summaryTable <- render_gt({
     df <- happiness_df %>% filter(region %in% input$region)
