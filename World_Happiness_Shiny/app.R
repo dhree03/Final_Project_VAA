@@ -300,12 +300,42 @@ ui <- dashboardPage(
                                 tabPanel("What-If Analysis",
                                          h3("What-If Analysis: Adjust Factors"),
                                          wellPanel(
-                                           sliderInput("economy_adj", "Economy Score:", min = 0, max = 2, value = 1, step = 0.1),
-                                           sliderInput("social_adj", "Social Score:", min = 0, max = 2, value = 1, step = 0.1),
-                                           sliderInput("lifeexp_adj", "Life Expectancy Score:", min = 0, max = 2, value = 1, step = 0.1),
-                                           sliderInput("freedom_adj", "Freedom Score:", min = 0, max = 2, value = 1, step = 0.1),
-                                           sliderInput("generosity_adj", "Generosity Score:", min = 0, max = 2, value = 1, step = 0.1),
-                                           sliderInput("corrperc_adj", "Corruption Perception Score:", min = 0, max = 2, value = 1, step = 0.1)
+                                           sliderInput("economy", "Economy Score",
+                                                       min = min(happiness_df$economy_score, na.rm = TRUE),
+                                                       max = max(happiness_df$economy_score, na.rm = TRUE),
+                                                       value = mean(happiness_df$economy_score, na.rm = TRUE),
+                                                       step = 0.01),
+                                           
+                                           sliderInput("social", "Social Support Score",
+                                                       min = min(happiness_df$social_score, na.rm = TRUE),
+                                                       max = max(happiness_df$social_score, na.rm = TRUE),
+                                                       value = mean(happiness_df$social_score, na.rm = TRUE),
+                                                       step = 0.01),
+                                           
+                                           sliderInput("lifeexp", "Life Expectancy Score",
+                                                       min = min(happiness_df$lifeexpectancy_score, na.rm = TRUE),
+                                                       max = max(happiness_df$lifeexpectancy_score, na.rm = TRUE),
+                                                       value = mean(happiness_df$lifeexpectancy_score, na.rm = TRUE),
+                                                       step = 0.01),
+                                           
+                                           sliderInput("freedom", "Freedom Score",
+                                                       min = min(happiness_df$freedom_score, na.rm = TRUE),
+                                                       max = max(happiness_df$freedom_score, na.rm = TRUE),
+                                                       value = mean(happiness_df$freedom_score, na.rm = TRUE),
+                                                       step = 0.01),
+                                           
+                                           sliderInput("generosity", "Generosity Score",
+                                                       min = min(happiness_df$generosity_score, na.rm = TRUE),
+                                                       max = max(happiness_df$generosity_score, na.rm = TRUE),
+                                                       value = mean(happiness_df$generosity_score, na.rm = TRUE),
+                                                       step = 0.01),
+                                           
+                                           sliderInput("corruption", "Corruption Perception Score",
+                                                       min = min(happiness_df$corrperception_score, na.rm = TRUE),
+                                                       max = max(happiness_df$corrperception_score, na.rm = TRUE),
+                                                       value = mean(happiness_df$corrperception_score, na.rm = TRUE),
+                                                       step = 0.01)
+                                           
                                          )
                                 )
                     )
@@ -988,12 +1018,12 @@ server <- function(input, output, session) {
     
     # Compute the new predicted happiness score based on user adjustments
     new_ladder_score <- existing_score + (
-      (coef_values["economy_score"] * input$economy_adj) +
-        (coef_values["social_score"] * input$social_adj) +
-        (coef_values["lifeexpectancy_score"] * input$lifeexp_adj) +
-        (coef_values["freedom_score"] * input$freedom_adj) +
-        (coef_values["generosity_score"] * input$generosity_adj) +
-        (coef_values["corrperception_score"] * input$corrperc_adj)
+      (coef_values["economy_score"] * input$economy) +
+        (coef_values["social_score"] * input$social) +
+        (coef_values["lifeexpectancy_score"] * input$lifeexp) +
+        (coef_values["freedom_score"] * input$freedom) +
+        (coef_values["generosity_score"] * input$generosity) +
+        (coef_values["corrperception_score"] * input$corruption)
     )
     
     # Compute the difference
