@@ -5,6 +5,6 @@ account: dhree
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 14428698
-bundleId: 10055698
+bundleId: 10055759
 url: https://dhree.shinyapps.io/world_happiness_shiny/
 version: 1

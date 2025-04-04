@@ -19,7 +19,7 @@ website:
             text: Poster
           - href: userguide.qmd
             text: User guide
-          - href: World_Happiness_Shiny/app.R
+          - href: https://dhree.shinyapps.io/world_happiness_shiny/
             text: Visualization
       - text: Meeting records
         menu:
