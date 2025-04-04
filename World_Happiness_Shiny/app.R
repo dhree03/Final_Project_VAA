@@ -48,7 +48,6 @@ happiness_df <- read.csv("data/world_happiness.csv") %>%
 
 happiness_df <- happiness_df %>% na.omit()
 
-head(happiness_df)
 
 fe_model <- plm(ladder_score ~ economy_score + social_score + lifeexpectancy_score +
                   freedom_score + generosity_score + corrperception_score, 
@@ -738,8 +737,6 @@ server <- function(input, output, session) {
                year >= input$year_range[1] & 
                year <= input$year_range[2])
     
-    # Debugging: Check if the dataset is empty
-    print(filtered_data_forecast)
     
     # Initialize an empty Plotly object
     p <- plot_ly()

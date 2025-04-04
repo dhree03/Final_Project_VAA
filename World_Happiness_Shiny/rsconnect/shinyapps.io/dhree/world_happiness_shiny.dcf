@@ -1,0 +1,10 @@
+name: world_happiness_shiny
+title:
+username: dhree
+account: dhree
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 14428698
+bundleId: 10055481
+url: https://dhree.shinyapps.io/world_happiness_shiny/
+version: 1
