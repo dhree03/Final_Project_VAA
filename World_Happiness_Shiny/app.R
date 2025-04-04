@@ -45,7 +45,10 @@ happiness_df <- read.csv("data/world_happiness.csv") %>%
   mutate(year = as.numeric(year)) %>%
   filter(year %in% 2014:2024)
 
+
 happiness_df <- happiness_df %>% na.omit()
+
+head(happiness_df)
 
 fe_model <- plm(ladder_score ~ economy_score + social_score + lifeexpectancy_score +
                   freedom_score + generosity_score + corrperception_score, 
@@ -217,13 +220,16 @@ ui <- dashboardPage(
                 titlePanel("Happiness Trend"),
                 sidebarLayout(
                   sidebarPanel(
-                    selectInput("country_select", "Select Country:", 
-                                choices = unique(happiness_df$country)),
-                    checkboxGroupInput("factor_select_trend", "Select Happiness Factors:", 
-                                       choices = c("ladder_score", "economy_score", "social_score", 
-                                                   "lifeexpectancy_score", "freedom_score", 
-                                                   "generosity_score", "corrperception_score"),
-                                       selected = "ladder_score") # Default: Ladder Score
+                    selectInput("country", "Select a Country:", choices = unique(happiness_df$country)),
+                    checkboxGroupInput("factors", "Select Factors to Compare:", 
+                                       choices = c("Ladder Score" = "ladder_score",
+                                                   "Economy Score" = "economy_score",
+                                                   "Social Score" = "social_score",
+                                                   "Life Expectancy Score" = "lifeexpectancy_score",
+                                                   "Freedom Score" = "freedom_score",
+                                                   "Generosity Score" = "generosity_score",
+                                                   "Corruption Perception Score" = "corrperception_score"),
+                                       selected = "ladder_score")  # Default selection
                   ),
         
                   mainPanel(
@@ -239,22 +245,36 @@ ui <- dashboardPage(
                 titlePanel("Panel Data Insights"),
                 sidebarLayout(
                   sidebarPanel(
+      
                     conditionalPanel(
-                      condition = "input.subtabs != 'What-If Analysis'",
-                      sliderInput("year_range", "Select Year Range:", 
-                                  min = min(happiness_df$year), max = max(happiness_df$year), 
-                                  value = c(min(happiness_df$year), max(happiness_df$year)), step = 1),
-                      checkboxGroupInput("factor_select", "Select Happiness Factors:", 
-                                         choices = c("ladder_score", "economy_score", "social_score", 
-                                                     "lifeexpectancy_score", "freedom_score", 
-                                                     "generosity_score", "corrperception_score"),
-                                         selected = "ladder_score")
+                      condition = "input.subtabs == 'Panel Data Table'",
+                      h4("Do you want to save the data?"),
+                      downloadButton("downloadData", "Download Data as CSV")
+        
                     ),
                     conditionalPanel(
+                      condition = "input.subtabs == 'Top Improvement'",
+                      br(), br(), br(),
+                      box(
+                        title = "🔍 Insights",
+                        status = "info",
+                        solidHeader = TRUE,
+                        width = 12,
+                        p("The top improvement in happiness is often driven by factors such as improvements in social support, economic stability, and governance."),
+                        br(),
+                        p("For more details on global happiness trends, check out the resources below:"),
+                        tags$ul(
+                          tags$li(a("World Happiness Report", href = "https://worldhappiness.report/", target = "_blank")),
+                          tags$li(a("UN Happiness Index", href = "https://www.un.org/sustainabledevelopment/happiness/", target = "_blank"))
+                        )
+                      )
+                    ),
+                    
+                    conditionalPanel(
                       condition = "input.subtabs == 'What-If Analysis'",
-                      selectInput("year_select", "Select Year:", 
-                                  choices = unique(happiness_df$year), 
-                                  selected = max(happiness_df$year)),
+                      selectInput("country", "Select a Country:", choices = unique(happiness_df$country)),
+                      selectInput("year", "Select year:", choices = unique(happiness_df$year)),
+                      
                       h4("Predicted Happiness Score:"),
                       verbatimTextOutput("what_if_prediction")
                     )
@@ -262,7 +282,21 @@ ui <- dashboardPage(
                   mainPanel(
                     tabsetPanel(id = "subtabs",
                                 tabPanel("Panel Data Table", DTOutput("panel_data_table")),
-                                tabPanel("Top Improvement", verbatimTextOutput("top_improvement")),
+                                tabPanel("Top Improvement", 
+                                         conditionalPanel(
+                                           condition = "input.subtabs == 'Top Improvement'",
+                                           fluidRow(
+                                             column(8,
+                                                    uiOutput("top_improvement")  # Your dynamic message here
+                                             )
+                                            
+                                             )
+                                           )
+                                         ),
+                                
+                    
+                  
+                                
                                 tabPanel("What-If Analysis",
                                          h3("What-If Analysis: Adjust Factors"),
                                          wellPanel(
@@ -801,45 +835,43 @@ server <- function(input, output, session) {
   
   
   output$happiness_trend_plot <- renderPlotly({
-    req(input$country_select, input$year_range, input$factor_select)  # Ensure all inputs exist
+    req(input$country, input$factors)
     
-    df_filtered <- happiness_df %>%
-      filter(
-        country == input$country_select,
-        year >= input$year_range[1],
-        year <= input$year_range[2]
-      )
+    # Filter for selected country
+    country_data <- happiness_df %>% 
+      filter(country == input$country)
     
-    # Ensure at least one factor is selected
-    if (length(input$factor_select) == 0) {
-      return(NULL)  # Stop execution if no factors are selected
+    # Confirm selected columns + year exist
+    available_cols <- c("year", input$factors)
+    missing_cols <- setdiff(available_cols, colnames(country_data))
+    
+    if (length(missing_cols) > 0) {
+      stop(paste("Missing column(s):", paste(missing_cols, collapse = ", ")))
     }
     
-    # Initialize Plotly object
-    plot <- plot_ly(df_filtered, x = ~year)
+    # Extract only needed columns and sort by year
+    plot_data <- country_data[, available_cols] %>%
+      arrange(year)
     
-    # Dynamically add traces for each selected factor
-    for (factor in input$factor_select) {
-      if (factor %in% names(df_filtered)) {  # Ensure selected factor exists in data
-        plot <- plot %>%
-          add_trace(y = df_filtered[[factor]], 
-                    name = factor, 
-                    type = "scatter", 
-                    mode = "lines+markers", 
-                    hoverinfo = "text",
-                    text = ~paste("Year:", year, "<br>", factor, ":", df_filtered[[factor]]))
-      }
-    }
-    
-    # Final plot layout
-    plot %>% layout(
-      title = paste("Happiness Trends in", input$country_select),
-      xaxis = list(title = "Year"), 
-      yaxis = list(title = "Score"),
-      legend = list(x = 0, y = 1)
+    # Pivot to long format
+    long_data <- tidyr::pivot_longer(
+      plot_data,
+      cols = -year,
+      names_to = "Factor",
+      values_to = "Value"
     )
+    
+    # Plot
+    p <- ggplot(long_data, aes(x = year, y = Value, color = Factor)) +
+      geom_line(size = 1.2) +
+      geom_point(size = 2) +
+      labs(title = paste("Happiness Trends in", input$country),
+           x = "Year", y = "Score") +
+      theme_minimal() +
+      theme(legend.title = element_blank())
+    
+    ggplotly(p)
   })
-  
   
   output$panel_data_table <- renderDT({
     happiness_df %>% filter(year >= input$year_range[1], year <= input$year_range[2]) %>%
@@ -847,28 +879,106 @@ server <- function(input, output, session) {
     
   })
   
-  output$top_improvement <- renderText({
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste("filtered_happiness_data.csv", sep = "")  # File name
+    },
+    content = function(file) {
+      # Capture the search query from the data table's search bar
+      search_query <- input$panel_data_table_search
+      
+      # Filter the data based on the search query
+      data_to_export <- happiness_df
+      
+      # If there's a search query, apply it to filter the data across all columns
+      if (!is.null(search_query) && search_query != "") {
+        data_to_export <- data_to_export %>%
+          filter(grepl(search_query, country, ignore.case = TRUE) |
+                   grepl(search_query, ladder_score, ignore.case = TRUE) |
+                   grepl(search_query, economy_score, ignore.case = TRUE) |
+                   grepl(search_query, social_score, ignore.case = TRUE) |
+                   grepl(search_query, lifeexpectancy_score, ignore.case = TRUE) |
+                   grepl(search_query, freedom_score, ignore.case = TRUE) |
+                   grepl(search_query, generosity_score, ignore.case = TRUE) |
+                   grepl(search_query, corrperception_score, ignore.case = TRUE))
+      }
+      
+      # Write the filtered data to the CSV file
+      write.csv(data_to_export, file, row.names = FALSE)
+    }
+  )
+
+
+  
+  output$top_improvement <- renderUI({
+    
     improvement_df <- happiness_df %>%
       group_by(country) %>%
       summarize(improvement = max(ladder_score) - min(ladder_score), .groups = "drop") %>%
       arrange(desc(improvement))
+    
+    # Top country with the highest improvement
     top_country <- improvement_df$country[1]
     top_change <- round(improvement_df$improvement[1], 2)
-    paste("The country with the highest happiness improvement from", 
-          min(happiness_df$year), "to", max(happiness_df$year), "is", top_country, 
-          "with an increase of", top_change, "in Ladder Score.")
+    
+    # Country with the lowest improvement
+    bottom_country <- improvement_df$country[nrow(improvement_df)]
+    bottom_change <- round(improvement_df$improvement[nrow(improvement_df)], 2)
+    
+    # Average improvement across all countries
+    avg_improvement <- round(mean(improvement_df$improvement), 2)
+    
+    # Construct the UI output with multiple boxes for each message
+    fluidPage(
+      box(
+        title = "🏆 Top Happiness Improvement",
+        status = "primary",
+        solidHeader = TRUE,
+        width = 12,
+        paste0(
+          "**The country with the highest happiness improvement** from ", min(happiness_df$year),
+          " to ", max(happiness_df$year), " is **", top_country, "** with an increase of ",
+          top_change, " in the Ladder Score. This demonstrates a significant shift in happiness levels, ",
+          "potentially due to factors like improved economy, social support, or governance."
+        )
+      ),
+      
+      box(
+        title = "📉 Least Happiness Improvement",
+        status = "danger",
+        solidHeader = TRUE,
+        width = 12,
+        paste0(
+          "On the other hand, the country with the **least improvement** in happiness is **", 
+          bottom_country, "**, with a modest increase of only ", bottom_change, "."
+        )
+      ),
+      
+      box(
+        title = "📊 Average Improvement",
+        status = "info",
+        solidHeader = TRUE,
+        width = 12,
+        paste0(
+          "📝 **On average**, countries saw an improvement of **", avg_improvement, "** in happiness levels over this period. ",
+          "This data provides valuable insights into global trends in well-being."
+        )
+      )
+    )
   })
+  
+  
   
   output$what_if_prediction <- renderText({
     
-    req(input$selected_country, input$selected_year)  # Ensure inputs are available
+    req(input$country, input$year)  # Ensure inputs are available
     
     # Extract coefficients from the model
     coef_values <- coef(fe_model)
     
     # Get the existing ladder score for the selected country and year
     existing_score <- happiness_df %>%
-      filter(country == input$selected_country, year == input$selected_year) %>%
+      filter(country == input$country, year == input$year) %>%
       pull(ladder_score)
     
     # If no data is found, return a message
@@ -891,8 +1001,8 @@ server <- function(input, output, session) {
     
     # Generate output message
     paste0(
-      "Selected Country: ", input$selected_country, "\n",
-      "Selected Year: ", input$selected_year, "\n",
+      "Selected Country: ", input$country, "\n",
+      "Selected Year: ", input$year, "\n",
       "Existing Happiness Score: ", round(existing_score, 2), "\n",
       "New Predicted Happiness Score: ", round(new_ladder_score, 2), "\n",
       "Change: ", round(score_change, 2)
