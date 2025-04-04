@@ -1,6 +1,18 @@
+# Check if the required packages are installed and install if missing
+if (!requireNamespace("rnaturalearth", quietly = TRUE)) {
+  install.packages("rnaturalearth")
+}
+if (!requireNamespace("rnaturalearthdata", quietly = TRUE)) {
+  install.packages("rnaturalearthdata", repos = "https://ropensci.r-universe.dev")
+}
+
+# Then load the libraries
+library(rnaturalearth)
+library(rnaturalearthdata)
 library(shiny)
 library(shinydashboard)
 library(shinyjs)
+library(shinyWidgets)
 library(tidyverse)
 library(readr)
 library(ggplot2)
@@ -9,20 +21,16 @@ library(dplyr)
 library(zoo)
 library(CausalImpact)
 library(forecast)
-library(plotly)
 library(corrplot)
 library(sf)
 library(tmap)
 library(leaflet)
-library(rnaturalearth)
 library(rworldmap)
-library(readr)
 library(gridExtra)
 library(plm)
 library(tibble)
 library(DT)
 library(spdep)
-library(shinyWidgets)
 library(gt)
 library(gtExtras)
 library(ggridges)
