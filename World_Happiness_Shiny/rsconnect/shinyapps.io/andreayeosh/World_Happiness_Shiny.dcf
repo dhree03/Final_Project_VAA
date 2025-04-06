@@ -1,0 +1,12 @@
+name: World_Happiness_Shiny
+title: World_Happiness_Shiny
+username: andreayeosh
+account: andreayeosh
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 14427647
+bundleId: 10055188
+url: https://andreayeosh.shinyapps.io/World_Happiness_Shiny/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
