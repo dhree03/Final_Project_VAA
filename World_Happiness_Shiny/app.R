@@ -48,6 +48,7 @@ library(RColorBrewer)
 library(rworldmap)
 
 
+
 # Load happiness data
 happiness_df <- read.csv("data/world_happiness.csv") %>%
   mutate(year = as.numeric(year)) %>%
@@ -103,6 +104,8 @@ country_corrections <- c(
 data$country_fixed <- ifelse(data$country %in% names(country_corrections),
                              country_corrections[data$country],
                              data$country)
+
+tmap_mode("view")
 
 ui <- dashboardPage(
   dashboardHeader(title = "World Happiness Visualization"),
@@ -2032,10 +2035,9 @@ server <- function(input, output, session) {
   })
   
   output$choropleth_map <- renderTmap({
-    tmap_mode("view")
     
     data <- geo_filtered_data()
-    
+
     # Safeguard: ensure we have valid data
     if (is.null(data) || nrow(data) == 0 || all(is.na(data$geometry))) {
       return(tm_shape(world) + tm_borders() + tm_text("name", size = 0.5))
