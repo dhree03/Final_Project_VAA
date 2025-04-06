@@ -60,16 +60,14 @@ page-layout: full
 }
 </style>
 ```
-
-:::::: hero-bg
-::::: {.hero-content .hero-box}
+::: hero-bg
+::: {.hero-content .hero-box}
 ::: hero-quote
-“There are so many beautiful things to be happy about.”
+"There are so many beautiful things to be happy about."
 :::
 
 ::: hero-sub
 A gentle reminder as we explore what happiness looks like around the world 🌍
 :::
-:::::
-::::::
-
+:::
+:::
