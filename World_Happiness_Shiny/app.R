@@ -46,8 +46,7 @@ library(networkD3)
 library(factoextra)
 library(RColorBrewer)
 library(rworldmap)
-
-
+library(svglite)
 
 # Load happiness data
 happiness_df <- read.csv("data/world_happiness.csv") %>%
