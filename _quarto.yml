@@ -1,6 +1,9 @@
 project:
   type: website
 
+resources:
+  - Userguide.pdf
+
 website:
   title: "Final_Project_VAA"
   navbar:
