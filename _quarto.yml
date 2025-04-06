@@ -17,7 +17,7 @@ website:
         menu:
           - href: poster.qmd
             text: Poster
-          - href: userguide.qmd
+          - href: Userguide.pdf
             text: User guide
           - href: https://dhree.shinyapps.io/world_happiness_shiny/
             text: Visualization
